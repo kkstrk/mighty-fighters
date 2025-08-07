@@ -1,0 +1,169 @@
+.options {
+	--d20-width: clamp(64px, 9vw, 160px);
+	--d20-height: calc(var(--d20-width) / 0.9);
+
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-auto-rows: calc(var(--d20-width) * 0.8333);
+	gap: clamp(4px, 0.8vw, 12px);
+	margin: 0 auto;
+	height: fit-content;
+	align-self: center;
+}
+
+/* width is 144, height is 160. ratio is 0.9 // 1012 144 7vw */
+
+.options button {
+	--step-x: 6%;
+	--step-y: 3%;
+
+	color: inherit;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+	padding: 0;
+	margin: 0;
+	background: #41555b;
+	width: var(--d20-width);
+	height: var(--d20-height);
+	position: relative;
+	clip-path: polygon(
+		0 22%,
+		var(--step-x) 22%,
+		var(--step-x) 19%,
+		calc(var(--step-x) * 2) 19%,
+		calc(var(--step-x) * 2) 16%,
+		calc(var(--step-x) * 3) 16%,
+		calc(var(--step-x) * 3) 13%,
+		calc(var(--step-x) * 4) 13%,
+		calc(var(--step-x) * 4) 10%,
+		calc(var(--step-x) * 5) 10%,
+		calc(var(--step-x) * 5) 7%,
+		calc(var(--step-x) * 6) 7%,
+		calc(var(--step-x) * 6) 4%,
+		calc(var(--step-x) * 7) 4%,
+		calc(var(--step-x) * 7) 0%,
+		calc(100% - var(--step-x) * 7) 0%,
+		calc(100% - var(--step-x) * 7) 4%,
+		calc(100% - var(--step-x) * 6) 4%,
+		calc(100% - var(--step-x) * 6) 7%,
+		calc(100% - var(--step-x) * 5) 7%,
+		calc(100% - var(--step-x) * 5) 10%,
+		calc(100% - var(--step-x) * 4) 10%,
+		calc(100% - var(--step-x) * 4) 13%,
+		calc(100% - var(--step-x) * 3) 13%,
+		calc(100% - var(--step-x) * 3) 16%,
+		calc(100% - var(--step-x) * 2) 16%,
+		calc(100% - var(--step-x) * 2) 19%,
+		calc(100% - var(--step-x)) 19%,
+		calc(100% - var(--step-x)) 22%,
+		100% 22%,
+		100% 78%,
+		calc(100% - var(--step-x)) 78%,
+		calc(100% - var(--step-x)) 81%,
+		calc(100% - var(--step-x) * 2) 81%,
+		calc(100% - var(--step-x) * 2) 84%,
+		calc(100% - var(--step-x) * 3) 84%,
+		calc(100% - var(--step-x) * 3) 87%,
+		calc(100% - var(--step-x) * 4) 87%,
+		calc(100% - var(--step-x) * 4) 90%,
+		calc(100% - var(--step-x) * 5) 90%,
+		calc(100% - var(--step-x) * 5) 93%,
+		calc(100% - var(--step-x) * 6) 93%,
+		calc(100% - var(--step-x) * 6) 96%,
+		calc(100% - var(--step-x) * 7) 96%,
+		calc(100% - var(--step-x) * 7) 100%,
+		calc(var(--step-x) * 7) 100%,
+		calc(var(--step-x) * 7) 96%,
+		calc(var(--step-x) * 6) 96%,
+		calc(var(--step-x) * 6) 93%,
+		calc(var(--step-x) * 5) 93%,
+		calc(var(--step-x) * 5) 90%,
+		calc(var(--step-x) * 4) 90%,
+		calc(var(--step-x) * 4) 87%,
+		calc(var(--step-x) * 3) 87%,
+		calc(var(--step-x) * 3) 84%,
+		calc(var(--step-x) * 2) 84%,
+		calc(var(--step-x) * 2) 81%,
+		var(--step-x) 81%,
+		var(--step-x) 78%,
+		0% 78%
+	);
+}
+
+.options button:disabled {
+	pointer-events: none;
+}
+
+.options button:hover::before,
+.options button[data-selected="true"]::before {
+	content: "";
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	width: calc(100% + 4px);
+	height: calc(100% + 4px);
+	background-image: url("/hex/border.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.options button:not([data-selected="true"])::before {
+	opacity: 0.69;
+}
+
+.options button:nth-child(5n + 1) {
+	grid-column: 1 / span 2;
+}
+
+.options button:nth-child(5n + 2) {
+	grid-column: 3 / span 2;
+}
+
+.options button:nth-child(5n + 3) {
+	grid-column: 5 / span 2;
+}
+
+.options button:nth-child(5n + 4) {
+	grid-column: 2 / span 2;
+}
+
+.options button:nth-child(5n + 5) {
+	grid-column: 4 / span 2;
+}
+
+.options button:first-child,
+.options button:nth-child(2),
+.options button:nth-child(3) {
+	grid-row-start: 1;
+}
+
+.options button:nth-child(4),
+.options button:nth-child(5) {
+	grid-row-start: 2;
+}
+
+.options button:nth-child(6),
+.options button:nth-child(7),
+.options button:nth-child(8) {
+	grid-row-start: 3;
+}
+
+.options button:nth-child(9),
+.options button:nth-child(10) {
+	grid-row-start: 4;
+}
+
+.options button:nth-child(11),
+.options button:nth-child(12),
+.options button:nth-child(13) {
+	grid-row-start: 5;
+}
+
+.options img {
+	height: 100%;
+	width: 100%;
+	object-position: bottom;
+}

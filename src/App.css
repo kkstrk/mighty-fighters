@@ -1,0 +1,82 @@
+@font-face {
+	font-family: "Press Start 2P";
+	src: url("./PressStart2P.ttf") format("truetype");
+}
+
+:root {
+	--bg-color-1: rgba(88, 107, 113, 1);
+	--bg-color-2: rgba(99, 118, 124, 1);
+	--bg-color-3: rgba(104, 123, 129, 1);
+	--bg-color-4: rgba(108, 127, 133, 1);
+	--bg-color-5: rgba(110, 130, 137, 1);
+
+	--bg-gradient-stop-1: min(8vw, 96px);
+	--bg-gradient-stop-2: min(16vw, 168px);
+	--bg-gradient-stop-3: min(24vw, 232px);
+	--bg-gradient-stop-4: 32%;
+	--bg-gradient-stop-5: calc(100% - var(--bg-gradient-stop-4));
+	--bg-gradient-stop-6: calc(100% - var(--bg-gradient-stop-3));
+	--bg-gradient-stop-7: calc(100% - var(--bg-gradient-stop-2));
+	--bg-gradient-stop-8: calc(100% - var(--bg-gradient-stop-1));
+}
+
+html,
+body,
+#root {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	margin: 0;
+	overflow: hidden;
+	font-family: "Press Start 2P", system-ui, Avenir, Helvetica, Arial, sans-serif;
+	background: linear-gradient(
+		90deg,
+		var(--bg-color-1) 0%,
+		var(--bg-color-1) var(--bg-gradient-stop-1),
+		var(--bg-color-2) var(--bg-gradient-stop-1),
+		var(--bg-color-2) var(--bg-gradient-stop-2),
+		var(--bg-color-3) var(--bg-gradient-stop-2),
+		var(--bg-color-3) var(--bg-gradient-stop-3),
+		var(--bg-color-4) var(--bg-gradient-stop-3),
+		var(--bg-color-4) var(--bg-gradient-stop-4),
+		var(--bg-color-5) var(--bg-gradient-stop-4),
+		var(--bg-color-5) var(--bg-gradient-stop-5),
+		var(--bg-color-4) var(--bg-gradient-stop-5),
+		var(--bg-color-4) var(--bg-gradient-stop-6),
+		var(--bg-color-3) var(--bg-gradient-stop-6),
+		var(--bg-color-3) var(--bg-gradient-stop-7),
+		var(--bg-color-2) var(--bg-gradient-stop-7),
+		var(--bg-color-2) var(--bg-gradient-stop-8),
+		var(--bg-color-1) var(--bg-gradient-stop-8),
+		var(--bg-color-1) 100%
+	);
+	background-color: #355058;
+	background-image: url("/background.png");
+	background-size: cover;
+}
+
+#root {
+	display: flex;
+	flex-direction: column;
+}
+
+main {
+	display: flex;
+	flex: 1;
+	overflow: hidden;
+	min-width: 512px;
+	min-height: 256px;
+}
+
+main img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	image-rendering: pixelated;
+}
+
+footer {
+	height: 48px;
+}
