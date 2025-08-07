@@ -10,7 +10,7 @@ function Character({ align, name }: { align: "left" | "right"; name?: string }) 
 				<div className={classes.selection}>
 					<img
 						className={classes.animation}
-						src={`/animations/${name}.gif`}
+						src={`/mighty-fighters/animations/${name}.gif`}
 						alt={name}
 					/>
 					<div className={classes.platform} />
@@ -21,7 +21,7 @@ function Character({ align, name }: { align: "left" | "right"; name?: string }) 
 					// set key to force animation to re-run on character change
 					key={name}
 					className={classes.portrait}
-					src={`/portraits/${name}.png`}
+					src={`/mighty-fighters/portraits/${name}.png`}
 					alt={name}
 				/>
 			)}

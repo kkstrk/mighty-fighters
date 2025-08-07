@@ -10,7 +10,7 @@ function LockedCharacterOption() {
 		>
 			<img
 				alt="Locked character"
-				src="/hex/locked.png"
+				src="/mighty-fighters/hex/locked.png"
 				style={{ objectFit: "cover" }}
 			/>
 		</button>
@@ -22,7 +22,7 @@ function RandomCharacterOption() {
 		<button type="button">
 			<img
 				alt="Pick a random character"
-				src="/hex/random.png"
+				src="/mighty-fighters/hex/random.png"
 				style={{ objectFit: "cover" }}
 			/>
 		</button>
@@ -65,8 +65,8 @@ function CharacterOptions({
 						<img
 							src={
 								selected
-									? `/avatars/${character}-outline.png`
-									: `/avatars/${character}.png`
+									? `/mighty-fighters/avatars/${character}-outline.png`
+									: `/mighty-fighters/avatars/${character}.png`
 							}
 							alt={character}
 						/>
