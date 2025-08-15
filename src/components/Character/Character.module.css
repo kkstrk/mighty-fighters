@@ -151,18 +151,20 @@
 }
 
 .portrait {
+	--animation-duration: 0.5s;
+
 	position: absolute;
 	margin: 24px;
 	height: 100%;
 }
 
 .left .portrait {
-	animation: fade-in-left 0.8s ease-out forwards;
+	animation: fade-in-left var(--animation-duration) ease-out forwards;
 }
 
 .right .portrait {
 	transform: scaleX(-1);
-	animation: fade-in-right 0.8s ease-out forwards;
+	animation: fade-in-right var(--animation-duration) ease-out forwards;
 }
 
 @keyframes fade-in-left {
