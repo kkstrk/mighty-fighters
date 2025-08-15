@@ -1,0 +1,49 @@
+.dialog {
+	font: inherit;
+	color: #fff;
+	background-color: #41555b;
+	border: 4px solid #d8ebe9;
+	box-shadow: #000 0 8px 24px 0;
+	overflow: auto;
+	line-height: 1.5;
+	position: relative;
+	padding: 0;
+}
+
+.dialog::backdrop {
+	background: rgba(0 0 0 0.5);
+}
+
+@media (max-width: 640px) {
+	.dialog {
+		margin: auto;
+		max-height: 66%;
+		width: auto;
+	}
+}
+
+@media (min-width: 640px) {
+	.dialog {
+		min-width: 620px;
+		max-width: 50%;
+	}
+}
+
+.dialogContent {
+	padding: 2rem clamp(0.5rem, 2vw - 0.25rem, 2rem);
+}
+
+.closeButton {
+	all: unset;
+	font: inherit;
+	height: 1.5rem;
+	width: 1.5rem;
+	background-color: inherit;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	right: 0;
+	top: 0.25rem;
+	cursor: pointer;
+}

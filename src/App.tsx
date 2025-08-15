@@ -1,7 +1,9 @@
 import { useRef, useState } from "react";
 import type { CharacterName } from "./characters";
+import AboutButton from "./components/AboutButton/AboutButton";
 import Character from "./components/Character/Character";
 import CharacterOptions from "./components/CharacterOptions/CharacterOptions";
+import SoundButton from "./components/SoundButton/SoundButton";
 import "./App.css";
 
 function App() {
@@ -35,7 +37,10 @@ function App() {
 					name={playerTwo}
 				/>
 			</main>
-			<footer></footer>
+			<footer>
+				<SoundButton />
+				<AboutButton />
+			</footer>
 		</>
 	);
 }
