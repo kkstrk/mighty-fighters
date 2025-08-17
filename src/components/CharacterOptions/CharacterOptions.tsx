@@ -50,6 +50,14 @@ function CharacterOptions({
 
 	useKeyboardNavigation(parentRef);
 
+	const handleRandomOptionClick = () => {
+		const availableCharacters = characters.filter(
+			(character) => character !== playerOne && character !== playerTwo,
+		);
+		const randomIndex = Math.floor(Math.random() * availableCharacters.length);
+		onChange(availableCharacters[randomIndex]);
+	};
+
 	return (
 		<div
 			ref={parentRef}
@@ -78,7 +86,10 @@ function CharacterOptions({
 				);
 			})}
 			<LockedCharacterOption />
-			<RandomCharacterOption disabled={disabled} />
+			<RandomCharacterOption
+				disabled={disabled}
+				onClick={handleRandomOptionClick}
+			/>
 		</div>
 	);
 }
