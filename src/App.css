@@ -37,6 +37,7 @@ main img {
 	max-height: 100%;
 	object-fit: contain;
 	image-rendering: pixelated;
+	user-select: none;
 }
 
 footer {
