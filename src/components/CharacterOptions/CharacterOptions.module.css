@@ -103,7 +103,7 @@
 	left: -2px;
 	width: calc(100% + 4px);
 	height: calc(100% + 4px);
-	background-image: url("/mighty-fighters/hex/border.png");
+	background-image: url("./assets/hex-border.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	background-position: center;

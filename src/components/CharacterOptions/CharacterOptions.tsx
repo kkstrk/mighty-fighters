@@ -1,5 +1,7 @@
 import { useRef } from "react";
 import characters, { type CharacterName } from "../../characters";
+import HexLockedImage from "./assets/hex-locked.png";
+import HexRandomImage from "./assets/hex-random.png";
 import classes from "./CharacterOptions.module.css";
 import useKeyboardNavigation from "./useKeyboardNavigation";
 
@@ -11,7 +13,7 @@ function LockedCharacterOption() {
 		>
 			<img
 				alt="Locked character"
-				src="/mighty-fighters/hex/locked.png"
+				src={HexLockedImage}
 				style={{ objectFit: "cover" }}
 			/>
 		</button>
@@ -20,10 +22,13 @@ function LockedCharacterOption() {
 
 function RandomCharacterOption() {
 	return (
-		<button type="button">
+		<button
+			aria-label="Pick a random character"
+			type="button"
+		>
 			<img
 				alt="Pick a random character"
-				src="/mighty-fighters/hex/random.png"
+				src={HexRandomImage}
 				style={{ objectFit: "cover" }}
 			/>
 		</button>
