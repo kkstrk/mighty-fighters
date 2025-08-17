@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import characters, { type CharacterName } from "../../characters";
 import classes from "./CharacterOptions.module.css";
+import useKeyboardNavigation from "./useKeyboardNavigation";
 
 function LockedCharacterOption() {
 	return (
@@ -40,13 +41,7 @@ function CharacterOptions({
 }) {
 	const parentRef = useRef<HTMLDivElement>(null);
 
-	useEffect(() => {
-		const handleKeyDown = (event: KeyboardEvent) => {
-			console.log(event);
-		};
-		document.addEventListener("keydown", handleKeyDown);
-		return () => document.removeEventListener("keydown", handleKeyDown);
-	}, []);
+	useKeyboardNavigation(parentRef);
 
 	return (
 		<div
@@ -61,6 +56,7 @@ function CharacterOptions({
 						data-selected={selected}
 						onClick={() => onChange(character)}
 						type="button"
+						aria-label={`Select ${character}`}
 					>
 						<img
 							src={
