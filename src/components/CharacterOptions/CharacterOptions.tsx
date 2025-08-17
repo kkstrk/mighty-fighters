@@ -20,9 +20,10 @@ function LockedCharacterOption() {
 	);
 }
 
-function RandomCharacterOption() {
+function RandomCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	return (
 		<button
+			{...props}
 			aria-label="Pick a random character"
 			type="button"
 		>
@@ -45,6 +46,7 @@ function CharacterOptions({
 	playerTwo?: CharacterName;
 }) {
 	const parentRef = useRef<HTMLDivElement>(null);
+	const disabled = !!playerOne && !!playerTwo;
 
 	useKeyboardNavigation(parentRef);
 
@@ -59,6 +61,7 @@ function CharacterOptions({
 					<button
 						key={character}
 						data-selected={selected}
+						disabled={disabled || selected}
 						onClick={() => onChange(character)}
 						type="button"
 						aria-label={`Select ${character}`}
@@ -75,7 +78,7 @@ function CharacterOptions({
 				);
 			})}
 			<LockedCharacterOption />
-			<RandomCharacterOption />
+			<RandomCharacterOption disabled={disabled} />
 		</div>
 	);
 }

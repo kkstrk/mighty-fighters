@@ -1,20 +1,36 @@
 import classes from "./Character.module.css";
 
-function Character({ align, name }: { align: "left" | "right"; name?: string }) {
+function Character({
+	align,
+	name,
+	onUndo,
+}: {
+	align: "left" | "right";
+	name?: string;
+	onUndo: () => void;
+}) {
 	return (
 		<div className={`${classes.character} ${classes[align]}`}>
 			<div className={classes.banner}>
 				{!!name && <div className={classes.bannerText}>{name}</div>}
 			</div>
 			{!!name && (
-				<div className={classes.selection}>
-					<img
-						className={classes.animation}
-						src={`/mighty-fighters/animations/${name}.gif`}
-						alt={name}
-					/>
+				<>
+					<div className={classes.selection}>
+						<img
+							className={classes.animation}
+							src={`/mighty-fighters/animations/${name}.gif`}
+							alt={name}
+						/>
+						<button
+							onClick={onUndo}
+							type="button"
+						>
+							undo
+						</button>
+					</div>
 					<div className={classes.platform} />
-				</div>
+				</>
 			)}
 			{!!name && (
 				<img

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import type { CharacterName } from "./characters";
 import AboutButton from "./components/AboutButton/AboutButton";
 import Character from "./components/Character/Character";
@@ -7,17 +7,15 @@ import SoundButton from "./components/SoundButton/SoundButton";
 import "./App.css";
 
 function App() {
-	const playerTurn = useRef<1 | 2>(1);
 	const [playerOne, setPlayerOne] = useState<CharacterName>();
 	const [playerTwo, setPlayerTwo] = useState<CharacterName>();
 
 	const handleCharacterChange = (character: CharacterName) => {
-		if (playerTurn.current === 1) {
+		if (!playerOne) {
 			setPlayerOne(character);
-		} else {
+		} else if (!playerTwo) {
 			setPlayerTwo(character);
 		}
-		playerTurn.current = playerTurn.current === 1 ? 2 : 1;
 	};
 
 	return (
@@ -26,6 +24,7 @@ function App() {
 				<Character
 					align="left"
 					name={playerOne}
+					onUndo={() => setPlayerOne(undefined)}
 				/>
 				<CharacterOptions
 					onChange={handleCharacterChange}
@@ -35,6 +34,7 @@ function App() {
 				<Character
 					align="right"
 					name={playerTwo}
+					onUndo={() => setPlayerTwo(undefined)}
 				/>
 			</main>
 			<footer>

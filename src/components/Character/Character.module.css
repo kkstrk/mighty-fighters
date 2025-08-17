@@ -97,11 +97,15 @@
 	z-index: 1;
 	flex: 1 1 auto;
 	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
+	align-items: flex-end;
+}
+
+.right .selection {
+	flex-direction: row-reverse;
 }
 
 .animation {
+	flex: 1 0 auto;
 	object-fit: contain;
 	object-position: bottom;
 	max-height: 344px;
@@ -109,6 +113,10 @@
 
 .right .animation {
 	transform: scaleX(-1);
+}
+
+.selection button {
+	margin-bottom: 64px;
 }
 
 .platform {

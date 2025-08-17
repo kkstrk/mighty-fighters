@@ -96,6 +96,7 @@
 
 .options button:hover::before,
 .options button[data-selected="true"]::before,
+.options button:focus::before,
 .options button:focus-visible::before {
 	content: "";
 	position: absolute;
