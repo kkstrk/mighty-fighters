@@ -38,14 +38,17 @@ function RandomCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 
 function CharacterOptions({
 	onChange,
+	onPreview,
 	playerOne,
 	playerTwo,
 }: {
 	onChange: (character: CharacterName) => void;
+	onPreview: (character?: CharacterName) => void;
 	playerOne?: CharacterName;
 	playerTwo?: CharacterName;
 }) {
 	const parentRef = useRef<HTMLDivElement>(null);
+	const previewTimeoutRef = useRef<number | null>(null);
 	const disabled = !!playerOne && !!playerTwo;
 
 	useKeyboardNavigation(parentRef);
@@ -56,6 +59,19 @@ function CharacterOptions({
 		);
 		const randomIndex = Math.floor(Math.random() * availableCharacters.length);
 		onChange(availableCharacters[randomIndex]);
+	};
+
+	const handleMouseEnter = (character: CharacterName) => {
+		previewTimeoutRef.current = setTimeout(() => {
+			onPreview(character);
+		}, 250);
+	};
+
+	const handleMouseLeave = () => {
+		if (previewTimeoutRef.current) {
+			clearTimeout(previewTimeoutRef.current);
+		}
+		onPreview();
 	};
 
 	return (
@@ -71,6 +87,8 @@ function CharacterOptions({
 						data-selected={selected}
 						disabled={disabled || selected}
 						onClick={() => onChange(character)}
+						onMouseEnter={() => handleMouseEnter(character)}
+						onMouseLeave={() => handleMouseLeave()}
 						type="button"
 						aria-label={`Select ${character}`}
 					>

@@ -115,8 +115,12 @@
 	transform: scaleX(-1);
 }
 
-.selection button {
+.selection .undoButton {
 	margin-bottom: 64px;
+}
+
+.selection .hiddenUndoButton {
+	visibility: hidden;
 }
 
 .platform {

@@ -9,6 +9,7 @@ import "./App.css";
 function App() {
 	const [playerOne, setPlayerOne] = useState<CharacterName>();
 	const [playerTwo, setPlayerTwo] = useState<CharacterName>();
+	const [previewCharacter, setPreviewCharacter] = useState<CharacterName>();
 
 	const handleCharacterChange = (character: CharacterName) => {
 		if (!playerOne) {
@@ -16,6 +17,7 @@ function App() {
 		} else if (!playerTwo) {
 			setPlayerTwo(character);
 		}
+		setPreviewCharacter(undefined);
 	};
 
 	return (
@@ -23,18 +25,19 @@ function App() {
 			<main>
 				<Character
 					align="left"
-					name={playerOne}
-					onUndo={() => setPlayerOne(undefined)}
+					name={playerOne || previewCharacter}
+					onUndo={playerOne ? () => setPlayerOne(undefined) : undefined}
 				/>
 				<CharacterOptions
 					onChange={handleCharacterChange}
+					onPreview={setPreviewCharacter}
 					playerOne={playerOne}
 					playerTwo={playerTwo}
 				/>
 				<Character
 					align="right"
-					name={playerTwo}
-					onUndo={() => setPlayerTwo(undefined)}
+					name={playerTwo || (playerOne ? previewCharacter : undefined)}
+					onUndo={playerTwo ? () => setPlayerTwo(undefined) : undefined}
 				/>
 			</main>
 			<footer>

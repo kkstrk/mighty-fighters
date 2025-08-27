@@ -1,3 +1,4 @@
+import classNames from "../../utils/classNames";
 import classes from "./Character.module.css";
 
 function Character({
@@ -7,10 +8,10 @@ function Character({
 }: {
 	align: "left" | "right";
 	name?: string;
-	onUndo: () => void;
+	onUndo?: () => void;
 }) {
 	return (
-		<div className={`${classes.character} ${classes[align]}`}>
+		<div className={classNames(classes.character, classes[align])}>
 			<div className={classes.banner}>
 				{!!name && <div className={classes.bannerText}>{name}</div>}
 			</div>
@@ -23,6 +24,10 @@ function Character({
 							alt={name}
 						/>
 						<button
+							className={classNames(
+								classes.undoButton,
+								!onUndo && classes.hiddenUndoButton,
+							)}
 							onClick={onUndo}
 							type="button"
 						>
