@@ -35,8 +35,7 @@ const useKeyboardNavigation = (ref: React.RefObject<HTMLDivElement | null>) => {
 		buttonsRef.current = Array.from(
 			ref.current?.querySelectorAll<HTMLButtonElement>("button") ?? [],
 		);
-		focusFirstButton();
-	}, [focusFirstButton, ref]);
+	}, [ref]);
 
 	useEffect(() => {
 		const node = ref.current;
