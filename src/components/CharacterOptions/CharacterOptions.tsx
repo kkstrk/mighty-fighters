@@ -93,11 +93,11 @@ function CharacterOptions({
 						aria-label={`Select ${character}`}
 					>
 						<img
-							src={
-								selected
-									? `/mighty-fighters/avatars/${character}-outline.png`
-									: `/mighty-fighters/avatars/${character}.png`
-							}
+							src={`/mighty-fighters/avatars/${character}.png`}
+							alt={character}
+						/>
+						<img
+							src={`/mighty-fighters/avatars/${character}-outline.png`}
 							alt={character}
 						/>
 					</button>

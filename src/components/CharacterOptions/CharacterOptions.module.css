@@ -11,7 +11,7 @@
 	align-self: center;
 }
 
-.options button {
+.options > button {
 	--step-x: 6%;
 	--step-y: 3%;
 
@@ -90,14 +90,62 @@
 	);
 }
 
-.options button:disabled {
+.options > button:nth-child(5n + 1) {
+	grid-column: 1 / span 2;
+}
+
+.options > button:nth-child(5n + 2) {
+	grid-column: 3 / span 2;
+}
+
+.options > button:nth-child(5n + 3) {
+	grid-column: 5 / span 2;
+}
+
+.options > button:nth-child(5n + 4) {
+	grid-column: 2 / span 2;
+}
+
+.options > button:nth-child(5n + 5) {
+	grid-column: 4 / span 2;
+}
+
+.options > button:first-child,
+.options > button:nth-child(2),
+.options > button:nth-child(3) {
+	grid-row-start: 1;
+}
+
+.options > button:nth-child(4),
+.options > button:nth-child(5) {
+	grid-row-start: 2;
+}
+
+.options > button:nth-child(6),
+.options > button:nth-child(7),
+.options > button:nth-child(8) {
+	grid-row-start: 3;
+}
+
+.options > button:nth-child(9),
+.options > button:nth-child(10) {
+	grid-row-start: 4;
+}
+
+.options > button:nth-child(11),
+.options > button:nth-child(12),
+.options > button:nth-child(13) {
+	grid-row-start: 5;
+}
+
+.options > button:disabled {
 	pointer-events: none;
 }
 
-.options button:hover::before,
-.options button[data-selected="true"]::before,
-.options button:focus::before,
-.options button:focus-visible::before {
+.options > button:hover::before,
+.options > button[data-selected="true"]::before,
+.options > button:focus::before,
+.options > button:focus-visible::before {
 	content: "";
 	position: absolute;
 	top: -2px;
@@ -108,62 +156,47 @@
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	background-position: center;
+	z-index: 1;
 }
 
-.options button:not([data-selected="true"])::before {
+.options > button:focus::before,
+.options > button:focus-visible::before {
 	opacity: 0.69;
 }
 
-.options button:nth-child(5n + 1) {
-	grid-column: 1 / span 2;
+.options > button:hover::before,
+.options > button:hover > img:last-child:not(:only-child) {
+	animation: blink 0.75s linear infinite;
 }
 
-.options button:nth-child(5n + 2) {
-	grid-column: 3 / span 2;
-}
-
-.options button:nth-child(5n + 3) {
-	grid-column: 5 / span 2;
-}
-
-.options button:nth-child(5n + 4) {
-	grid-column: 2 / span 2;
-}
-
-.options button:nth-child(5n + 5) {
-	grid-column: 4 / span 2;
-}
-
-.options button:first-child,
-.options button:nth-child(2),
-.options button:nth-child(3) {
-	grid-row-start: 1;
-}
-
-.options button:nth-child(4),
-.options button:nth-child(5) {
-	grid-row-start: 2;
-}
-
-.options button:nth-child(6),
-.options button:nth-child(7),
-.options button:nth-child(8) {
-	grid-row-start: 3;
-}
-
-.options button:nth-child(9),
-.options button:nth-child(10) {
-	grid-row-start: 4;
-}
-
-.options button:nth-child(11),
-.options button:nth-child(12),
-.options button:nth-child(13) {
-	grid-row-start: 5;
-}
-
-.options img {
+.options > button > img {
 	height: 100%;
 	width: 100%;
 	object-position: bottom;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.options > button > img:last-child {
+	opacity: 0;
+}
+
+.options > button > img:only-child {
+	opacity: 1;
+}
+
+.options > button[data-selected="true"] > img:last-child {
+	opacity: 1;
+	animation: none;
+}
+
+@keyframes blink {
+	0%,
+	100% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 1;
+	}
 }
