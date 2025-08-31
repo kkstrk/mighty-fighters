@@ -51,8 +51,6 @@ function App() {
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [handleCharacterUndo]);
 
-	console.log(selectionHistoryRef.current);
-
 	return (
 		<>
 			<main>

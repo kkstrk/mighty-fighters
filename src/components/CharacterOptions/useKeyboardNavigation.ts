@@ -33,7 +33,9 @@ const useKeyboardNavigation = ({
 
 	useEffect(() => {
 		const node = ref.current;
-		if (!node) return;
+		if (!node) {
+			return;
+		}
 		const handleFocusIn = (event: FocusEvent) => {
 			const index = event.target
 				? buttonsRef.current.indexOf(event.target as HTMLButtonElement)
@@ -49,14 +51,18 @@ const useKeyboardNavigation = ({
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			const buttons = buttonsRef.current;
-			if (!buttons.length) return;
+			if (!buttons.length) {
+				return;
+			}
 
 			const isArrowKey =
 				event.key === "ArrowLeft" ||
 				event.key === "ArrowRight" ||
 				event.key === "ArrowUp" ||
 				event.key === "ArrowDown";
-			if (!isArrowKey) return;
+			if (!isArrowKey) {
+				return;
+			}
 
 			event.preventDefault();
 
@@ -85,7 +91,7 @@ const useKeyboardNavigation = ({
 							: row[(colIndex - step + row.length) % row.length];
 					if (!buttons[index]?.disabled) {
 						nextButtonIndex = index;
-						stickyColRef.current = row.findIndex((col) => col === index);
+						stickyColRef.current = row.indexOf(index);
 						break;
 					}
 				}

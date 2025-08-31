@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.1.3/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -18,7 +18,42 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"complexity": {
+				"noUselessStringConcat": "error",
+				"useSimplifiedLogicExpression": "error"
+			},
+			"correctness": {
+				"noNestedComponentDefinitions": "error",
+				"noReactPropAssignments": "error",
+				"noUndeclaredVariables": "error",
+				"useHookAtTopLevel": "error",
+				"useJsxKeyInIterable": "error",
+				"useUniqueElementIds": "error"
+			},
+			"style": {
+				"noInferrableTypes": "error",
+				"noNegationElse": "error",
+				"noParameterAssign": "error",
+				"noUnusedTemplateLiteral": "error",
+				"noUselessElse": "error",
+				"noYodaExpression": "error",
+				"useAsConstAssertion": "error",
+				"useBlockStatements": "error",
+				"useExportsLast": "error",
+				"useFragmentSyntax": "error",
+				"useThrowOnlyError": "error",
+				"useThrowNewError": "error"
+			},
+			"suspicious": {
+				"noAlert": "error",
+				"noConsole": "error",
+				"noBitwiseOperators": "error",
+				"noConstantBinaryExpressions": "error",
+				"noExportsInTest": "error",
+				"noUnassignedVariables": "error",
+				"useAwait": "error"
+			}
 		}
 	},
 	"javascript": {

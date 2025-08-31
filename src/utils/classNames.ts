@@ -4,6 +4,7 @@ const classNames = (...classes: unknown[]) => {
 			if (typeof value === "string") {
 				return value;
 			}
+			return false;
 		})
 		.join(" ");
 };
