@@ -14,22 +14,16 @@ const getButtonPosition = (index: number) => {
 	return { rowIndex, colIndex };
 };
 
-const useKeyboardNavigation = (ref: React.RefObject<HTMLDivElement | null>) => {
+const useKeyboardNavigation = ({
+	ref,
+	initialIndex = 0,
+}: {
+	ref: React.RefObject<HTMLDivElement | null>;
+	initialIndex: number;
+}) => {
 	const buttonsRef = useRef<HTMLButtonElement[]>([]);
 	const focusedIndexRef = useRef<number>(0);
 	const stickyColRef = useRef<number>(0);
-
-	const focusFirstButton = useCallback(() => {
-		const buttons = buttonsRef.current;
-		if (!buttons.length) return;
-
-		const index = buttons.findIndex((button) => !button.disabled);
-		if (index >= 0) {
-			buttons[index].focus();
-			focusedIndexRef.current = index;
-			stickyColRef.current = getButtonPosition(index).colIndex;
-		}
-	}, []);
 
 	useEffect(() => {
 		buttonsRef.current = Array.from(
@@ -67,7 +61,13 @@ const useKeyboardNavigation = (ref: React.RefObject<HTMLDivElement | null>) => {
 			event.preventDefault();
 
 			if (!ref.current?.contains(document.activeElement)) {
-				focusFirstButton();
+				const button =
+					buttons.at(initialIndex) || buttons.find((button) => !button.disabled);
+				if (button) {
+					button.focus();
+					focusedIndexRef.current = buttons.indexOf(button);
+					stickyColRef.current = getButtonPosition(focusedIndexRef.current).colIndex;
+				}
 				return;
 			}
 
@@ -131,7 +131,7 @@ const useKeyboardNavigation = (ref: React.RefObject<HTMLDivElement | null>) => {
 		};
 		document.addEventListener("keydown", handleKeyDown);
 		return () => document.removeEventListener("keydown", handleKeyDown);
-	}, [focusFirstButton, ref]);
+	}, [ref, initialIndex]);
 };
 
 export default useKeyboardNavigation;

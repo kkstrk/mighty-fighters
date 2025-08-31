@@ -51,7 +51,7 @@ function CharacterOptions({
 	const previewTimeoutRef = useRef<number | null>(null);
 	const disabled = !!playerOne && !!playerTwo;
 
-	useKeyboardNavigation(parentRef);
+	useKeyboardNavigation({ ref: parentRef, initialIndex: -1 });
 
 	const handleRandomOptionClick = () => {
 		const availableCharacters = characters.filter(
