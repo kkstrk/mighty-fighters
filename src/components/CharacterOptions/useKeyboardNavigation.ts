@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const BUTTON_ROWS = [
 	[0, 1, 2],
@@ -92,9 +92,11 @@ const useKeyboardNavigation = ({
 			};
 
 			const moveVertical = (delta: number) => {
-				let nextRowIndex = rowIndex + delta;
+				const totalRows = BUTTON_ROWS.length;
+				let rowsVisited = 0;
+				let nextRowIndex = (rowIndex + delta + totalRows) % totalRows;
 
-				while (nextRowIndex >= 0 && nextRowIndex < BUTTON_ROWS.length) {
+				while (rowsVisited < totalRows) {
 					const row = BUTTON_ROWS[nextRowIndex];
 					const startColIndex = Math.min(stickyColRef.current, row.length - 1);
 
@@ -110,7 +112,8 @@ const useKeyboardNavigation = ({
 						}
 					}
 
-					nextRowIndex += delta;
+					rowsVisited += 1;
+					nextRowIndex = (nextRowIndex + delta + totalRows) % totalRows;
 				}
 			};
 
