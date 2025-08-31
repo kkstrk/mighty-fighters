@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import characters, { type CharacterName } from "../../characters";
 import HexLockedImage from "./assets/hex-locked.png";
 import HexRandomImage from "./assets/hex-random.png";
@@ -48,31 +48,89 @@ function CharacterOptions({
 	playerTwo?: CharacterName;
 }) {
 	const parentRef = useRef<HTMLDivElement>(null);
-	const previewTimeoutRef = useRef<number | null>(null);
+	const previewTimeoutRef = useRef<number | undefined>(undefined);
+	const hoveredCharacterRef = useRef<CharacterName | undefined>(undefined);
+	const randomCharacterRef = useRef<CharacterName | undefined>(undefined);
+
 	const disabled = !!playerOne && !!playerTwo;
 
 	useKeyboardNavigation({ ref: parentRef, initialIndex: -1 });
 
-	const handleRandomOptionClick = () => {
+	const getRandomCharacter = useCallback(() => {
+		if (randomCharacterRef.current) {
+			return randomCharacterRef.current;
+		}
 		const availableCharacters = characters.filter(
 			(character) => character !== playerOne && character !== playerTwo,
 		);
 		const randomIndex = Math.floor(Math.random() * availableCharacters.length);
-		onChange(availableCharacters[randomIndex]);
-	};
+		const character = availableCharacters[randomIndex];
+		return character;
+	}, [playerOne, playerTwo]);
 
-	const handleMouseEnter = (character: CharacterName) => {
-		previewTimeoutRef.current = setTimeout(() => {
-			onPreview(character);
-		}, 250);
-	};
+	const handleCharacterPreview = useCallback(
+		(character?: CharacterName) => {
+			if (character) {
+				previewTimeoutRef.current = setTimeout(() => {
+					onPreview(character);
+				}, 250);
+			} else {
+				if (previewTimeoutRef.current) {
+					clearTimeout(previewTimeoutRef.current);
+				}
+				onPreview();
+			}
+		},
+		[onPreview],
+	);
 
-	const handleMouseLeave = () => {
-		if (previewTimeoutRef.current) {
-			clearTimeout(previewTimeoutRef.current);
+	const handleBlur = useCallback(() => {
+		// preview the hovered element when focus is moved outside options
+		if (hoveredCharacterRef.current && !parentRef.current?.contains(document.activeElement)) {
+			handleCharacterPreview(hoveredCharacterRef.current);
+		} else {
+			handleCharacterPreview();
 		}
-		onPreview();
-	};
+	}, [handleCharacterPreview]);
+
+	const handleMouseMove = useCallback(
+		(character?: CharacterName) => {
+			hoveredCharacterRef.current = character;
+			if (parentRef.current?.contains(document.activeElement)) {
+				return;
+			}
+			handleCharacterPreview(character);
+		},
+		[handleCharacterPreview],
+	);
+
+	const handleRandomOptionFocus = useCallback(() => {
+		const character = getRandomCharacter();
+		randomCharacterRef.current = character;
+		handleCharacterPreview(character);
+	}, [handleCharacterPreview, getRandomCharacter]);
+
+	const handleRandomOptionBlur = useCallback(() => {
+		randomCharacterRef.current = undefined;
+		handleBlur();
+	}, [handleBlur]);
+
+	const handleRandomOptionMouseEnter = useCallback(() => {
+		const character = getRandomCharacter();
+		randomCharacterRef.current = character;
+		handleMouseMove(character);
+	}, [handleMouseMove, getRandomCharacter]);
+
+	const handleRandomOptionMouseLeave = useCallback(() => {
+		randomCharacterRef.current = undefined;
+		handleMouseMove();
+	}, [handleMouseMove]);
+
+	const handleRandomOptionClick = useCallback(() => {
+		const character = getRandomCharacter();
+		randomCharacterRef.current = undefined;
+		onChange(character);
+	}, [getRandomCharacter, onChange]);
 
 	return (
 		<div
@@ -87,8 +145,10 @@ function CharacterOptions({
 						data-selected={selected}
 						disabled={disabled || selected}
 						onClick={() => onChange(character)}
-						onMouseEnter={() => handleMouseEnter(character)}
-						onMouseLeave={() => handleMouseLeave()}
+						onFocus={() => handleCharacterPreview(character)}
+						onBlur={handleBlur}
+						onMouseEnter={() => handleMouseMove(character)}
+						onMouseLeave={() => handleMouseMove()}
 						type="button"
 						aria-label={`Select ${character}`}
 					>
@@ -107,6 +167,10 @@ function CharacterOptions({
 			<RandomCharacterOption
 				disabled={disabled}
 				onClick={handleRandomOptionClick}
+				onFocus={handleRandomOptionFocus}
+				onBlur={handleRandomOptionBlur}
+				onMouseEnter={handleRandomOptionMouseEnter}
+				onMouseLeave={handleRandomOptionMouseLeave}
 			/>
 		</div>
 	);
