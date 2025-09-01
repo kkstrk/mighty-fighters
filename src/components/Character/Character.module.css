@@ -98,6 +98,7 @@
 	flex: 1 1 auto;
 	display: flex;
 	align-items: flex-end;
+	min-height: 0;
 }
 
 .right .selection {
@@ -105,17 +106,14 @@
 }
 
 .animation {
-	flex: 1 0 auto;
+	flex: 1 1 auto;
 	object-fit: contain;
 	object-position: bottom;
 	max-height: 344px;
 }
 
-.right .animation {
-	transform: scaleX(-1);
-}
-
 .selection .undoButton {
+	flex: 0 0 auto;
 	margin-bottom: 64px;
 }
 
@@ -124,42 +122,10 @@
 }
 
 .platform {
-	z-index: -1;
 	flex: 0 0 40px;
 	margin-top: -24px;
 	height: 40px;
-}
-
-.left .platform {
-	background: linear-gradient(
-		to right,
-		rgba(214, 226, 227, 1) 0%,
-		rgba(214, 226, 227, 1) 85%,
-		rgba(214, 226, 227, 0.7) 85%,
-		rgba(214, 226, 227, 0.7) 90%,
-		rgba(214, 226, 227, 0.5) 90%,
-		rgba(214, 226, 227, 0.5) 94%,
-		rgba(214, 226, 227, 0.3) 94%,
-		rgba(214, 226, 227, 0.3) 97%,
-		rgba(214, 226, 227, 0.1) 97%,
-		rgba(214, 226, 227, 0.1) 100%
-	);
-}
-
-.right .platform {
-	background: linear-gradient(
-		to left,
-		rgba(214, 226, 227, 1) 0%,
-		rgba(214, 226, 227, 1) 85%,
-		rgba(214, 226, 227, 0.7) 85%,
-		rgba(214, 226, 227, 0.7) 90%,
-		rgba(214, 226, 227, 0.5) 90%,
-		rgba(214, 226, 227, 0.5) 94%,
-		rgba(214, 226, 227, 0.3) 94%,
-		rgba(214, 226, 227, 0.3) 97%,
-		rgba(214, 226, 227, 0.1) 97%,
-		rgba(214, 226, 227, 0.1) 100%
-	);
+	object-fit: cover;
 }
 
 .portrait {
@@ -175,8 +141,13 @@
 }
 
 .right .portrait {
-	transform: scaleX(-1);
 	animation: fade-in-right var(--animation-duration) ease-out forwards;
+}
+
+.right .animation,
+.right .portrait,
+.right .platform {
+	transform: scaleX(-1);
 }
 
 @keyframes fade-in-left {

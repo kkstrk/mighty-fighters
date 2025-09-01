@@ -34,7 +34,11 @@ function Character({
 							undo
 						</button>
 					</div>
-					<div className={classes.platform} />
+					<img
+						className={classes.platform}
+						src={"/mighty-fighters/platform.png"}
+						alt="Character platform"
+					/>
 				</>
 			)}
 			{!!name && (
