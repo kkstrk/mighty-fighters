@@ -62,23 +62,10 @@ function CharacterOptions({
 	const parentRef = useRef<HTMLDivElement>(null);
 	const previewTimeoutRef = useRef<number | undefined>(undefined);
 	const hoveredCharacterRef = useRef<CharacterName | undefined>(undefined);
-	const randomCharacterRef = useRef<CharacterName | undefined>(undefined);
 
 	const disabled = !!playerOne && !!playerTwo;
 
 	useKeyboardNavigation({ ref: parentRef, initialIndex: -1 });
-
-	const getRandomCharacter = useCallback(() => {
-		if (randomCharacterRef.current) {
-			return randomCharacterRef.current;
-		}
-		const availableCharacters = characters.filter(
-			(character) => character !== playerOne && character !== playerTwo,
-		);
-		const randomIndex = Math.floor(Math.random() * availableCharacters.length);
-		const character = availableCharacters[randomIndex];
-		return character;
-	}, [playerOne, playerTwo]);
 
 	const handleCharacterPreview = useCallback(
 		(character?: CharacterName) => {
@@ -116,33 +103,14 @@ function CharacterOptions({
 		[handleCharacterPreview],
 	);
 
-	const handleRandomOptionFocus = useCallback(() => {
-		const character = getRandomCharacter();
-		randomCharacterRef.current = character;
-		handleCharacterPreview(character);
-	}, [handleCharacterPreview, getRandomCharacter]);
-
-	const handleRandomOptionBlur = useCallback(() => {
-		randomCharacterRef.current = undefined;
-		handleBlur();
-	}, [handleBlur]);
-
-	const handleRandomOptionMouseEnter = useCallback(() => {
-		const character = getRandomCharacter();
-		randomCharacterRef.current = character;
-		handleMouseMove(character);
-	}, [handleMouseMove, getRandomCharacter]);
-
-	const handleRandomOptionMouseLeave = useCallback(() => {
-		randomCharacterRef.current = undefined;
-		handleMouseMove();
-	}, [handleMouseMove]);
-
 	const handleRandomOptionClick = useCallback(() => {
-		const character = getRandomCharacter();
-		randomCharacterRef.current = undefined;
+		const availableCharacters = characters.filter(
+			(character) => character !== playerOne && character !== playerTwo,
+		);
+		const randomIndex = Math.floor(Math.random() * availableCharacters.length);
+		const character = availableCharacters[randomIndex];
 		onChange(character);
-	}, [getRandomCharacter, onChange]);
+	}, [onChange, playerOne, playerTwo]);
 
 	return (
 		<div
@@ -179,10 +147,6 @@ function CharacterOptions({
 			<RandomCharacterOption
 				disabled={disabled}
 				onClick={handleRandomOptionClick}
-				onFocus={handleRandomOptionFocus}
-				onBlur={handleRandomOptionBlur}
-				onMouseEnter={handleRandomOptionMouseEnter}
-				onMouseLeave={handleRandomOptionMouseLeave}
 			/>
 		</div>
 	);
