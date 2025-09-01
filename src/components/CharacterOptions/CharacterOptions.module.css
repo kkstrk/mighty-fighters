@@ -22,7 +22,7 @@
 	outline: inherit;
 	padding: 0;
 	margin: 0;
-	background: #41555b;
+	background-color: #41555b;
 	width: var(--d20-width);
 	height: var(--d20-height);
 	position: relative;
@@ -189,6 +189,26 @@
 .options > button[data-selected="true"] > img:last-child {
 	opacity: 1;
 	animation: none;
+}
+
+.lockedOption,
+.randomOption {
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	image-rendering: pixelated;
+}
+
+.lockedOption {
+	background-image: url("./assets/hex-locked.png");
+}
+
+.lockedOptionAnimating {
+	background-image: url("./assets/hex-locked-animation.gif");
+}
+
+.randomOption {
+	background-image: url("./assets/hex-random.png");
 }
 
 @keyframes blink {

@@ -1,22 +1,39 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import characters, { type CharacterName } from "../../characters";
-import HexLockedImage from "./assets/hex-locked.png";
-import HexRandomImage from "./assets/hex-random.png";
+import classNames from "../../utils/classNames";
 import classes from "./CharacterOptions.module.css";
 import useKeyboardNavigation from "./useKeyboardNavigation";
 
-function LockedCharacterOption() {
+function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+	const [animating, setAnimating] = useState(false);
+	const animationTimeoutRef = useRef<number | undefined>(undefined);
+
+	const handleClick = useCallback(() => {
+		if (animationTimeoutRef.current) {
+			clearTimeout(animationTimeoutRef.current);
+		}
+		setAnimating(true);
+		animationTimeoutRef.current = setTimeout(() => {
+			setAnimating(false);
+		}, 750);
+	}, []);
+
+	useEffect(() => {
+		return () => {
+			if (animationTimeoutRef.current) {
+				clearTimeout(animationTimeoutRef.current);
+			}
+		};
+	}, []);
+
 	return (
 		<button
-			disabled
+			{...props}
+			className={classNames(classes.lockedOption, animating && classes.lockedOptionAnimating)}
+			aria-label="Locked character"
+			onClick={handleClick}
 			type="button"
-		>
-			<img
-				alt="Locked character"
-				src={HexLockedImage}
-				style={{ objectFit: "cover" }}
-			/>
-		</button>
+		/>
 	);
 }
 
@@ -24,15 +41,10 @@ function RandomCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 	return (
 		<button
 			{...props}
+			className={classes.randomOption}
 			aria-label="Pick a random character"
 			type="button"
-		>
-			<img
-				alt="Pick a random character"
-				src={HexRandomImage}
-				style={{ objectFit: "cover" }}
-			/>
-		</button>
+		/>
 	);
 }
 
@@ -163,7 +175,7 @@ function CharacterOptions({
 					</button>
 				);
 			})}
-			<LockedCharacterOption />
+			<LockedCharacterOption disabled={disabled} />
 			<RandomCharacterOption
 				disabled={disabled}
 				onClick={handleRandomOptionClick}
