@@ -21,7 +21,7 @@ function Character({
 						<img
 							className={classes.animation}
 							src={`/mighty-fighters/animations/${name}.gif`}
-							alt={name}
+							alt={`${name} animation`}
 						/>
 						<button
 							className={classNames(
@@ -47,7 +47,7 @@ function Character({
 					key={name}
 					className={classes.portrait}
 					src={`/mighty-fighters/portraits/${name}.png`}
-					alt={name}
+					alt={`${name} portrait`}
 				/>
 			)}
 		</div>

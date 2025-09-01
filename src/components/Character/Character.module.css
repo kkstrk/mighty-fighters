@@ -132,15 +132,17 @@
 	--animation-duration: 0.5s;
 
 	position: absolute;
-	margin: 24px;
-	height: 100%;
+	height: calc(100% - 24px);
+	top: 24px;
 }
 
 .left .portrait {
+	align-self: flex-end;
 	animation: fade-in-left var(--animation-duration) ease-out forwards;
 }
 
 .right .portrait {
+	align-self: flex-start;
 	animation: fade-in-right var(--animation-duration) ease-out forwards;
 }
 
@@ -156,7 +158,7 @@
 		transform: translateX(-20px);
 	}
 	100% {
-		opacity: 1;
+		opacity: 0.8;
 		transform: translateX(0);
 	}
 }
@@ -167,7 +169,7 @@
 		transform: translateX(20px) scaleX(-1);
 	}
 	100% {
-		opacity: 1;
+		opacity: 0.8;
 		transform: translateX(0) scaleX(-1);
 	}
 }
