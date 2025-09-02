@@ -63,7 +63,9 @@ function CharacterOptions({
 	const previewTimeoutRef = useRef<number | undefined>(undefined);
 	const hoveredCharacterRef = useRef<CharacterName | undefined>(undefined);
 
-	const disabled = !!playerOne && !!playerTwo;
+	const [randomAnimatingQueue, setRandomAnimatingQueue] = useState<CharacterName[]>([]);
+
+	const disabled = !!(playerOne && playerTwo) || randomAnimatingQueue.length > 0;
 
 	useKeyboardNavigation({ ref: parentRef, initialIndex: -1 });
 
@@ -104,13 +106,28 @@ function CharacterOptions({
 	);
 
 	const handleRandomOptionClick = useCallback(() => {
-		const availableCharacters = characters.filter(
-			(character) => character !== playerOne && character !== playerTwo,
-		);
-		const randomIndex = Math.floor(Math.random() * availableCharacters.length);
-		const character = availableCharacters[randomIndex];
-		onChange(character);
-	}, [onChange, playerOne, playerTwo]);
+		const availableCharacters = characters
+			.filter((character) => character !== playerOne && character !== playerTwo)
+			.sort(() => Math.random() - 0.5);
+		setRandomAnimatingQueue(availableCharacters);
+	}, [playerOne, playerTwo]);
+
+	useEffect(() => {
+		if (randomAnimatingQueue.length === 0) {
+			return;
+		}
+
+		if (randomAnimatingQueue.length === 1) {
+			onChange(randomAnimatingQueue[0]);
+			setRandomAnimatingQueue([]);
+			return;
+		}
+
+		const timeout = setTimeout(() => {
+			setRandomAnimatingQueue((queue) => queue.slice(1));
+		}, 150);
+		return () => clearTimeout(timeout);
+	}, [onChange, randomAnimatingQueue]);
 
 	return (
 		<div
@@ -118,10 +135,12 @@ function CharacterOptions({
 			className={classes.options}
 		>
 			{characters.map((character) => {
+				const highlighted = randomAnimatingQueue[0] === character;
 				const selected = character === playerOne || character === playerTwo;
 				return (
 					<button
 						key={character}
+						data-highlighted={highlighted}
 						data-selected={selected}
 						disabled={disabled || selected}
 						onClick={() => onChange(character)}
