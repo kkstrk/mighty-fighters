@@ -28,8 +28,6 @@ main {
 	display: flex;
 	flex: 1;
 	overflow: hidden;
-	min-width: 512px;
-	min-height: 256px;
 }
 
 main img {
@@ -47,4 +45,12 @@ footer {
 	align-self: center;
 	gap: 16px;
 	padding: 0 8px 4px;
+}
+
+@media (max-width: 750px) and (orientation: portrait) {
+	main {
+		flex-direction: column;
+		gap: 0.5em;
+		margin-bottom: 0.5em;
+	}
 }
