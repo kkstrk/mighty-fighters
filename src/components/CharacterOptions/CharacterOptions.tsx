@@ -49,11 +49,13 @@ function RandomCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 }
 
 function CharacterOptions({
+	disabled: disabledProp,
 	onChange,
 	onPreview,
 	playerOne,
 	playerTwo,
 }: {
+	disabled: boolean;
 	onChange: (character: CharacterName) => void;
 	onPreview: (character?: CharacterName) => void;
 	playerOne?: CharacterName;
@@ -65,7 +67,7 @@ function CharacterOptions({
 
 	const [randomAnimatingQueue, setRandomAnimatingQueue] = useState<CharacterName[]>([]);
 
-	const disabled = !!(playerOne && playerTwo) || randomAnimatingQueue.length > 0;
+	const disabled = disabledProp || randomAnimatingQueue.length > 0;
 
 	useKeyboardNavigation({ ref: parentRef, initialIndex: -1 });
 

@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import useSmallScreen from "../../utils/useSmallScreen";
 
 const BUTTON_ROWS = [
 	[0, 1, 2],
@@ -25,6 +26,10 @@ const useKeyboardNavigation = ({
 	const focusedIndexRef = useRef<number>(0);
 	const stickyColRef = useRef<number>(0);
 
+	// TODO: temporary hack to disable keyboard navigation on small screens
+	const [disabled, setDisabled] = useState(false);
+	useSmallScreen(setDisabled);
+
 	useEffect(() => {
 		buttonsRef.current = Array.from(
 			ref.current?.querySelectorAll<HTMLButtonElement>("button") ?? [],
@@ -49,6 +54,9 @@ const useKeyboardNavigation = ({
 	}, [ref]);
 
 	useEffect(() => {
+		if (disabled) {
+			return;
+		}
 		const handleKeyDown = (event: KeyboardEvent) => {
 			const buttons = buttonsRef.current;
 			if (!buttons.length) {
@@ -140,7 +148,7 @@ const useKeyboardNavigation = ({
 		};
 		document.addEventListener("keydown", handleKeyDown);
 		return () => document.removeEventListener("keydown", handleKeyDown);
-	}, [ref, initialIndex]);
+	}, [ref, initialIndex, disabled]);
 };
 
 export default useKeyboardNavigation;

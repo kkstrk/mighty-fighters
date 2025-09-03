@@ -4,30 +4,27 @@ import AboutButton from "./components/AboutButton/AboutButton";
 import Character from "./components/Character/Character";
 import CharacterOptions from "./components/CharacterOptions/CharacterOptions";
 import SoundButton from "./components/SoundButton/SoundButton";
+import useSmallScreen from "./utils/useSmallScreen";
 import "./App.css";
 
 type Player = 1 | 2;
 
+const initialPlayerCharacters = { 1: undefined, 2: undefined };
+
 function App() {
 	const [players, setPlayers] = useState<Player>(2);
-	const [playerCharacters, setPlayerCharacters] = useState<
-		Record<Player, CharacterName | undefined>
-	>({ 1: undefined, 2: undefined });
+	const [playerCharacters, setPlayerCharacters] =
+		useState<Record<Player, CharacterName | undefined>>(initialPlayerCharacters);
 	const [previewCharacter, setPreviewCharacter] = useState<CharacterName>();
 	const selectionHistoryRef = useRef<Player[]>([]);
 
-	useEffect(() => {
-		const checkWindowSize = () => {
-			const isPortrait = window.innerHeight >= window.innerWidth;
-			const isSmallScreen = window.innerWidth <= 750;
-			setPlayers(isPortrait && isSmallScreen ? 1 : 2);
-		};
-		checkWindowSize();
-		window.addEventListener("resize", checkWindowSize);
-		return () => {
-			window.removeEventListener("resize", checkWindowSize);
-		};
+	const handleSizeChange = useCallback((isSmallScreen: boolean) => {
+		setPlayers(isSmallScreen ? 1 : 2);
+		setPlayerCharacters(initialPlayerCharacters);
+		setPreviewCharacter(undefined);
+		selectionHistoryRef.current = [];
 	}, []);
+	useSmallScreen(handleSizeChange);
 
 	const handleCharacterChange = useCallback(
 		(character: CharacterName) => {
@@ -66,28 +63,28 @@ function App() {
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [handleCharacterUndo]);
 
+	const { 1: playerOne, 2: playerTwo } = playerCharacters;
+
 	return (
 		<>
 			<main>
 				<Character
 					align="left"
-					name={playerCharacters[1] || previewCharacter}
-					onUndo={playerCharacters[1] ? () => handleCharacterUndo(1) : undefined}
+					name={playerOne || previewCharacter}
+					onUndo={playerOne ? () => handleCharacterUndo(1) : undefined}
 				/>
 				<CharacterOptions
+					disabled={players === 1 ? !!playerOne : !!(playerOne && playerTwo)}
 					onChange={handleCharacterChange}
 					onPreview={setPreviewCharacter}
-					playerOne={playerCharacters[1]}
-					playerTwo={playerCharacters[2]}
+					playerOne={playerOne}
+					playerTwo={playerTwo}
 				/>
 				{players === 2 && (
 					<Character
 						align="right"
-						name={
-							playerCharacters[2] ||
-							(playerCharacters[1] ? previewCharacter : undefined)
-						}
-						onUndo={playerCharacters[2] ? () => handleCharacterUndo(2) : undefined}
+						name={playerTwo || (playerOne ? previewCharacter : undefined)}
+						onUndo={playerTwo ? () => handleCharacterUndo(2) : undefined}
 					/>
 				)}
 			</main>
