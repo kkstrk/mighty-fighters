@@ -15,7 +15,7 @@ function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 		setAnimating(true);
 		animationTimeoutRef.current = setTimeout(() => {
 			setAnimating(false);
-		}, 750);
+		}, 350);
 	}, []);
 
 	useEffect(() => {
