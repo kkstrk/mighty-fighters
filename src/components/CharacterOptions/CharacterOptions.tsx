@@ -108,11 +108,9 @@ function CharacterOptions({
 	);
 
 	const handleRandomOptionClick = useCallback(() => {
-		const availableCharacters = characters
-			.filter((character) => character !== playerOne && character !== playerTwo)
-			.sort(() => Math.random() - 0.5);
+		const availableCharacters = [...characters].sort(() => Math.random() - 0.5);
 		setRandomAnimatingQueue(availableCharacters);
-	}, [playerOne, playerTwo]);
+	}, []);
 
 	useEffect(() => {
 		if (randomAnimatingQueue.length === 0) {
@@ -144,7 +142,7 @@ function CharacterOptions({
 						key={character}
 						data-highlighted={highlighted}
 						data-selected={selected}
-						disabled={disabled || selected}
+						disabled={disabled}
 						onClick={() => onChange(character)}
 						onFocus={() => handleCharacterPreview(character)}
 						onBlur={handleBlur}
