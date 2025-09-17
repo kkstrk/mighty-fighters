@@ -65,6 +65,8 @@ function App() {
 
 	const { 1: playerOne, 2: playerTwo } = playerCharacters;
 
+	const disabled = players === 1 ? !!playerOne : !!(playerOne && playerTwo);
+
 	return (
 		<>
 			<main>
@@ -74,7 +76,8 @@ function App() {
 					onUndo={playerOne ? () => handleCharacterUndo(1) : undefined}
 				/>
 				<CharacterOptions
-					disabled={players === 1 ? !!playerOne : !!(playerOne && playerTwo)}
+					currentPlayer={disabled ? undefined : players === 1 ? 1 : playerOne ? 2 : 1}
+					disabled={disabled}
 					onChange={handleCharacterChange}
 					onPreview={setPreviewCharacter}
 					playerOne={playerOne}

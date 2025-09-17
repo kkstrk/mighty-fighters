@@ -49,12 +49,14 @@ function RandomCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 }
 
 function CharacterOptions({
+	currentPlayer,
 	disabled: disabledProp,
 	onChange,
 	onPreview,
 	playerOne,
 	playerTwo,
 }: {
+	currentPlayer?: 1 | 2;
 	disabled: boolean;
 	onChange: (character: CharacterName) => void;
 	onPreview: (character?: CharacterName) => void;
@@ -133,15 +135,22 @@ function CharacterOptions({
 		<div
 			ref={parentRef}
 			className={classes.options}
+			data-turn={currentPlayer === 1 ? "p1" : currentPlayer === 2 ? "p2" : undefined}
 		>
 			{characters.map((character) => {
 				const highlighted = randomAnimatingQueue[0] === character;
-				const selected = character === playerOne || character === playerTwo;
+				const selectedByP1 = character === playerOne;
+				const selectedByP2 = character === playerTwo;
 				return (
 					<button
 						key={character}
+						className={classNames(
+							classes.characterOption,
+							selectedByP1 && classes.p1,
+							selectedByP2 && classes.p2,
+						)}
 						data-highlighted={highlighted}
-						data-selected={selected}
+						data-selected={selectedByP1 || selectedByP2}
 						disabled={disabled}
 						onClick={() => onChange(character)}
 						onFocus={() => handleCharacterPreview(character)}

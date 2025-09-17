@@ -143,34 +143,55 @@
 }
 
 .options > button:hover::before,
-.options > button[data-selected="true"]::before,
-.options > button[data-highlighted="true"]::before,
-.options > button:focus::before,
-.options > button:focus-visible::before {
+.options > button:focus-visible::before,
+.characterOption[data-selected="true"]::before,
+.characterOption[data-highlighted="true"]::before {
 	content: "";
 	position: absolute;
 	top: -2px;
 	left: -2px;
 	width: calc(100% + 4px);
 	height: calc(100% + 4px);
-	background-image: url("./assets/hex-border.png");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	background-position: center;
 	z-index: 1;
 }
 
-.options > button:focus::before,
+.options > .characterOption.p1::before,
+.options[data-turn="p1"] > .characterOption[data-highlighted="true"]::before,
+.options[data-turn="p1"] > button:hover::before,
+.options[data-turn="p1"] > button:focus-visible::before {
+	background-image: url("./assets/hex-p1.png");
+}
+
+.options > .characterOption.p2::before,
+.options[data-turn="p2"] > .characterOption[data-highlighted="true"]::before,
+.options[data-turn="p2"] > button:hover::before,
+.options[data-turn="p2"] > button:focus-visible::before {
+	background-image: url("./assets/hex-p2.png");
+}
+
+.options > .characterOption.p1.p2::before,
+.options[data-turn="p2"] > .characterOption.p1:hover::before,
+.options[data-turn="p2"] > .characterOption.p1:focus-visible::before,
+.options[data-turn="p2"] > .characterOption.p1[data-highlighted="true"]::before,
+.options[data-turn="p1"] > .characterOption.p2:hover::before,
+.options[data-turn="p1"] > .characterOption.p2:focus-visible::before,
+.options[data-turn="p1"] > .characterOption.p2[data-highlighted="true"]::before {
+	background-image: url("./assets/hex-p1-p2.png");
+}
+
 .options > button:focus-visible::before {
 	opacity: 0.69;
 }
 
 .options > button:hover::before,
-.options > button:hover > img:last-child:not(:only-child) {
+.characterOption:hover > img:last-child:not(:only-child) {
 	animation: blink 0.75s linear infinite;
 }
 
-.options > button > img {
+.characterOption > img {
 	height: 100%;
 	width: 100%;
 	object-position: bottom;
@@ -179,15 +200,15 @@
 	left: 0;
 }
 
-.options > button > img:last-child {
+.characterOption > img:last-child {
 	opacity: 0;
 }
 
-.options > button > img:only-child {
+.characterOption > img:only-child {
 	opacity: 1;
 }
 
-.options > button[data-selected="true"] > img:last-child {
+.characterOption[data-selected="true"] > img:last-child {
 	opacity: 1;
 	animation: none;
 }
