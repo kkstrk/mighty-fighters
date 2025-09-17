@@ -18,9 +18,11 @@ const getButtonPosition = (index: number) => {
 const useKeyboardNavigation = ({
 	ref,
 	initialIndex = 0,
+	onFocus,
 }: {
 	ref: React.RefObject<HTMLDivElement | null>;
 	initialIndex: number;
+	onFocus: (index: number) => void;
 }) => {
 	const buttonsRef = useRef<HTMLButtonElement[]>([]);
 	const focusedIndexRef = useRef<number>(0);
@@ -80,6 +82,7 @@ const useKeyboardNavigation = ({
 				if (button) {
 					button.focus();
 					focusedIndexRef.current = buttons.indexOf(button);
+					onFocus(focusedIndexRef.current);
 					stickyColRef.current = getButtonPosition(focusedIndexRef.current).colIndex;
 				}
 				return;
@@ -144,11 +147,12 @@ const useKeyboardNavigation = ({
 			if (nextButtonIndex !== undefined) {
 				buttons[nextButtonIndex].focus();
 				focusedIndexRef.current = nextButtonIndex;
+				onFocus(nextButtonIndex);
 			}
 		};
 		document.addEventListener("keydown", handleKeyDown);
 		return () => document.removeEventListener("keydown", handleKeyDown);
-	}, [ref, initialIndex, disabled]);
+	}, [ref, initialIndex, disabled, onFocus]);
 };
 
 export default useKeyboardNavigation;

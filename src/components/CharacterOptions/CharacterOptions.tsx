@@ -71,7 +71,13 @@ function CharacterOptions({
 
 	const disabled = disabledProp || randomAnimatingQueue.length > 0;
 
-	useKeyboardNavigation({ ref: parentRef, initialIndex: -1 });
+	const onFocus = useCallback(
+		(characterIndex: number) => {
+			onPreview(characters[characterIndex]);
+		},
+		[onPreview],
+	);
+	useKeyboardNavigation({ ref: parentRef, initialIndex: -1, onFocus });
 
 	const handleCharacterPreview = useCallback(
 		(character?: CharacterName) => {
@@ -101,9 +107,6 @@ function CharacterOptions({
 	const handleMouseMove = useCallback(
 		(character?: CharacterName) => {
 			hoveredCharacterRef.current = character;
-			if (parentRef.current?.contains(document.activeElement)) {
-				return;
-			}
 			handleCharacterPreview(character);
 		},
 		[handleCharacterPreview],
@@ -153,7 +156,6 @@ function CharacterOptions({
 						data-selected={selectedByP1 || selectedByP2}
 						disabled={disabled}
 						onClick={() => onChange(character)}
-						onFocus={() => handleCharacterPreview(character)}
 						onBlur={handleBlur}
 						onMouseEnter={() => handleMouseMove(character)}
 						onMouseLeave={() => handleMouseMove()}
