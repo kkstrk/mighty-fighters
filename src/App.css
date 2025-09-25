@@ -1,6 +1,6 @@
 @font-face {
 	font-family: "Press Start 2P";
-	src: url("/mighty-fighters/PressStart2P.ttf") format("truetype");
+	src: url("./assets/PressStart2P.ttf") format("truetype");
 }
 
 html,
@@ -15,7 +15,7 @@ body {
 	overflow: hidden;
 	font-family: "Press Start 2P", system-ui, Avenir, Helvetica, Arial, sans-serif;
 	background-color: #355058;
-	background-image: url("/mighty-fighters/background.png");
+	background-image: url("./assets/background.png");
 	background-size: cover;
 }
 

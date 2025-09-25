@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import ConfirmAudio from "./assets/confirm.wav";
+import HoverAudio from "./assets/hover.wav";
 import type { CharacterName } from "./characters";
 import AboutButton from "./components/AboutButton/AboutButton";
 import Character from "./components/Character/Character";
@@ -18,6 +20,9 @@ function App() {
 	const [previewCharacter, setPreviewCharacter] = useState<CharacterName>();
 	const selectionHistoryRef = useRef<Player[]>([]);
 
+	const hoverAudioRef = useRef(new Audio(HoverAudio));
+	const confirmAudioRef = useRef(new Audio(ConfirmAudio));
+
 	const handleSizeChange = useCallback((isSmallScreen: boolean) => {
 		setPlayers(isSmallScreen ? 1 : 2);
 		setPlayerCharacters(initialPlayerCharacters);
@@ -26,8 +31,27 @@ function App() {
 	}, []);
 	useSmallScreen(handleSizeChange);
 
+	const handleCharacterPreview = useCallback((character?: CharacterName) => {
+		if (character) {
+			try {
+				hoverAudioRef.current.currentTime = 0;
+				hoverAudioRef.current.play();
+			} catch {
+				// ignore error
+			}
+		}
+		setPreviewCharacter(character);
+	}, []);
+
 	const handleCharacterChange = useCallback(
 		(character: CharacterName) => {
+			try {
+				confirmAudioRef.current.currentTime = 0;
+				confirmAudioRef.current.play();
+			} catch {
+				// ignore error
+			}
+
 			setPlayerCharacters((prev) => {
 				const player = players === 1 ? 1 : prev[1] ? 2 : 1;
 				selectionHistoryRef.current.push(player);
@@ -79,7 +103,7 @@ function App() {
 					currentPlayer={disabled ? undefined : players === 1 ? 1 : playerOne ? 2 : 1}
 					disabled={disabled}
 					onChange={handleCharacterChange}
-					onPreview={setPreviewCharacter}
+					onPreview={handleCharacterPreview}
 					playerOne={playerOne}
 					playerTwo={playerTwo}
 				/>
