@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import characters, { type CharacterName } from "../../../characters";
 import classNames from "../../../utils/classNames";
 import useOptionSfx from "../../../utils/useOptionSfx/useOptionSfx";
+import useSfx from "../../../utils/useSfx";
+import RandomizeAudio from "./assets/randomize.wav";
 import classes from "./CharacterOptions.module.css";
 import useKeyboardNavigation from "./useKeyboardNavigation";
 
@@ -72,6 +74,7 @@ function CharacterOptions({
 	const previewTimeoutRef = useRef<number | undefined>(undefined);
 	const hoveredCharacterRef = useRef<CharacterName | undefined>(undefined);
 
+	const { play: playRandomizeAudio } = useSfx(RandomizeAudio);
 	const [randomAnimatingQueue, setRandomAnimatingQueue] = useState<CharacterName[]>([]);
 
 	const { playHoverAudio, playDisabledAudio, playConfirmAudio } = useOptionSfx();
@@ -140,7 +143,8 @@ function CharacterOptions({
 	const handleRandomOptionClick = useCallback(() => {
 		const availableCharacters = [...characters].sort(() => Math.random() - 0.5);
 		setRandomAnimatingQueue(availableCharacters);
-	}, []);
+		playRandomizeAudio();
+	}, [playRandomizeAudio]);
 
 	useEffect(() => {
 		if (randomAnimatingQueue.length === 0) {
@@ -148,7 +152,7 @@ function CharacterOptions({
 		}
 
 		if (randomAnimatingQueue.length === 1) {
-			confirmCharacter(randomAnimatingQueue[0]);
+			onChange(randomAnimatingQueue[0]);
 			setRandomAnimatingQueue([]);
 			return;
 		}
@@ -157,7 +161,7 @@ function CharacterOptions({
 			setRandomAnimatingQueue((queue) => queue.slice(1));
 		}, 150);
 		return () => clearTimeout(timeout);
-	}, [confirmCharacter, randomAnimatingQueue]);
+	}, [onChange, randomAnimatingQueue]);
 
 	return (
 		<div
