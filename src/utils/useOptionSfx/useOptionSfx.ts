@@ -1,4 +1,5 @@
 import { useCallback, useRef } from "react";
+import { useSound } from "../../contexts/SoundContext/SoundContext";
 import ConfirmAudio from "./assets/confirm.wav";
 import DisabledAudio from "./assets/disabled.wav";
 import HoverAudio from "./assets/hover.wav";
@@ -19,23 +20,31 @@ const useSfx = (src: string) => {
 };
 
 const useOptionSfx = () => {
+	const { isMuted } = useSound();
+
 	const hoverAudio = useSfx(HoverAudio);
 	const confirmAudio = useSfx(ConfirmAudio);
 	const disabledAudio = useSfx(DisabledAudio);
 
 	const playHoverAudio = useCallback(() => {
-		hoverAudio.play();
-	}, [hoverAudio]);
+		if (!isMuted) {
+			hoverAudio.play();
+		}
+	}, [hoverAudio, isMuted]);
 
 	const playConfirmAudio = useCallback(() => {
-		hoverAudio.pause();
-		confirmAudio.play();
-	}, [confirmAudio, hoverAudio]);
+		if (!isMuted) {
+			hoverAudio.pause();
+			confirmAudio.play();
+		}
+	}, [confirmAudio, hoverAudio, isMuted]);
 
 	const playDisabledAudio = useCallback(() => {
-		hoverAudio.pause();
-		disabledAudio.play();
-	}, [disabledAudio, hoverAudio]);
+		if (!isMuted) {
+			hoverAudio.pause();
+			disabledAudio.play();
+		}
+	}, [disabledAudio, hoverAudio, isMuted]);
 
 	return { playHoverAudio, playConfirmAudio, playDisabledAudio };
 };

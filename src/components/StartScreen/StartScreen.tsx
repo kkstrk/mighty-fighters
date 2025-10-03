@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useSound } from "../../contexts/SoundContext/SoundContext";
+import useOptionSfx from "../../utils/useOptionSfx/useOptionSfx";
 import classes from "./StartScreen.module.css";
 
 const START_OPTION = "start";
@@ -19,6 +20,7 @@ const StartScreen = ({
 	const [selectedOption, setSelectedOption] = useState<(typeof options)[number]>(START_OPTION);
 	const selectedIndexRef = useRef(0);
 	const { isMuted, startMusic, toggleMute } = useSound();
+	const { playHoverAudio } = useOptionSfx();
 
 	const handleStartClick = useCallback(() => {
 		setSelectedOption(START_OPTION);
@@ -56,6 +58,7 @@ const StartScreen = ({
 				}
 
 				setSelectedOption(options[nextIndex]);
+				playHoverAudio();
 			}
 
 			if (event.key === "Enter" || event.key === " ") {
@@ -74,7 +77,7 @@ const StartScreen = ({
 
 		document.addEventListener("keydown", handleKeyDown);
 		return () => document.removeEventListener("keydown", handleKeyDown);
-	}, [handleStartClick, handleSoundClick, handleAboutClick]);
+	}, [handleStartClick, handleSoundClick, handleAboutClick, playHoverAudio]);
 
 	return (
 		<>
@@ -84,6 +87,7 @@ const StartScreen = ({
 					<li data-selected={selectedOption === START_OPTION}>
 						<button
 							type="button"
+							onMouseEnter={playHoverAudio}
 							onClick={handleStartClick}
 						>
 							{START_OPTION}
@@ -92,6 +96,7 @@ const StartScreen = ({
 					<li data-selected={selectedOption === SOUND_OPTION}>
 						<button
 							type="button"
+							onMouseEnter={playHoverAudio}
 							onClick={handleSoundClick}
 						>
 							{selectedOption === SOUND_OPTION
@@ -102,6 +107,7 @@ const StartScreen = ({
 					<li data-selected={selectedOption === ABOUT_OPTION}>
 						<button
 							type="button"
+							onMouseEnter={playHoverAudio}
 							onClick={handleAboutClick}
 						>
 							{ABOUT_OPTION}

@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import characters, { type CharacterName } from "../../../characters";
 import classNames from "../../../utils/classNames";
+import useOptionSfx from "../../../utils/useOptionSfx/useOptionSfx";
 import classes from "./CharacterOptions.module.css";
 import useKeyboardNavigation from "./useKeyboardNavigation";
-import useOptionSfx from "./useOptionSfx/useOptionSfx";
 
 function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	const [animating, setAnimating] = useState(false);
