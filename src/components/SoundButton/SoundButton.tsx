@@ -1,39 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useSound } from "../../contexts/SoundContext/SoundContext";
 import Button from "../Button/Button";
-import MusicAudio from "./assets/music.wav";
 import SoundOffIcon from "./assets/sound-off.png";
 import SoundOnIcon from "./assets/sound-on.png";
 
 const SoundButton = () => {
-	const [isSoundOn, setIsSoundOn] = useState(false);
-	const audioRef = useRef(new Audio(MusicAudio));
-
-	useEffect(() => {
-		audioRef.current.loop = true;
-	}, []);
-
-	useEffect(() => {
-		if (audioRef.current) {
-			if (isSoundOn) {
-				audioRef.current.play();
-			} else {
-				audioRef.current.pause();
-			}
-		}
-	}, [isSoundOn]);
-
-	const handleButtonClick = () => {
-		setIsSoundOn((prevIsSoundOn) => !prevIsSoundOn);
-	};
+	const { isMuted, toggleMusic } = useSound();
 
 	return (
 		<Button
-			onClick={handleButtonClick}
-			title={isSoundOn ? "Mute" : "Unmute"}
+			onClick={toggleMusic}
+			title={isMuted ? "Unmute" : "Mute"}
 		>
 			<img
-				src={isSoundOn ? SoundOnIcon : SoundOffIcon}
-				alt={isSoundOn ? "Sound on icon" : "Sound off icon"}
+				src={isMuted ? SoundOffIcon : SoundOnIcon}
+				alt={isMuted ? "Sound off icon" : "Sound on icon"}
 			/>
 		</Button>
 	);

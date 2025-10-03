@@ -1,22 +1,27 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import characters, { type CharacterName } from "../../characters";
-import classNames from "../../utils/classNames";
+import characters, { type CharacterName } from "../../../characters";
+import classNames from "../../../utils/classNames";
 import classes from "./CharacterOptions.module.css";
 import useKeyboardNavigation from "./useKeyboardNavigation";
+import useOptionSfx from "./useOptionSfx/useOptionSfx";
 
 function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	const [animating, setAnimating] = useState(false);
 	const animationTimeoutRef = useRef<number | undefined>(undefined);
 
-	const handleClick = useCallback(() => {
-		if (animationTimeoutRef.current) {
-			clearTimeout(animationTimeoutRef.current);
-		}
-		setAnimating(true);
-		animationTimeoutRef.current = setTimeout(() => {
-			setAnimating(false);
-		}, 350);
-	}, []);
+	const handleClick = useCallback(
+		(event: React.MouseEvent<HTMLButtonElement>) => {
+			props.onClick?.(event);
+			if (animationTimeoutRef.current) {
+				clearTimeout(animationTimeoutRef.current);
+			}
+			setAnimating(true);
+			animationTimeoutRef.current = setTimeout(() => {
+				setAnimating(false);
+			}, 350);
+		},
+		[props.onClick],
+	);
 
 	useEffect(() => {
 		return () => {
@@ -69,13 +74,33 @@ function CharacterOptions({
 
 	const [randomAnimatingQueue, setRandomAnimatingQueue] = useState<CharacterName[]>([]);
 
+	const { playHoverAudio, playDisabledAudio, playConfirmAudio } = useOptionSfx();
+
 	const disabled = disabledProp || randomAnimatingQueue.length > 0;
+
+	const previewCharacter = useCallback(
+		(character?: CharacterName) => {
+			if (character) {
+				playHoverAudio();
+			}
+			onPreview(character);
+		},
+		[onPreview, playHoverAudio],
+	);
+
+	const confirmCharacter = useCallback(
+		(character: CharacterName) => {
+			onChange(character);
+			playConfirmAudio();
+		},
+		[onChange, playConfirmAudio],
+	);
 
 	const onFocus = useCallback(
 		(characterIndex: number) => {
-			onPreview(characters[characterIndex]);
+			previewCharacter(characters[characterIndex]);
 		},
-		[onPreview],
+		[previewCharacter],
 	);
 	useKeyboardNavigation({ ref: parentRef, initialIndex: -1, onFocus });
 
@@ -83,16 +108,16 @@ function CharacterOptions({
 		(character?: CharacterName) => {
 			if (character) {
 				previewTimeoutRef.current = setTimeout(() => {
-					onPreview(character);
+					previewCharacter(character);
 				}, 250);
 			} else {
 				if (previewTimeoutRef.current) {
 					clearTimeout(previewTimeoutRef.current);
 				}
-				onPreview();
+				previewCharacter();
 			}
 		},
-		[onPreview],
+		[previewCharacter],
 	);
 
 	const handleBlur = useCallback(() => {
@@ -123,7 +148,7 @@ function CharacterOptions({
 		}
 
 		if (randomAnimatingQueue.length === 1) {
-			onChange(randomAnimatingQueue[0]);
+			confirmCharacter(randomAnimatingQueue[0]);
 			setRandomAnimatingQueue([]);
 			return;
 		}
@@ -132,7 +157,7 @@ function CharacterOptions({
 			setRandomAnimatingQueue((queue) => queue.slice(1));
 		}, 150);
 		return () => clearTimeout(timeout);
-	}, [onChange, randomAnimatingQueue]);
+	}, [confirmCharacter, randomAnimatingQueue]);
 
 	return (
 		<div
@@ -155,7 +180,7 @@ function CharacterOptions({
 						data-highlighted={highlighted}
 						data-selected={selectedByP1 || selectedByP2}
 						disabled={disabled}
-						onClick={() => onChange(character)}
+						onClick={() => confirmCharacter(character)}
 						onBlur={handleBlur}
 						onMouseEnter={() => handleMouseMove(character)}
 						onMouseLeave={() => handleMouseMove()}
@@ -173,10 +198,17 @@ function CharacterOptions({
 					</button>
 				);
 			})}
-			<LockedCharacterOption disabled={disabled} />
+			<LockedCharacterOption
+				disabled={disabled}
+				onClick={playDisabledAudio}
+				onMouseEnter={playHoverAudio}
+				onFocus={playHoverAudio}
+			/>
 			<RandomCharacterOption
 				disabled={disabled}
 				onClick={handleRandomOptionClick}
+				onMouseEnter={playHoverAudio}
+				onFocus={playHoverAudio}
 			/>
 		</div>
 	);

@@ -1,30 +1,26 @@
-import { useRef } from "react";
-import Button from "../Button/Button";
-import classes from "./AboutButton.module.css";
+import { useImperativeHandle, useRef } from "react";
+import classes from "./AboutDialog.module.css";
 
-const InfoButton = () => {
+interface AboutDialogRef {
+	open: () => void;
+}
+
+const AboutDialog = ({ ref }: { ref: React.RefObject<AboutDialogRef | null> }) => {
 	const dialogRef = useRef<HTMLDialogElement>(null);
 
-	const handleButtonClick = () => {
-		if (dialogRef.current?.open) {
-			dialogRef.current.close();
-		} else {
+	useImperativeHandle(ref, () => ({
+		open: () => {
 			dialogRef.current?.showModal();
-		}
-	};
+		},
+	}));
 
-	const closeDialog = () => {
+	const closeDialog = (event: React.MouseEvent<HTMLDialogElement | HTMLButtonElement>) => {
+		event.stopPropagation();
 		dialogRef.current?.close();
 	};
 
 	return (
 		<>
-			<Button
-				title="About"
-				onClick={handleButtonClick}
-			>
-				i
-			</Button>
 			{/** biome-ignore lint/a11y/useKeyWithClickEvents: dialog should not close on key press */}
 			<dialog
 				className={classes.dialog}
@@ -37,7 +33,7 @@ const InfoButton = () => {
 					className={classes.dialogContent}
 					onClick={(event) => event.stopPropagation()}
 				>
-					<p>about...</p>
+					<p>TODO: add content</p>
 					<p>
 						The game is hosted as an open-source project on{" "}
 						<a href="https://github.com/kkstrk/mighty-fighters">GitHub</a>.
@@ -56,4 +52,5 @@ const InfoButton = () => {
 	);
 };
 
-export default InfoButton;
+export default AboutDialog;
+export type { AboutDialogRef };

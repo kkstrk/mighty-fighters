@@ -1,0 +1,22 @@
+.main {
+	display: flex;
+	flex: 1;
+	overflow: hidden;
+}
+
+@media (max-width: 750px) and (orientation: portrait) {
+	.main {
+		flex-direction: column;
+		gap: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+}
+
+.footer {
+	height: 3rem;
+	display: flex;
+	align-items: center;
+	align-self: center;
+	gap: 1.25rem;
+	padding: 0 0.5rem 0.25rem;
+}

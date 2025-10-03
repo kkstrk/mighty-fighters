@@ -1,125 +1,32 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import ConfirmAudio from "./assets/confirm.wav";
-import HoverAudio from "./assets/hover.wav";
-import type { CharacterName } from "./characters";
-import AboutButton from "./components/AboutButton/AboutButton";
-import Character from "./components/Character/Character";
-import CharacterOptions from "./components/CharacterOptions/CharacterOptions";
-import SoundButton from "./components/SoundButton/SoundButton";
-import useSmallScreen from "./utils/useSmallScreen";
+import { useRef, useState } from "react";
+
+import AboutDialog, { type AboutDialogRef } from "./components/AboutDialog/AboutDialog";
+import PlayScreen from "./components/PlayScreen/PlayScreen";
+import StartScreen from "./components/StartScreen/StartScreen";
+import { SoundProvider } from "./contexts/SoundContext/SoundContext";
 import "./App.css";
 
-type Player = 1 | 2;
-
-const initialPlayerCharacters = { 1: undefined, 2: undefined };
-
 function App() {
-	const [players, setPlayers] = useState<Player>(2);
-	const [playerCharacters, setPlayerCharacters] =
-		useState<Record<Player, CharacterName | undefined>>(initialPlayerCharacters);
-	const [previewCharacter, setPreviewCharacter] = useState<CharacterName>();
-	const selectionHistoryRef = useRef<Player[]>([]);
-
-	const hoverAudioRef = useRef(new Audio(HoverAudio));
-	const confirmAudioRef = useRef(new Audio(ConfirmAudio));
-
-	const handleSizeChange = useCallback((isSmallScreen: boolean) => {
-		setPlayers(isSmallScreen ? 1 : 2);
-		setPlayerCharacters(initialPlayerCharacters);
-		setPreviewCharacter(undefined);
-		selectionHistoryRef.current = [];
-	}, []);
-	useSmallScreen(handleSizeChange);
-
-	const handleCharacterPreview = useCallback((character?: CharacterName) => {
-		if (character) {
-			try {
-				hoverAudioRef.current.currentTime = 0;
-				hoverAudioRef.current.play();
-			} catch {
-				// ignore error
-			}
-		}
-		setPreviewCharacter(character);
-	}, []);
-
-	const handleCharacterChange = useCallback(
-		(character: CharacterName) => {
-			try {
-				confirmAudioRef.current.currentTime = 0;
-				confirmAudioRef.current.play();
-			} catch {
-				// ignore error
-			}
-
-			setPlayerCharacters((prev) => {
-				const player = players === 1 ? 1 : prev[1] ? 2 : 1;
-				selectionHistoryRef.current.push(player);
-				return {
-					...prev,
-					[player]: character,
-				};
-			});
-			setPreviewCharacter(undefined);
-		},
-		[players],
-	);
-
-	const handleCharacterUndo = useCallback((player: Player) => {
-		setPlayerCharacters((prev) => ({
-			...prev,
-			[player]: undefined,
-		}));
-		selectionHistoryRef.current = selectionHistoryRef.current.filter((p) => p !== player);
-	}, []);
-
-	useEffect(() => {
-		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key === "Backspace") {
-				event.preventDefault();
-				const lastPlayer = selectionHistoryRef.current.at(-1);
-				if (lastPlayer) {
-					handleCharacterUndo(lastPlayer);
-				}
-			}
-		};
-		window.addEventListener("keydown", handleKeyDown);
-		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [handleCharacterUndo]);
-
-	const { 1: playerOne, 2: playerTwo } = playerCharacters;
-
-	const disabled = players === 1 ? !!playerOne : !!(playerOne && playerTwo);
-
+	const [hasStarted, setHasStarted] = useState(false);
+	const aboutDialogRef = useRef<AboutDialogRef>(null);
+	const handleStartClick = () => {
+		setHasStarted(true);
+	};
+	const handleAboutClick = () => {
+		aboutDialogRef.current?.open();
+	};
 	return (
-		<>
-			<main>
-				<Character
-					align="left"
-					name={playerOne || previewCharacter}
-					onUndo={playerOne ? () => handleCharacterUndo(1) : undefined}
+		<SoundProvider>
+			{hasStarted ? (
+				<PlayScreen onAboutClick={handleAboutClick} />
+			) : (
+				<StartScreen
+					onStartClick={handleStartClick}
+					onAboutClick={handleAboutClick}
 				/>
-				<CharacterOptions
-					currentPlayer={disabled ? undefined : players === 1 ? 1 : playerOne ? 2 : 1}
-					disabled={disabled}
-					onChange={handleCharacterChange}
-					onPreview={handleCharacterPreview}
-					playerOne={playerOne}
-					playerTwo={playerTwo}
-				/>
-				{players === 2 && (
-					<Character
-						align="right"
-						name={playerTwo || (playerOne ? previewCharacter : undefined)}
-						onUndo={playerTwo ? () => handleCharacterUndo(2) : undefined}
-					/>
-				)}
-			</main>
-			<footer>
-				<SoundButton />
-				<AboutButton />
-			</footer>
-		</>
+			)}
+			<AboutDialog ref={aboutDialogRef} />
+		</SoundProvider>
 	);
 }
 

@@ -1,4 +1,5 @@
-import classNames from "../../utils/classNames";
+import classNames from "../../../utils/classNames";
+import Button from "../../Button/Button";
 import classes from "./Character.module.css";
 
 function Character({
@@ -23,16 +24,14 @@ function Character({
 							src={`/mighty-fighters/animations/${name}.gif`}
 							alt={`${name} animation`}
 						/>
-						<button
+						<div
 							className={classNames(
 								classes.undoButton,
 								!onUndo && classes.hiddenUndoButton,
 							)}
-							onClick={onUndo}
-							type="button"
 						>
-							undo
-						</button>
+							<Button onClick={onUndo}>↩︎</Button>
+						</div>
 					</div>
 					<img
 						className={classes.platform}
