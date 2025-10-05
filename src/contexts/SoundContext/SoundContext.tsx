@@ -19,15 +19,25 @@ const SoundContext = createContext<
 	| undefined
 >(undefined);
 
+const SOUND_STORAGE_KEY = "mightyfighters.muted";
+
+const getSoundFromStorage = () => {
+	return localStorage.getItem(SOUND_STORAGE_KEY) === "true";
+};
+
 const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 	const audioRef = useRef(new Audio(MusicAudio));
-	const [isMuted, setIsMuted] = useState(false);
+	const [isMuted, setIsMuted] = useState(() => getSoundFromStorage());
 
 	useEffect(() => {
 		if (audioRef.current) {
 			audioRef.current.loop = true;
 		}
 	}, []);
+
+	useEffect(() => {
+		localStorage.setItem(SOUND_STORAGE_KEY, String(isMuted));
+	}, [isMuted]);
 
 	const startMusic = useCallback(() => {
 		if (!isMuted) {
