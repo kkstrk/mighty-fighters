@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CharacterName } from "../../characters";
+import useOptionSfx from "../../utils/useOptionSfx/useOptionSfx";
 import useSmallScreen from "../../utils/useSmallScreen";
 import Button from "../Button/Button";
 import SoundButton from "../SoundButton/SoundButton";
@@ -17,6 +18,7 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 		useState<Record<Player, CharacterName | undefined>>(initialPlayerCharacters);
 	const [previewCharacter, setPreviewCharacter] = useState<CharacterName>();
 	const selectionHistoryRef = useRef<Player[]>([]);
+	const { playDisabledAudio } = useOptionSfx();
 
 	const handleSizeChange = useCallback((isSmallScreen: boolean) => {
 		setPlayers(isSmallScreen ? 1 : 2);
@@ -41,13 +43,17 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 		[players],
 	);
 
-	const handleCharacterUndo = useCallback((player: Player) => {
-		setPlayerCharacters((prev) => ({
-			...prev,
-			[player]: undefined,
-		}));
-		selectionHistoryRef.current = selectionHistoryRef.current.filter((p) => p !== player);
-	}, []);
+	const handleCharacterUndo = useCallback(
+		(player: Player) => {
+			playDisabledAudio();
+			setPlayerCharacters((prev) => ({
+				...prev,
+				[player]: undefined,
+			}));
+			selectionHistoryRef.current = selectionHistoryRef.current.filter((p) => p !== player);
+		},
+		[playDisabledAudio],
+	);
 
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
