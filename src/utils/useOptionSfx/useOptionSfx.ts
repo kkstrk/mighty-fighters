@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import useSfx from "../useSfx";
+import useSfx from "@/utils/useSfx";
 import ConfirmAudio from "./assets/confirm.wav";
 import DisabledAudio from "./assets/disabled.wav";
 import HoverAudio from "./assets/hover.wav";

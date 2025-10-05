@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import characters, { type CharacterName } from "../../../characters";
-import classNames from "../../../utils/classNames";
-import useOptionSfx from "../../../utils/useOptionSfx/useOptionSfx";
-import useSfx from "../../../utils/useSfx";
+import characters, { type CharacterName } from "@/characters";
+import classNames from "@/utils/classNames";
+import useOptionSfx from "@/utils/useOptionSfx/useOptionSfx";
+import useSfx from "@/utils/useSfx";
 import RandomizeAudio from "./assets/randomize.wav";
 import classes from "./CharacterOptions.module.css";
 import useKeyboardNavigation from "./useKeyboardNavigation";
 
 function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	const [animating, setAnimating] = useState(false);
-	const animationTimeoutRef = useRef<number | undefined>(undefined);
+	const animationTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
 	const handleClick = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>) => {
@@ -71,7 +71,7 @@ function CharacterOptions({
 	playerTwo?: CharacterName;
 }) {
 	const parentRef = useRef<HTMLDivElement>(null);
-	const previewTimeoutRef = useRef<number | undefined>(undefined);
+	const previewTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 	const hoveredCharacterRef = useRef<CharacterName | undefined>(undefined);
 
 	const { play: playRandomizeAudio } = useSfx(RandomizeAudio);

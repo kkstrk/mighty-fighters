@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { CharacterName } from "../../characters";
-import useOptionSfx from "../../utils/useOptionSfx/useOptionSfx";
-import useSmallScreen from "../../utils/useSmallScreen";
-import Button from "../Button/Button";
-import SoundButton from "../SoundButton/SoundButton";
+import type { CharacterName } from "@/characters";
+import Button from "@/components/Button/Button";
+import SoundButton from "@/components/SoundButton/SoundButton";
+import useOptionSfx from "@/utils/useOptionSfx/useOptionSfx";
+import useSmallScreen from "@/utils/useSmallScreen";
 import Character from "./Character/Character";
 import CharacterOptions from "./CharacterOptions/CharacterOptions";
 import classes from "./PlayScreen.module.css";

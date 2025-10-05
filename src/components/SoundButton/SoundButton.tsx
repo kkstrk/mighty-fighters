@@ -1,5 +1,5 @@
-import { useSound } from "../../contexts/SoundContext/SoundContext";
-import Button from "../Button/Button";
+import Button from "@/components/Button/Button";
+import { useSound } from "@/contexts/SoundContext/SoundContext";
 import SoundOffIcon from "./assets/sound-off.png";
 import SoundOnIcon from "./assets/sound-on.png";
 

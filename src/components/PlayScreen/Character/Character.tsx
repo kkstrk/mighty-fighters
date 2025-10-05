@@ -1,5 +1,5 @@
-import classNames from "../../../utils/classNames";
-import Button from "../../Button/Button";
+import Button from "@/components/Button/Button";
+import classNames from "@/utils/classNames";
 import classes from "./Character.module.css";
 
 function Character({

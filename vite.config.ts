@@ -1,3 +1,4 @@
+import { fileURLToPath, URL } from "node:url";
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";
 
@@ -5,4 +6,9 @@ import { defineConfig } from "vite";
 export default defineConfig({
 	plugins: [react()],
 	base: "/mighty-fighters/",
+	resolve: {
+		alias: {
+			"@": fileURLToPath(new URL("./src", import.meta.url)),
+		},
+	},
 });
