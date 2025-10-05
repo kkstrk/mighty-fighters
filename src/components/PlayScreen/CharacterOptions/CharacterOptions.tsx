@@ -81,16 +81,6 @@ function CharacterOptions({
 
 	const disabled = disabledProp || randomAnimatingQueue.length > 0;
 
-	const previewCharacter = useCallback(
-		(character?: CharacterName) => {
-			if (character) {
-				playHoverAudio();
-			}
-			onPreview(character);
-		},
-		[onPreview, playHoverAudio],
-	);
-
 	const confirmCharacter = useCallback(
 		(character: CharacterName) => {
 			onChange(character);
@@ -101,9 +91,9 @@ function CharacterOptions({
 
 	const onFocus = useCallback(
 		(characterIndex: number) => {
-			previewCharacter(characters[characterIndex]);
+			onPreview(characters[characterIndex]);
 		},
-		[previewCharacter],
+		[onPreview],
 	);
 	useKeyboardNavigation({ ref: parentRef, initialIndex: -1, onFocus });
 
@@ -111,16 +101,16 @@ function CharacterOptions({
 		(character?: CharacterName) => {
 			if (character) {
 				previewTimeoutRef.current = setTimeout(() => {
-					previewCharacter(character);
+					onPreview(character);
 				}, 250);
 			} else {
 				if (previewTimeoutRef.current) {
 					clearTimeout(previewTimeoutRef.current);
 				}
-				previewCharacter();
+				onPreview();
 			}
 		},
-		[previewCharacter],
+		[onPreview],
 	);
 
 	const handleBlur = useCallback(() => {
@@ -132,12 +122,25 @@ function CharacterOptions({
 		}
 	}, [handleCharacterPreview]);
 
+	const handleFocus = useCallback(
+		(character?: CharacterName) => {
+			// if a character is hovered then hover audio has already been played. play only on keyboard focus.
+			if (character !== hoveredCharacterRef.current) {
+				playHoverAudio();
+			}
+		},
+		[playHoverAudio],
+	);
+
 	const handleMouseMove = useCallback(
 		(character?: CharacterName) => {
 			hoveredCharacterRef.current = character;
 			handleCharacterPreview(character);
+			if (character) {
+				playHoverAudio();
+			}
 		},
-		[handleCharacterPreview],
+		[handleCharacterPreview, playHoverAudio],
 	);
 
 	const handleRandomOptionClick = useCallback(() => {
@@ -186,6 +189,7 @@ function CharacterOptions({
 						disabled={disabled}
 						onClick={() => confirmCharacter(character)}
 						onBlur={handleBlur}
+						onFocus={() => handleFocus(character)}
 						onMouseEnter={() => handleMouseMove(character)}
 						onMouseLeave={() => handleMouseMove()}
 						type="button"
