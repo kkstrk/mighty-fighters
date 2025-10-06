@@ -20,9 +20,9 @@ function Character({
 				<>
 					<div className={classes.selection}>
 						<img
+							alt={`${name} animation`}
 							className={classes.animation}
 							src={`/mighty-fighters/animations/${name}.gif`}
-							alt={`${name} animation`}
 						/>
 						<div
 							className={classNames(
@@ -34,19 +34,19 @@ function Character({
 						</div>
 					</div>
 					<img
+						alt="Character platform"
 						className={classes.platform}
 						src={"/mighty-fighters/platform.png"}
-						alt="Character platform"
 					/>
 				</>
 			)}
 			{!!name && (
 				<img
 					// set key to force animation to re-run on character change
-					key={name}
-					className={classes.portrait}
-					src={`/mighty-fighters/portraits/${name}.png`}
 					alt={`${name} portrait`}
+					className={classes.portrait}
+					key={name}
+					src={`/mighty-fighters/portraits/${name}.png`}
 				/>
 			)}
 		</div>

@@ -1,4 +1,5 @@
 import { useImperativeHandle, useRef } from "react";
+
 import classes from "./AboutDialog.module.css";
 
 interface AboutDialogRef {
@@ -24,8 +25,8 @@ const AboutDialog = ({ ref }: { ref: React.RefObject<AboutDialogRef | null> }) =
 			{/** biome-ignore lint/a11y/useKeyWithClickEvents: dialog should not close on key press */}
 			<dialog
 				className={classes.dialog}
-				ref={dialogRef}
 				onClick={closeDialog}
+				ref={dialogRef}
 			>
 				{/** biome-ignore lint/a11y/useKeyWithClickEvents: do not propagate click event to parent */}
 				{/** biome-ignore lint/a11y/noStaticElementInteractions: workaround for dialog closing on outside click */}
@@ -39,10 +40,10 @@ const AboutDialog = ({ ref }: { ref: React.RefObject<AboutDialogRef | null> }) =
 						<a href="https://github.com/kkstrk/mighty-fighters">GitHub</a>.
 					</p>
 					<button
+						className={classes.closeButton}
+						onClick={closeDialog}
 						title="Close"
 						type="button"
-						onClick={closeDialog}
-						className={classes.closeButton}
 					>
 						X
 					</button>

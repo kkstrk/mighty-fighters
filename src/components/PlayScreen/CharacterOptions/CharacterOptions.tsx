@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+
 import characters, { type CharacterName } from "@/characters";
 import classNames from "@/utils/classNames";
 import useOptionSfx from "@/utils/useOptionSfx/useOptionSfx";
@@ -36,8 +37,8 @@ function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 	return (
 		<button
 			{...props}
-			className={classNames(classes.lockedOption, animating && classes.lockedOptionAnimating)}
 			aria-label="Locked character"
+			className={classNames(classes.lockedOption, animating && classes.lockedOptionAnimating)}
 			onClick={handleClick}
 			type="button"
 		/>
@@ -48,8 +49,8 @@ function RandomCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 	return (
 		<button
 			{...props}
-			className={classes.randomOption}
 			aria-label="Pick a random character"
+			className={classes.randomOption}
 			type="button"
 		/>
 	);
@@ -168,9 +169,9 @@ function CharacterOptions({
 
 	return (
 		<div
-			ref={parentRef}
 			className={classes.options}
 			data-turn={currentPlayer === 1 ? "p1" : currentPlayer === 2 ? "p2" : undefined}
+			ref={parentRef}
 		>
 			{characters.map((character) => {
 				const highlighted = randomAnimatingQueue[0] === character;
@@ -178,7 +179,7 @@ function CharacterOptions({
 				const selectedByP2 = character === playerTwo;
 				return (
 					<button
-						key={character}
+						aria-label={`Select ${character}`}
 						className={classNames(
 							classes.characterOption,
 							selectedByP1 && classes.p1,
@@ -187,21 +188,21 @@ function CharacterOptions({
 						data-highlighted={highlighted}
 						data-selected={selectedByP1 || selectedByP2}
 						disabled={disabled}
-						onClick={() => confirmCharacter(character)}
+						key={character}
 						onBlur={handleBlur}
+						onClick={() => confirmCharacter(character)}
 						onFocus={() => handleFocus(character)}
 						onMouseEnter={() => handleMouseMove(character)}
 						onMouseLeave={() => handleMouseMove()}
 						type="button"
-						aria-label={`Select ${character}`}
 					>
 						<img
-							src={`/mighty-fighters/avatars/${character}.png`}
 							alt={character}
+							src={`/mighty-fighters/avatars/${character}.png`}
 						/>
 						<img
-							src={`/mighty-fighters/avatars/${character}-outline.png`}
 							alt={character}
+							src={`/mighty-fighters/avatars/${character}-outline.png`}
 						/>
 					</button>
 				);
@@ -209,14 +210,14 @@ function CharacterOptions({
 			<LockedCharacterOption
 				disabled={disabled}
 				onClick={playDisabledAudio}
-				onMouseEnter={playHoverAudio}
 				onFocus={playHoverAudio}
+				onMouseEnter={playHoverAudio}
 			/>
 			<RandomCharacterOption
 				disabled={disabled}
 				onClick={handleRandomOptionClick}
-				onMouseEnter={playHoverAudio}
 				onFocus={playHoverAudio}
+				onMouseEnter={playHoverAudio}
 			/>
 		</div>
 	);

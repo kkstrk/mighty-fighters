@@ -12,8 +12,8 @@ const SoundButton = () => {
 			title={isMuted ? "Unmute" : "Mute"}
 		>
 			<img
-				src={isMuted ? SoundOffIcon : SoundOnIcon}
 				alt={isMuted ? "Sound off icon" : "Sound on icon"}
+				src={isMuted ? SoundOffIcon : SoundOnIcon}
 			/>
 		</Button>
 	);

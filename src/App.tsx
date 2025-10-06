@@ -21,8 +21,8 @@ function App() {
 				<PlayScreen onAboutClick={handleAboutClick} />
 			) : (
 				<StartScreen
-					onStartClick={handleStartClick}
 					onAboutClick={handleAboutClick}
+					onStartClick={handleStartClick}
 				/>
 			)}
 			<AboutDialog ref={aboutDialogRef} />

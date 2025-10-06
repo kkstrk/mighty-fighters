@@ -86,18 +86,18 @@ const StartScreen = ({
 				<ul>
 					<li data-selected={selectedOption === START_OPTION}>
 						<button
-							type="button"
-							onMouseEnter={playHoverAudio}
 							onClick={handleStartClick}
+							onMouseEnter={playHoverAudio}
+							type="button"
 						>
 							{START_OPTION}
 						</button>
 					</li>
 					<li data-selected={selectedOption === SOUND_OPTION}>
 						<button
-							type="button"
-							onMouseEnter={playHoverAudio}
 							onClick={handleSoundClick}
+							onMouseEnter={playHoverAudio}
+							type="button"
 						>
 							{selectedOption === SOUND_OPTION
 								? `${SOUND_OPTION}: ${isMuted ? "off" : "on"}`
@@ -106,9 +106,9 @@ const StartScreen = ({
 					</li>
 					<li data-selected={selectedOption === ABOUT_OPTION}>
 						<button
-							type="button"
-							onMouseEnter={playHoverAudio}
 							onClick={handleAboutClick}
+							onMouseEnter={playHoverAudio}
+							type="button"
 						>
 							{ABOUT_OPTION}
 						</button>

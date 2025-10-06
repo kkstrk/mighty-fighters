@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.2.5/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -65,7 +65,21 @@
 		"enabled": true,
 		"actions": {
 			"source": {
-				"organizeImports": "on"
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							":NODE:",
+							":PACKAGE:",
+							":BLANK_LINE:",
+							":ALIAS:",
+							":PATH:",
+							":BLANK_LINE:",
+							{ "type": false }
+						]
+					}
+				},
+				"useSortedAttributes": "on"
 			}
 		}
 	}

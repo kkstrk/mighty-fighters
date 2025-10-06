@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+
 import type { CharacterName } from "@/characters";
 import Button from "@/components/Button/Button";
 import SoundButton from "@/components/SoundButton/SoundButton";
