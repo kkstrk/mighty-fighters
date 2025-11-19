@@ -37,7 +37,14 @@ const AboutDialog = ({ ref }: { ref: React.RefObject<AboutDialogRef | null> }) =
 					<p>TODO: add content</p>
 					<p>
 						The game is hosted as an open-source project on{" "}
-						<a href="https://github.com/kkstrk/mighty-fighters">GitHub</a>.
+						<a
+							href="https://github.com/kkstrk/mighty-fighters"
+							rel="noopener noreferrer"
+							target="_blank"
+						>
+							GitHub
+						</a>
+						.
 					</p>
 					<button
 						className={classes.closeButton}
