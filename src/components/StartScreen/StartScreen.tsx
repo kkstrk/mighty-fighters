@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { useSound } from "@/contexts/SoundContext/SoundContext";
+import { useSound } from "@/contexts/SoundContext";
 import useOptionSfx from "@/utils/useOptionSfx/useOptionSfx";
 import classes from "./StartScreen.module.css";
 

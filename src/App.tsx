@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import AboutDialog, { type AboutDialogRef } from "@/components/AboutDialog/AboutDialog";
 import PlayScreen from "@/components/PlayScreen/PlayScreen";
 import StartScreen from "@/components/StartScreen/StartScreen";
-import { SoundProvider } from "@/contexts/SoundContext/SoundContext";
+import { SoundProvider } from "@/contexts/SoundContext";
 import "./App.css";
 
 function App() {
