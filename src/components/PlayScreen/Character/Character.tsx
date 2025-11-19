@@ -1,5 +1,6 @@
 import Button from "@/components/Button/Button";
 import classNames from "@/utils/classNames";
+import UndoIcon from "./assets/undo.png";
 import classes from "./Character.module.css";
 
 function Character({
@@ -30,7 +31,12 @@ function Character({
 								!onUndo && classes.hiddenUndoButton,
 							)}
 						>
-							<Button onClick={onUndo}>↩︎</Button>
+							<Button onClick={onUndo}>
+								<img
+									alt="Undo"
+									src={UndoIcon}
+								/>
+							</Button>
 						</div>
 					</div>
 					<img
