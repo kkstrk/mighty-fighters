@@ -198,11 +198,11 @@ function CharacterOptions({
 					>
 						<img
 							alt={character}
-							src={`/mighty-fighters/avatars/${character}.png`}
+							src={`avatars/${character}.png`}
 						/>
 						<img
 							alt={character}
-							src={`/mighty-fighters/avatars/${character}-outline.png`}
+							src={`avatars/${character}-outline.png`}
 						/>
 					</button>
 				);

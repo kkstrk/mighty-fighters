@@ -23,7 +23,7 @@ function Character({
 						<img
 							alt={`${name} animation`}
 							className={classes.animation}
-							src={`/mighty-fighters/animations/${name}.gif`}
+							src={`animations/${name}.gif`}
 						/>
 						<div
 							className={classNames(
@@ -42,7 +42,7 @@ function Character({
 					<img
 						alt="Character platform"
 						className={classes.platform}
-						src={"/mighty-fighters/platform.png"}
+						src={"platform.png"}
 					/>
 				</>
 			)}
@@ -52,7 +52,7 @@ function Character({
 					alt={`${name} portrait`}
 					className={classes.portrait}
 					key={name}
-					src={`/mighty-fighters/portraits/${name}.png`}
+					src={`portraits/${name}.png`}
 				/>
 			)}
 		</div>
