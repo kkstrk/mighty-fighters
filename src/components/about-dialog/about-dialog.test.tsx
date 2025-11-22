@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { createRef } from "react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import AboutDialog, { type AboutDialogRef } from "./AboutDialog";
+import AboutDialog, { type AboutDialogRef } from "./about-dialog";
 
 describe("AboutDialog", () => {
 	let dialogRef: React.RefObject<AboutDialogRef | null>;

@@ -1,6 +1,6 @@
 import { useImperativeHandle, useRef } from "react";
 
-import classes from "./AboutDialog.module.css";
+import classes from "./about-dialog.module.css";
 
 interface AboutDialogRef {
 	open: () => void;

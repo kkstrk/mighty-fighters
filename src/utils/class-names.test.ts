@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-import classNames from "./classNames";
+import classNames from "./class-names";
 
 describe("classNames", () => {
 	test("returns empty string when no arguments provided", () => {

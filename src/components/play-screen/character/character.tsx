@@ -1,7 +1,7 @@
-import Button from "@/components/Button/Button";
-import classNames from "@/utils/classNames";
+import Button from "@/components/button/button";
+import classNames from "@/utils/class-names";
 import UndoIcon from "./assets/undo.png";
-import classes from "./Character.module.css";
+import classes from "./character.module.css";
 
 function Character({
 	align,

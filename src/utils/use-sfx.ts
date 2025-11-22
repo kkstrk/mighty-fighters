@@ -1,6 +1,6 @@
 import { useCallback, useRef } from "react";
 
-import { useSound } from "@/contexts/SoundContext";
+import { useSound } from "@/contexts/sound-context";
 
 const useSfx = (src: string) => {
 	const { isMuted } = useSound();

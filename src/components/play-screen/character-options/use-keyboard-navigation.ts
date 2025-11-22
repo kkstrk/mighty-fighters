@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import useSmallScreen from "@/utils/useSmallScreen";
+import useSmallScreen from "@/utils/use-small-screen";
 
 const BUTTON_ROWS = [
 	[0, 1, 2],

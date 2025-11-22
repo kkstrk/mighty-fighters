@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import type { CharacterName } from "@/characters";
-import Button from "@/components/Button/Button";
-import SoundButton from "@/components/SoundButton/SoundButton";
-import useOptionSfx from "@/utils/useOptionSfx/useOptionSfx";
-import useSmallScreen from "@/utils/useSmallScreen";
-import Character from "./Character/Character";
-import CharacterOptions from "./CharacterOptions/CharacterOptions";
-import classes from "./PlayScreen.module.css";
+import Button from "@/components/button/button";
+import SoundButton from "@/components/sound-button/sound-button";
+import useOptionSfx from "@/utils/use-option-sfx/use-option-sfx";
+import useSmallScreen from "@/utils/use-small-screen";
+import Character from "./character/character";
+import CharacterOptions from "./character-options/character-options";
+import classes from "./play-screen.module.css";
 
 type Player = 1 | 2;
 

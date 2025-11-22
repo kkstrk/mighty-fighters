@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
 
-import AboutDialog, { type AboutDialogRef } from "@/components/AboutDialog/AboutDialog";
-import PlayScreen from "@/components/PlayScreen/PlayScreen";
-import StartScreen from "@/components/StartScreen/StartScreen";
-import { SoundProvider } from "@/contexts/SoundContext";
-import "./App.css";
+import AboutDialog, { type AboutDialogRef } from "@/components/about-dialog/about-dialog";
+import PlayScreen from "@/components/play-screen/play-screen";
+import StartScreen from "@/components/start-screen/start-screen";
+import { SoundProvider } from "@/contexts/sound-context";
+import "./app.css";
 
 function App() {
 	const [hasStarted, setHasStarted] = useState(false);
