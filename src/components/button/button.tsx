@@ -1,4 +1,4 @@
-import classes from "./Button.module.css";
+import classes from "./button.module.css";
 
 const Button = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
 	<button

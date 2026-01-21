@@ -77,7 +77,7 @@ describe("AboutDialog", () => {
 		const user = userEvent.setup();
 		render(<AboutDialog ref={dialogRef} />);
 		const dialog = screen.getByRole("dialog", { hidden: true }) as HTMLDialogElement;
-		const content = within(dialog).getByText("TODO: add content");
+		const content = within(dialog).getByText("Programming:");
 
 		dialogRef.current?.open();
 		await user.click(content);
