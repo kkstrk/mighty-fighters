@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useSound } from "@/contexts/use-sound";
 import { useOptionSfx } from "@/utils/use-option-sfx/use-option-sfx";
@@ -12,7 +12,6 @@ const options = [START_OPTION, SOUND_OPTION, ABOUT_OPTION] as const;
 
 const StartScreen = ({ onStartClick, onAboutClick }: { onStartClick: () => void; onAboutClick: () => void }) => {
 	const [selectedOption, setSelectedOption] = useState<(typeof options)[number]>(START_OPTION);
-	const selectedIndexRef = useRef(0);
 	const { isMuted, startMusic, toggleMute } = useSound();
 	const { playHoverAudio } = useOptionSfx();
 
@@ -33,15 +32,11 @@ const StartScreen = ({ onStartClick, onAboutClick }: { onStartClick: () => void;
 	}, [onAboutClick]);
 
 	useEffect(() => {
-		selectedIndexRef.current = options.indexOf(selectedOption);
-	}, [selectedOption]);
-
-	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === "Tab" || event.key === "ArrowUp" || event.key === "ArrowDown") {
 				event.preventDefault();
 
-				const currentIndex = selectedIndexRef.current;
+				const currentIndex = options.indexOf(selectedOption);
 				let nextIndex: number;
 
 				if (event.key === "ArrowUp") {
@@ -57,13 +52,11 @@ const StartScreen = ({ onStartClick, onAboutClick }: { onStartClick: () => void;
 
 			if (event.key === "Enter" || event.key === " ") {
 				event.preventDefault();
-				const currentOption = options[selectedIndexRef.current];
-
-				if (currentOption === START_OPTION) {
+				if (selectedOption === START_OPTION) {
 					handleStartClick();
-				} else if (currentOption === SOUND_OPTION) {
+				} else if (selectedOption === SOUND_OPTION) {
 					handleSoundClick();
-				} else if (currentOption === ABOUT_OPTION) {
+				} else if (selectedOption === ABOUT_OPTION) {
 					handleAboutClick();
 				}
 			}
@@ -71,7 +64,7 @@ const StartScreen = ({ onStartClick, onAboutClick }: { onStartClick: () => void;
 
 		document.addEventListener("keydown", handleKeyDown);
 		return () => document.removeEventListener("keydown", handleKeyDown);
-	}, [handleStartClick, handleSoundClick, handleAboutClick, playHoverAudio]);
+	}, [selectedOption, handleStartClick, handleSoundClick, handleAboutClick, playHoverAudio]);
 
 	return (
 		<>
