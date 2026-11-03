@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-import { useSmallScreen } from "@/utils/use-small-screen";
+import { useIsSmallScreen } from "@/utils/use-is-small-screen";
 
 const BUTTON_ROWS = [
 	[0, 1, 2],
@@ -30,8 +30,7 @@ const useKeyboardNavigation = ({
 	const stickyColRef = useRef<number>(0);
 
 	// Temporary hack to disable keyboard navigation on small screens
-	const [disabled, setDisabled] = useState(false);
-	useSmallScreen(setDisabled);
+	const disabled = useIsSmallScreen();
 
 	useEffect(() => {
 		buttonsRef.current = [...(ref.current?.querySelectorAll<HTMLButtonElement>("button") ?? [])];
