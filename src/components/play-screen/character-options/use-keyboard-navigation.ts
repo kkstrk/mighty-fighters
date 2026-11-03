@@ -17,10 +17,12 @@ const getButtonPosition = (index: number) => {
 };
 
 const useKeyboardNavigation = ({
+	enabled,
 	ref,
 	initialIndex,
 	onFocus,
 }: {
+	enabled: boolean;
 	ref: React.RefObject<HTMLDivElement | null>;
 	initialIndex: number;
 	onFocus: (index: number) => void;
@@ -28,7 +30,8 @@ const useKeyboardNavigation = ({
 	const stickyColRef = useRef<number>(0);
 
 	// Temporary hack to disable keyboard navigation on small screens
-	const disabled = useIsSmallScreen();
+	const isSmallScreen = useIsSmallScreen();
+	const disabled = isSmallScreen || !enabled;
 
 	useEffect(() => {
 		if (disabled) {

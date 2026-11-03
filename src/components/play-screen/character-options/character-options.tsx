@@ -122,6 +122,7 @@ function CharacterOptions({
 	currentPlayer,
 	disabled,
 	highlighted,
+	keyboardEnabled,
 	onPick,
 	onPreview,
 	onRandom,
@@ -131,6 +132,7 @@ function CharacterOptions({
 	currentPlayer?: 1 | 2 | undefined;
 	disabled: boolean;
 	highlighted?: CharacterName | undefined;
+	keyboardEnabled: boolean;
 	onPick: (character: CharacterName) => void;
 	onPreview: (character?: CharacterName) => void;
 	onRandom: (queue: CharacterName[]) => void;
@@ -160,7 +162,7 @@ function CharacterOptions({
 		},
 		[onPreview],
 	);
-	useKeyboardNavigation({ ref: parentRef, initialIndex: -1, onFocus });
+	useKeyboardNavigation({ enabled: keyboardEnabled, ref: parentRef, initialIndex: -1, onFocus });
 
 	const handleCharacterPreview = useCallback(
 		(character?: CharacterName) => {

@@ -10,7 +10,15 @@ const ABOUT_OPTION = "about";
 
 const options = [START_OPTION, SOUND_OPTION, ABOUT_OPTION] as const;
 
-const StartScreen = ({ onStartClick, onAboutClick }: { onStartClick: () => void; onAboutClick: () => void }) => {
+const StartScreen = ({
+	keyboardEnabled,
+	onStartClick,
+	onAboutClick,
+}: {
+	keyboardEnabled: boolean;
+	onStartClick: () => void;
+	onAboutClick: () => void;
+}) => {
 	const [selectedOption, setSelectedOption] = useState<(typeof options)[number]>(START_OPTION);
 	const { isMuted, startMusic, toggleMute } = useSound();
 	const { playHoverAudio } = useOptionSfx();
@@ -32,6 +40,9 @@ const StartScreen = ({ onStartClick, onAboutClick }: { onStartClick: () => void;
 	}, [onAboutClick]);
 
 	useEffect(() => {
+		if (!keyboardEnabled) {
+			return;
+		}
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === "Tab" || event.key === "ArrowUp" || event.key === "ArrowDown") {
 				event.preventDefault();
@@ -64,7 +75,7 @@ const StartScreen = ({ onStartClick, onAboutClick }: { onStartClick: () => void;
 
 		document.addEventListener("keydown", handleKeyDown);
 		return () => document.removeEventListener("keydown", handleKeyDown);
-	}, [selectedOption, handleStartClick, handleSoundClick, handleAboutClick, playHoverAudio]);
+	}, [keyboardEnabled, selectedOption, handleStartClick, handleSoundClick, handleAboutClick, playHoverAudio]);
 
 	return (
 		<>

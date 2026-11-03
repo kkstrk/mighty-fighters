@@ -1,11 +1,9 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createRef } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import type { MockInstance } from "vite-plus/test";
 
 import { AboutDialog } from "./about-dialog";
-import type { AboutDialogRef } from "./about-dialog";
 
 const getDialog = () => {
 	const dialog = screen.getByRole("dialog", { hidden: true });
@@ -16,13 +14,10 @@ const getDialog = () => {
 };
 
 describe("AboutDialog", () => {
-	let dialogRef: React.RefObject<AboutDialogRef | null>;
-
 	let showModal: MockInstance<typeof HTMLDialogElement.prototype.showModal>;
 	let close: MockInstance<typeof HTMLDialogElement.prototype.close>;
 
 	beforeEach(() => {
-		dialogRef = createRef<AboutDialogRef | null>();
 		// jsdom does not implement the dialog methods, so they must exist before spying
 		HTMLDialogElement.prototype.showModal = () => {};
 		HTMLDialogElement.prototype.close = () => {};
@@ -40,92 +35,75 @@ describe("AboutDialog", () => {
 		vi.restoreAllMocks();
 	});
 
-	it("renders dialog element", () => {
-		render(<AboutDialog ref={dialogRef} />);
-		const dialog = screen.getByRole("dialog", { hidden: true });
-		expect(dialog).toBeInTheDocument();
+	it("stays closed while open is false", () => {
+		render(<AboutDialog onClose={vi.fn<() => void>()} open={false} />);
+
+		expect(getDialog()).not.toHaveAttribute("open");
+		expect(showModal).not.toHaveBeenCalled();
 	});
 
-	it("dialog is initially closed", () => {
-		render(<AboutDialog ref={dialogRef} />);
-		const dialog = screen.getByRole("dialog", { hidden: true });
-		expect(dialog).not.toHaveAttribute("open");
-	});
+	it("shows the dialog modally when open becomes true", () => {
+		const { rerender } = render(<AboutDialog onClose={vi.fn<() => void>()} open={false} />);
 
-	it("exposes open method through ref", () => {
-		render(<AboutDialog ref={dialogRef} />);
-		expect(dialogRef.current).toBeDefined();
-		expect(dialogRef.current?.open).toBeDefined();
-		expect(typeof dialogRef.current?.open).toBe("function");
-	});
+		rerender(<AboutDialog onClose={vi.fn<() => void>()} open />);
 
-	it("opens dialog when open method is called", () => {
-		render(<AboutDialog ref={dialogRef} />);
-
-		dialogRef.current?.open();
-
-		expect(showModal).toHaveBeenCalled();
-	});
-
-	it("closes dialog when close button is clicked", async () => {
-		const user = userEvent.setup();
-		render(<AboutDialog ref={dialogRef} />);
-		const dialog = getDialog();
-		const closeButton = within(dialog).getByRole("button", { name: "X", hidden: true });
-
-		dialogRef.current?.open();
-		await user.click(closeButton);
-
-		expect(close).toHaveBeenCalled();
-	});
-
-	it("closes dialog when backdrop is clicked", async () => {
-		const user = userEvent.setup();
-		render(<AboutDialog ref={dialogRef} />);
-		const dialog = getDialog();
-
-		dialogRef.current?.open();
-		await user.click(dialog);
-
-		expect(close).toHaveBeenCalled();
-	});
-
-	it("does not close dialog when content area is clicked", async () => {
-		const user = userEvent.setup();
-		render(<AboutDialog ref={dialogRef} />);
-		const dialog = getDialog();
-		const content = within(dialog).getByText("Programming:");
-
-		dialogRef.current?.open();
-		await user.click(content);
-
-		expect(close).not.toHaveBeenCalled();
-	});
-
-	it("close button has correct type attribute", () => {
-		render(<AboutDialog ref={dialogRef} />);
-		const dialog = screen.getByRole("dialog", { hidden: true });
-		const closeButton = within(dialog).getByRole("button", { name: "X", hidden: true });
-		expect(closeButton).toHaveAttribute("type", "button");
-	});
-
-	it("close button has correct title attribute", () => {
-		render(<AboutDialog ref={dialogRef} />);
-		const dialog = screen.getByRole("dialog", { hidden: true });
-		const closeButton = within(dialog).getByRole("button", { name: "X", hidden: true });
-		expect(closeButton).toHaveAttribute("title", "Close");
-	});
-
-	it("handles multiple open and close cycles", () => {
-		render(<AboutDialog ref={dialogRef} />);
-
-		dialogRef.current?.open();
 		expect(showModal).toHaveBeenCalledTimes(1);
+		expect(getDialog()).toHaveAttribute("open");
+	});
 
-		dialogRef.current?.open();
-		expect(showModal).toHaveBeenCalledTimes(2);
+	it("closes the dialog when open becomes false", () => {
+		const { rerender } = render(<AboutDialog onClose={vi.fn<() => void>()} open />);
 
-		dialogRef.current?.open();
-		expect(showModal).toHaveBeenCalledTimes(3);
+		rerender(<AboutDialog onClose={vi.fn<() => void>()} open={false} />);
+
+		expect(close).toHaveBeenCalledTimes(1);
+	});
+
+	it("reports close when the close button is clicked", async () => {
+		const user = userEvent.setup();
+		const onClose = vi.fn<() => void>();
+		render(<AboutDialog onClose={onClose} open />);
+
+		await user.click(within(getDialog()).getByRole("button", { name: "X", hidden: true }));
+
+		expect(onClose).toHaveBeenCalledTimes(1);
+	});
+
+	it("reports close when the backdrop is clicked", async () => {
+		const user = userEvent.setup();
+		const onClose = vi.fn<() => void>();
+		render(<AboutDialog onClose={onClose} open />);
+
+		await user.click(getDialog());
+
+		expect(onClose).toHaveBeenCalledTimes(1);
+	});
+
+	it("does not report close when the content is clicked", async () => {
+		const user = userEvent.setup();
+		const onClose = vi.fn<() => void>();
+		render(<AboutDialog onClose={onClose} open />);
+
+		await user.click(within(getDialog()).getByText("Programming:"));
+
+		expect(onClose).not.toHaveBeenCalled();
+	});
+
+	it("reports close when the dialog closes natively", () => {
+		const onClose = vi.fn<() => void>();
+		render(<AboutDialog onClose={onClose} open />);
+
+		getDialog().dispatchEvent(new Event("close"));
+
+		expect(onClose).toHaveBeenCalledTimes(1);
+	});
+
+	it("has a close button with type and title", () => {
+		render(<AboutDialog onClose={vi.fn<() => void>()} open={false} />);
+
+		const closeButton = within(getDialog()).getByRole("button", { name: "X", hidden: true });
+
+		expect(closeButton).toHaveAttribute("type", "button");
+		expect(closeButton).toHaveAttribute("title", "Close");
 	});
 });

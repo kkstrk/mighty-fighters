@@ -1,7 +1,6 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { AboutDialog } from "@/components/about-dialog/about-dialog";
-import type { AboutDialogRef } from "@/components/about-dialog/about-dialog";
 import { PlayScreen } from "@/components/play-screen/play-screen";
 import { StartScreen } from "@/components/start-screen/start-screen";
 import { SoundProvider } from "@/contexts/sound-context";
@@ -9,21 +8,28 @@ import "./app.css";
 
 function App() {
 	const [hasStarted, setHasStarted] = useState(false);
-	const aboutDialogRef = useRef<AboutDialogRef>(null);
+	const [isAboutOpen, setIsAboutOpen] = useState(false);
 	const handleStartClick = useCallback(() => {
 		setHasStarted(true);
 	}, []);
 	const handleAboutClick = useCallback(() => {
-		aboutDialogRef.current?.open();
+		setIsAboutOpen(true);
+	}, []);
+	const handleAboutClose = useCallback(() => {
+		setIsAboutOpen(false);
 	}, []);
 	return (
 		<SoundProvider>
 			{hasStarted ? (
-				<PlayScreen onAboutClick={handleAboutClick} />
+				<PlayScreen keyboardEnabled={!isAboutOpen} onAboutClick={handleAboutClick} />
 			) : (
-				<StartScreen onAboutClick={handleAboutClick} onStartClick={handleStartClick} />
+				<StartScreen
+					keyboardEnabled={!isAboutOpen}
+					onAboutClick={handleAboutClick}
+					onStartClick={handleStartClick}
+				/>
 			)}
-			<AboutDialog ref={aboutDialogRef} />
+			<AboutDialog onClose={handleAboutClose} open={isAboutOpen} />
 		</SoundProvider>
 	);
 }
