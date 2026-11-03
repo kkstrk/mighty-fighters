@@ -22,17 +22,12 @@ const PlayScreenContent = ({ isSinglePlayer, onAboutClick }: { isSinglePlayer: b
 
 	const handleCharacterChange = useCallback(
 		(character: CharacterName) => {
-			setPlayerCharacters((prev) => {
-				const player = !isSinglePlayer && prev[1] !== undefined ? 2 : 1;
-				selectionHistoryRef.current.push(player);
-				return {
-					...prev,
-					[player]: character,
-				};
-			});
+			const player = !isSinglePlayer && playerCharacters[1] !== undefined ? 2 : 1;
+			selectionHistoryRef.current.push(player);
+			setPlayerCharacters({ ...playerCharacters, [player]: character });
 			setPreviewCharacter(undefined);
 		},
-		[isSinglePlayer],
+		[isSinglePlayer, playerCharacters],
 	);
 
 	const handleCharacterUndo = useCallback(
