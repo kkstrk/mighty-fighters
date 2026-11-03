@@ -4,10 +4,10 @@ import SoundOffIcon from "./assets/sound-off.png";
 import SoundOnIcon from "./assets/sound-on.png";
 
 const SoundButton = () => {
-	const { isMuted, toggleMusic } = useSound();
+	const { isMuted, toggleMute } = useSound();
 
 	return (
-		<Button onClick={toggleMusic} title={isMuted ? "Unmute" : "Mute"}>
+		<Button onClick={toggleMute} title={isMuted ? "Unmute" : "Mute"}>
 			<img alt={isMuted ? "Sound off icon" : "Sound on icon"} src={isMuted ? SoundOffIcon : SoundOnIcon} />
 		</Button>
 	);
