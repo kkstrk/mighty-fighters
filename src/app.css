@@ -41,8 +41,7 @@
 }
 
 html,
-body,
-#root {
+body {
 	inline-size: 100%;
 	block-size: 100%;
 }
@@ -59,9 +58,12 @@ body {
 	background-size: cover;
 }
 
+/* stylelint-disable-next-line selector-max-id -- the mount point id comes from index.html */
 #root {
 	display: flex;
 	flex-direction: column;
+	inline-size: 100%;
+	block-size: 100%;
 }
 
 img {
