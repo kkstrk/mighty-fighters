@@ -10,7 +10,7 @@ const useSfx = (src: string) => {
 	const play = useCallback(() => {
 		if (!isMuted) {
 			audioRef.current.currentTime = 0;
-			audioRef.current.play();
+			void audioRef.current.play();
 		}
 	}, [isMuted]);
 
