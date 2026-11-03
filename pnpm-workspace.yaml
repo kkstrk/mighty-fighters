@@ -1,3 +1,9 @@
+# vite is vite-plus-core, which versions on its own line.
+overrides:
+  vite: npm:@voidzero-dev/vite-plus-core@1.4.0
+peerDependencyRules:
+  allowedVersions:
+    vite: "1"
 # Only packages listed here may run install scripts.
 allowBuilds: {}
 strictDepBuilds: true
