@@ -140,7 +140,6 @@ function CharacterOptions({
 	playerTwo?: CharacterName | undefined;
 }) {
 	const parentRef = useRef<HTMLDivElement>(null);
-	const previewTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 	const hoveredCharacterRef = useRef<CharacterName | undefined>(undefined);
 
 	const { play: playRandomizeAudio } = useSfx(RandomizeAudio);
@@ -149,7 +148,6 @@ function CharacterOptions({
 
 	const confirmCharacter = useCallback(
 		(character: CharacterName) => {
-			clearTimeout(previewTimeoutRef.current);
 			onPick(character);
 			playConfirmAudio();
 		},
@@ -164,35 +162,14 @@ function CharacterOptions({
 	);
 	useKeyboardNavigation({ enabled: keyboardEnabled, ref: parentRef, initialIndex: -1, onFocus });
 
-	const handleCharacterPreview = useCallback(
-		(character?: CharacterName) => {
-			clearTimeout(previewTimeoutRef.current);
-			if (character) {
-				previewTimeoutRef.current = setTimeout(() => {
-					onPreview(character);
-				}, 250);
-			} else {
-				onPreview();
-			}
-		},
-		[onPreview],
-	);
-
-	useEffect(
-		() => () => {
-			clearTimeout(previewTimeoutRef.current);
-		},
-		[],
-	);
-
 	const handleBlur = useCallback(() => {
 		// preview the hovered element when focus is moved outside options
 		if (hoveredCharacterRef.current !== undefined && parentRef.current?.contains(document.activeElement) !== true) {
-			handleCharacterPreview(hoveredCharacterRef.current);
+			onPreview(hoveredCharacterRef.current);
 		} else {
-			handleCharacterPreview();
+			onPreview();
 		}
-	}, [handleCharacterPreview]);
+	}, [onPreview]);
 
 	const handleFocus = useCallback(
 		(character?: CharacterName) => {
@@ -207,12 +184,12 @@ function CharacterOptions({
 	const handleMouseMove = useCallback(
 		(character?: CharacterName) => {
 			hoveredCharacterRef.current = character;
-			handleCharacterPreview(character);
+			onPreview(character);
 			if (character) {
 				playHoverAudio();
 			}
 		},
-		[handleCharacterPreview, playHoverAudio],
+		[onPreview, playHoverAudio],
 	);
 
 	const handleRandomOptionClick = useCallback(() => {
