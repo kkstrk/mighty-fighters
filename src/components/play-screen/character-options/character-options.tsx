@@ -151,17 +151,16 @@ function CharacterOptions({
 			return;
 		}
 
-		if (randomAnimatingQueue.length === 1) {
-			const [lastCharacter] = randomAnimatingQueue;
-			if (lastCharacter) {
+		const timeout = setTimeout(() => {
+			if (randomAnimatingQueue.length > 2) {
+				setRandomAnimatingQueue((queue) => queue.slice(1));
+				return;
+			}
+			const lastCharacter = randomAnimatingQueue.at(-1);
+			if (lastCharacter !== undefined) {
 				onChange(lastCharacter);
 			}
 			setRandomAnimatingQueue([]);
-			return;
-		}
-
-		const timeout = setTimeout(() => {
-			setRandomAnimatingQueue((queue) => queue.slice(1));
 		}, 150);
 		return () => clearTimeout(timeout);
 	}, [onChange, randomAnimatingQueue]);
