@@ -27,17 +27,13 @@ const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 	}, [audio, isMuted]);
 
 	const toggleMusic = useCallback(() => {
-		setIsMuted((prev) => {
-			const muted = !prev;
-			localStorage.setItem(SOUND_STORAGE_KEY, String(muted));
-			if (prev) {
-				void playQuietly(audio);
-				return false;
-			}
+		if (isMuted) {
+			void playQuietly(audio);
+		} else {
 			audio.pause();
-			return true;
-		});
-	}, [audio]);
+		}
+		setMuted(!isMuted);
+	}, [audio, isMuted, setMuted]);
 
 	const toggleMute = useCallback(() => {
 		setMuted(!isMuted);
