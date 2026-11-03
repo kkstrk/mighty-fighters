@@ -29,7 +29,7 @@ const useKeyboardNavigation = ({
 	const focusedIndexRef = useRef<number>(0);
 	const stickyColRef = useRef<number>(0);
 
-	// TODO: temporary hack to disable keyboard navigation on small screens
+	// Temporary hack to disable keyboard navigation on small screens
 	const [disabled, setDisabled] = useState(false);
 	useSmallScreen(setDisabled);
 
@@ -74,7 +74,7 @@ const useKeyboardNavigation = ({
 			event.preventDefault();
 
 			if (ref.current?.contains(document.activeElement) !== true) {
-				const button = buttons.at(initialIndex) ?? buttons.find((button) => !button.disabled);
+				const button = buttons.at(initialIndex) ?? buttons.find((candidate) => !candidate.disabled);
 				if (button) {
 					button.focus();
 					focusedIndexRef.current = buttons.indexOf(button);
