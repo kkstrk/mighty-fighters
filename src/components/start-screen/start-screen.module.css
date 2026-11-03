@@ -52,7 +52,7 @@
 	text-shadow: var(--text-shadow-yellow);
 }
 
-.item[data-selected="true"] .option:focus {
+.item[data-selected="true"] .option:focus-visible {
 	color: var(--color-yellow-3);
 	text-shadow: var(--text-shadow-yellow);
 }

@@ -81,10 +81,6 @@ a:hover {
 	color: var(--color-yellow-2);
 }
 
-a:focus {
-	color: var(--color-yellow-3);
-}
-
 a:focus-visible {
 	color: var(--color-yellow-3);
 	outline: none;
