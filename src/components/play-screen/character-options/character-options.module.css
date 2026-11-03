@@ -163,6 +163,7 @@
 .options[data-turn="p1"] > .option:hover::before,
 .options[data-turn="p1"] > .option:focus-visible::before {
 	background-image: url("./assets/hex-p1.png");
+	background-repeat: no-repeat;
 }
 
 .options > .characterOption.p2::before,
@@ -170,6 +171,7 @@
 .options[data-turn="p2"] > .option:hover::before,
 .options[data-turn="p2"] > .option:focus-visible::before {
 	background-image: url("./assets/hex-p2.png");
+	background-repeat: no-repeat;
 }
 
 .options > .characterOption.p1.p2::before,
@@ -180,6 +182,7 @@
 .options[data-turn="p1"] > .characterOption.p2:focus-visible::before,
 .options[data-turn="p1"] > .characterOption.p2[data-highlighted="true"]::before {
 	background-image: url("./assets/hex-p1-p2.png");
+	background-repeat: no-repeat;
 }
 
 .options > .option:focus-visible::before {
@@ -223,14 +226,17 @@
 
 .lockedOption {
 	background-image: url("./assets/hex-locked.png");
+	background-repeat: no-repeat;
 }
 
 .lockedOptionAnimating {
 	background-image: url("./assets/hex-locked-animation.gif");
+	background-repeat: no-repeat;
 }
 
 .randomOption {
 	background-image: url("./assets/hex-random.png");
+	background-repeat: no-repeat;
 }
 
 @keyframes blink {
