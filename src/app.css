@@ -55,6 +55,7 @@ body {
 	color: var(--color-light-1);
 	background-color: #355058;
 	background-image: url("./assets/background.png");
+	background-repeat: no-repeat;
 	background-size: cover;
 }
 
