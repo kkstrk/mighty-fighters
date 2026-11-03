@@ -2,6 +2,7 @@
 	position: relative;
 	padding: 0;
 	overflow: auto;
+	overscroll-behavior: contain;
 	font: inherit;
 	color: inherit;
 	background-color: var(--background-color);
