@@ -1,0 +1,78 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ci-${{ github.ref }}
+    cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+    verify:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+            # actionlint does not know the $/ self-repository syntax yet.
+            - uses: ./.github/actions/setup # zizmor: ignore[self-repository]
+            - run: pnpm lint
+            - run: pnpm typecheck
+            - run: pnpm test
+            # Only what ships; a dev tool's advisory must not block CI.
+            - run: pnpm audit --prod --audit-level high
+
+    e2e:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+            # actionlint does not know the $/ self-repository syntax yet.
+            - uses: ./.github/actions/setup # zizmor: ignore[self-repository]
+            - uses: ./.github/actions/playwright # zizmor: ignore[self-repository]
+            - run: pnpm test:e2e
+
+    # Hooks can be skipped, so the whole history is scanned here too.
+    secrets:
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+            - uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    workflows:
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+            - uses: raven-actions/actionlint@3d39aea434753780c3b3d4a1a31c854b4dbf49d7 # v2.2.0
+            - uses: zizmorcore/zizmor-action@53290badfa369cb0bf7ad16342cb62c2fa47ac7b # v0.8.0
+              with:
+                  # Findings go to the log; code scanning needs security-events: write.
+                  advanced-security: false
+
+    # The one check branch protection requires, so adding or renaming a job never changes the rules.
+    ci-ok:
+        if: always()
+        needs: [verify, secrets, workflows]
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        steps:
+            - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+              run: exit 1
