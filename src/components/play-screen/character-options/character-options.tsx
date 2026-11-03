@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import characters from '@/characters';
-import type { CharacterName } from '@/characters';
+import characters from "@/characters";
+import type { CharacterName } from "@/characters";
 import classNames from "@/utils/class-names";
 import useOptionSfx from "@/utils/use-option-sfx/use-option-sfx";
 import useSfx from "@/utils/use-sfx";
@@ -27,13 +27,14 @@ function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 		[props.onClick],
 	);
 
-	useEffect(() => 
-		() => {
+	useEffect(
+		() => () => {
 			if (animationTimeoutRef.current) {
 				clearTimeout(animationTimeoutRef.current);
 			}
-		}
-	, []);
+		},
+		[],
+	);
 
 	return (
 		<button

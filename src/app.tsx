@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
-import AboutDialog from '@/components/about-dialog/about-dialog';
-import type { AboutDialogRef } from '@/components/about-dialog/about-dialog';
+import AboutDialog from "@/components/about-dialog/about-dialog";
+import type { AboutDialogRef } from "@/components/about-dialog/about-dialog";
 import PlayScreen from "@/components/play-screen/play-screen";
 import StartScreen from "@/components/start-screen/start-screen";
 import { SoundProvider } from "@/contexts/sound-context";

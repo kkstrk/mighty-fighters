@@ -12,9 +12,7 @@ const SoundContext = createContext<
 
 const SOUND_STORAGE_KEY = "mightyfighters-muted";
 
-const getSoundFromStorage = () => 
-	localStorage.getItem(SOUND_STORAGE_KEY) === "true"
-;
+const getSoundFromStorage = () => localStorage.getItem(SOUND_STORAGE_KEY) === "true";
 
 const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 	const audioRef = useRef(new Audio("https://pub-e1a4a16315c645b89296d37efc689f8f.r2.dev/music.wav"));
