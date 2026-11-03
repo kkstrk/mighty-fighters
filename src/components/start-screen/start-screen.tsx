@@ -77,21 +77,36 @@ const StartScreen = ({ onStartClick, onAboutClick }: { onStartClick: () => void;
 		<>
 			<main className={classes.main}>
 				<div className={classes.title} />
-				<ul>
-					<li data-selected={selectedOption === START_OPTION}>
-						<button onClick={handleStartClick} onMouseEnter={playHoverAudio} type="button">
+				<ul className={classes.list}>
+					<li className={classes.item} data-selected={selectedOption === START_OPTION}>
+						<button
+							className={classes.option}
+							onClick={handleStartClick}
+							onMouseEnter={playHoverAudio}
+							type="button"
+						>
 							{START_OPTION}
 						</button>
 					</li>
-					<li data-selected={selectedOption === SOUND_OPTION}>
-						<button onClick={handleSoundClick} onMouseEnter={playHoverAudio} type="button">
+					<li className={classes.item} data-selected={selectedOption === SOUND_OPTION}>
+						<button
+							className={classes.option}
+							onClick={handleSoundClick}
+							onMouseEnter={playHoverAudio}
+							type="button"
+						>
 							{selectedOption === SOUND_OPTION
 								? `${SOUND_OPTION}: ${isMuted ? "off" : "on"}`
 								: SOUND_OPTION}
 						</button>
 					</li>
-					<li data-selected={selectedOption === ABOUT_OPTION}>
-						<button onClick={handleAboutClick} onMouseEnter={playHoverAudio} type="button">
+					<li className={classes.item} data-selected={selectedOption === ABOUT_OPTION}>
+						<button
+							className={classes.option}
+							onClick={handleAboutClick}
+							onMouseEnter={playHoverAudio}
+							type="button"
+						>
 							{ABOUT_OPTION}
 						</button>
 					</li>
