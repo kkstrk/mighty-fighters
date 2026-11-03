@@ -47,9 +47,11 @@
 	background-color: inherit;
 }
 
-.closeButton:hover {
-	color: var(--color-light-2);
-	text-shadow: var(--text-shadow-light);
+@media (hover: hover) {
+	.closeButton:hover {
+		color: var(--color-light-2);
+		text-shadow: var(--text-shadow-light);
+	}
 }
 
 .separator {

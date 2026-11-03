@@ -77,8 +77,10 @@ a {
 	text-decoration: none;
 }
 
-a:hover {
-	color: var(--color-yellow-2);
+@media (hover: hover) {
+	a:hover {
+		color: var(--color-yellow-2);
+	}
 }
 
 a:focus-visible {

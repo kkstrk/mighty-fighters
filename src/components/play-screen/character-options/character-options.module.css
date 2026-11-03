@@ -142,10 +142,7 @@
 	pointer-events: none;
 }
 
-.options > .option:hover::before,
-.options > .option:focus-visible::before,
-.characterOption[data-selected="true"]::before,
-.characterOption[data-highlighted="true"]::before {
+.option::before {
 	position: absolute;
 	inset-block-start: -2px;
 	inset-inline-start: -2px;
@@ -160,38 +157,58 @@
 
 .options > .characterOption.p1::before,
 .options[data-turn="p1"] > .characterOption[data-highlighted="true"]::before,
-.options[data-turn="p1"] > .option:hover::before,
 .options[data-turn="p1"] > .option:focus-visible::before {
 	background-image: url("./assets/hex-p1.png");
 	background-repeat: no-repeat;
 }
 
+@media (hover: hover) {
+	.options[data-turn="p1"] > .option:hover::before {
+		background-image: url("./assets/hex-p1.png");
+		background-repeat: no-repeat;
+	}
+}
+
 .options > .characterOption.p2::before,
 .options[data-turn="p2"] > .characterOption[data-highlighted="true"]::before,
-.options[data-turn="p2"] > .option:hover::before,
 .options[data-turn="p2"] > .option:focus-visible::before {
 	background-image: url("./assets/hex-p2.png");
 	background-repeat: no-repeat;
 }
 
+@media (hover: hover) {
+	.options[data-turn="p2"] > .option:hover::before {
+		background-image: url("./assets/hex-p2.png");
+		background-repeat: no-repeat;
+	}
+}
+
 .options > .characterOption.p1.p2::before,
-.options[data-turn="p2"] > .characterOption.p1:hover::before,
 .options[data-turn="p2"] > .characterOption.p1:focus-visible::before,
 .options[data-turn="p2"] > .characterOption.p1[data-highlighted="true"]::before,
-.options[data-turn="p1"] > .characterOption.p2:hover::before,
 .options[data-turn="p1"] > .characterOption.p2:focus-visible::before,
 .options[data-turn="p1"] > .characterOption.p2[data-highlighted="true"]::before {
 	background-image: url("./assets/hex-p1-p2.png");
 	background-repeat: no-repeat;
 }
 
+@media (hover: hover) {
+	.options[data-turn="p2"] > .characterOption.p1:hover::before,
+	.options[data-turn="p1"] > .characterOption.p2:hover::before {
+		background-image: url("./assets/hex-p1-p2.png");
+		background-repeat: no-repeat;
+	}
+}
+
 .options > .option:focus-visible::before {
 	opacity: 0.69;
 }
 
-.options > .option:hover::before,
-.characterOption:hover > .avatar:last-child:not(:only-child) {
-	animation: blink 0.75s linear infinite;
+@media (hover: hover) {
+	.options > .option:hover::before,
+	.characterOption:hover > .avatar:last-child:not(:only-child) {
+		animation: blink 0.75s linear infinite;
+	}
 }
 
 .characterOption > .avatar {
