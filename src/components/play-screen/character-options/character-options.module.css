@@ -204,7 +204,7 @@
 	opacity: 0.69;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
 	.options > .option:hover::before,
 	.characterOption:hover > .avatar:last-child:not(:only-child) {
 		animation: blink 0.75s linear infinite;

@@ -15,7 +15,12 @@
 .item {
 	display: flex;
 	margin: var(--space-4) 0;
-	transition: transform 0.15s ease-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.item {
+		transition: transform 0.15s ease-out;
+	}
 }
 
 .item::before {
@@ -34,7 +39,17 @@
 	position: relative;
 	display: inline-block;
 	cursor: pointer;
-	transition: all 0.15s ease-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.option {
+		/* stylelint-disable plugin/no-low-performance-animation-properties -- keeps the glow fade on the menu labels */
+		transition:
+			color 0.15s ease-out,
+			text-shadow 0.15s ease-out,
+			transform 0.15s ease-out;
+		/* stylelint-enable plugin/no-low-performance-animation-properties */
+	}
 }
 
 @media (hover: hover) {
