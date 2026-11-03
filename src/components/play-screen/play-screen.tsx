@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 
 import type { CharacterName } from "@/characters";
 import { Button } from "@/components/button/button";
@@ -8,66 +8,66 @@ import { useOptionSfx } from "@/utils/use-option-sfx/use-option-sfx";
 import { Character } from "./character/character";
 import { CharacterOptions } from "./character-options/character-options";
 import classes from "./play-screen.module.css";
+import { initialSelection, isComplete, isLocked, nextPlayer, selectionReducer } from "./selection-reducer";
+import type { Player } from "./selection-reducer";
 
-type Player = 1 | 2;
-
-const initialPlayerCharacters = { 1: undefined, 2: undefined };
+const RANDOM_STEP_MS = 150;
 
 const PlayScreenContent = ({ isSinglePlayer, onAboutClick }: { isSinglePlayer: boolean; onAboutClick: () => void }) => {
-	const [playerCharacters, setPlayerCharacters] =
-		useState<Record<Player, CharacterName | undefined>>(initialPlayerCharacters);
+	const [selection, dispatch] = useReducer(selectionReducer, isSinglePlayer, initialSelection);
 	const [previewCharacter, setPreviewCharacter] = useState<CharacterName>();
-	const selectionHistoryRef = useRef<Player[]>([]);
 	const { playDisabledAudio } = useOptionSfx();
 
-	const handleCharacterChange = useCallback(
-		(character: CharacterName) => {
-			const player = !isSinglePlayer && playerCharacters[1] !== undefined ? 2 : 1;
-			selectionHistoryRef.current.push(player);
-			setPlayerCharacters({ ...playerCharacters, [player]: character });
-			setPreviewCharacter(undefined);
-		},
-		[isSinglePlayer, playerCharacters],
-	);
+	const handlePick = useCallback((character: CharacterName) => {
+		dispatch({ type: "pick", character });
+		setPreviewCharacter(undefined);
+	}, []);
 
-	const handleCharacterUndo = useCallback(
+	const handleRandom = useCallback((queue: CharacterName[]) => {
+		dispatch({ type: "randomStart", queue });
+	}, []);
+
+	const handleUndo = useCallback(
 		(player: Player) => {
 			playDisabledAudio();
-			setPlayerCharacters((prev) => ({
-				...prev,
-				[player]: undefined,
-			}));
-			selectionHistoryRef.current = selectionHistoryRef.current.filter((p) => p !== player);
+			dispatch({ type: "undo", player });
 		},
 		[playDisabledAudio],
 	);
-
 	const handleUndoPlayerOne = useCallback(() => {
-		handleCharacterUndo(1);
-	}, [handleCharacterUndo]);
+		handleUndo(1);
+	}, [handleUndo]);
 	const handleUndoPlayerTwo = useCallback(() => {
-		handleCharacterUndo(2);
-	}, [handleCharacterUndo]);
+		handleUndo(2);
+	}, [handleUndo]);
+
+	const { phase } = selection;
+	useEffect(() => {
+		if (phase.status !== "randomizing") {
+			return;
+		}
+		const timeout = setTimeout(() => {
+			dispatch({ type: "randomTick" });
+		}, RANDOM_STEP_MS);
+		return () => clearTimeout(timeout);
+	}, [phase]);
 
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === "Backspace") {
 				event.preventDefault();
-				const lastPlayer = selectionHistoryRef.current.at(-1);
-				if (lastPlayer) {
-					handleCharacterUndo(lastPlayer);
-				}
+				dispatch({ type: "undoLast" });
 			}
 		};
 		globalThis.addEventListener("keydown", handleKeyDown);
 		return () => globalThis.removeEventListener("keydown", handleKeyDown);
-	}, [handleCharacterUndo]);
+	}, []);
 
-	const { 1: playerOne, 2: playerTwo } = playerCharacters;
-
-	const disabled = isSinglePlayer ? false : Boolean(playerOne && playerTwo);
-	const nextPlayer: Player = !isSinglePlayer && playerOne !== undefined ? 2 : 1;
-	const currentPlayer = disabled ? undefined : nextPlayer;
+	const { 1: playerOne, 2: playerTwo } = selection.slots;
+	const disabled = isLocked(selection);
+	// The turn marker stays during the random animation; the highlight is styled from it.
+	const currentPlayer = isComplete(selection) ? undefined : nextPlayer(selection);
+	const highlighted = phase.status === "randomizing" ? phase.queue[0] : undefined;
 
 	return (
 		<>
@@ -80,8 +80,10 @@ const PlayScreenContent = ({ isSinglePlayer, onAboutClick }: { isSinglePlayer: b
 				<CharacterOptions
 					currentPlayer={currentPlayer}
 					disabled={disabled}
-					onChange={handleCharacterChange}
+					highlighted={highlighted}
+					onPick={handlePick}
 					onPreview={setPreviewCharacter}
+					onRandom={handleRandom}
 					playerOne={playerOne}
 					playerTwo={playerTwo}
 				/>

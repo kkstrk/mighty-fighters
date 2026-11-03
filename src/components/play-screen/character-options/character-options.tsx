@@ -120,37 +120,37 @@ function CharacterOption({
 
 function CharacterOptions({
 	currentPlayer,
-	disabled: disabledProp,
-	onChange,
+	disabled,
+	highlighted,
+	onPick,
 	onPreview,
+	onRandom,
 	playerOne,
 	playerTwo,
 }: {
 	currentPlayer?: 1 | 2 | undefined;
 	disabled: boolean;
-	onChange: (character: CharacterName) => void;
+	highlighted?: CharacterName | undefined;
+	onPick: (character: CharacterName) => void;
 	onPreview: (character?: CharacterName) => void;
+	onRandom: (queue: CharacterName[]) => void;
 	playerOne?: CharacterName | undefined;
 	playerTwo?: CharacterName | undefined;
 }) {
 	const parentRef = useRef<HTMLDivElement>(null);
 	const previewTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-	const randomTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 	const hoveredCharacterRef = useRef<CharacterName | undefined>(undefined);
 
 	const { play: playRandomizeAudio } = useSfx(RandomizeAudio);
-	const [randomAnimatingQueue, setRandomAnimatingQueue] = useState<CharacterName[]>([]);
 
 	const { playHoverAudio, playDisabledAudio, playConfirmAudio } = useOptionSfx();
 
-	const disabled = disabledProp || randomAnimatingQueue.length > 0;
-
 	const confirmCharacter = useCallback(
 		(character: CharacterName) => {
-			onChange(character);
+			onPick(character);
 			playConfirmAudio();
 		},
-		[onChange, playConfirmAudio],
+		[onPick, playConfirmAudio],
 	);
 
 	const onFocus = useCallback(
@@ -208,33 +208,9 @@ function CharacterOptions({
 	);
 
 	const handleRandomOptionClick = useCallback(() => {
-		const queue = characters.toSorted(() => Math.random() - 0.5);
-		const advance = (remaining: CharacterName[]) => {
-			randomTimeoutRef.current = setTimeout(() => {
-				if (remaining.length > 2) {
-					const next = remaining.slice(1);
-					setRandomAnimatingQueue(next);
-					advance(next);
-					return;
-				}
-				const lastCharacter = remaining.at(-1);
-				if (lastCharacter !== undefined) {
-					onChange(lastCharacter);
-				}
-				setRandomAnimatingQueue([]);
-			}, 150);
-		};
-		setRandomAnimatingQueue(queue);
-		advance(queue);
+		onRandom(characters.toSorted(() => Math.random() - 0.5));
 		playRandomizeAudio();
-	}, [onChange, playRandomizeAudio]);
-
-	useEffect(
-		() => () => {
-			clearTimeout(randomTimeoutRef.current);
-		},
-		[],
-	);
+	}, [onRandom, playRandomizeAudio]);
 
 	return (
 		<div
@@ -249,7 +225,7 @@ function CharacterOptions({
 					<CharacterOption
 						character={character}
 						disabled={disabled}
-						highlighted={randomAnimatingQueue[0] === character}
+						highlighted={highlighted === character}
 						key={character}
 						onBlur={handleBlur}
 						onConfirm={confirmCharacter}
