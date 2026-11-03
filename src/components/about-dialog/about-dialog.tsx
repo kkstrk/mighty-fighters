@@ -1,23 +1,22 @@
-import { useCallback, useEffect, useImperativeHandle, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import classes from "./about-dialog.module.css";
 
-interface AboutDialogRef {
-	open: () => void;
-}
-
-const AboutDialog = ({ ref }: { ref: React.RefObject<AboutDialogRef | null> }) => {
+const AboutDialog = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
 	const dialogRef = useRef<HTMLDialogElement>(null);
 
-	useImperativeHandle(ref, () => ({
-		open: () => {
-			dialogRef.current?.showModal();
-		},
-	}));
-
-	const closeDialog = useCallback(() => {
-		dialogRef.current?.close();
-	}, []);
+	// The element owns its open state natively (Esc, showModal); this keeps it in line with the prop.
+	useEffect(() => {
+		const dialog = dialogRef.current;
+		if (dialog === null) {
+			return;
+		}
+		if (open && !dialog.open) {
+			dialog.showModal();
+		} else if (!open && dialog.open) {
+			dialog.close();
+		}
+	}, [open]);
 
 	// Native listener: the backdrop is part of the dialog element, so only clicks
 	// that target the dialog itself (not its content) are outside clicks.
@@ -28,15 +27,15 @@ const AboutDialog = ({ ref }: { ref: React.RefObject<AboutDialogRef | null> }) =
 		}
 		const handleBackdropClick = (event: MouseEvent) => {
 			if (event.target === dialog) {
-				dialog.close();
+				onClose();
 			}
 		};
 		dialog.addEventListener("click", handleBackdropClick);
 		return () => dialog.removeEventListener("click", handleBackdropClick);
-	}, []);
+	}, [onClose]);
 
 	return (
-		<dialog className={classes.dialog} ref={dialogRef}>
+		<dialog className={classes.dialog} onClose={onClose} ref={dialogRef}>
 			<div className={classes.dialogContent}>
 				<p>
 					Art Direction, Sprite Design, & Animation:
@@ -82,7 +81,7 @@ const AboutDialog = ({ ref }: { ref: React.RefObject<AboutDialogRef | null> }) =
 					</a>
 					.
 				</p>
-				<button className={classes.closeButton} onClick={closeDialog} title="Close" type="button">
+				<button className={classes.closeButton} onClick={onClose} title="Close" type="button">
 					X
 				</button>
 			</div>
@@ -91,4 +90,3 @@ const AboutDialog = ({ ref }: { ref: React.RefObject<AboutDialogRef | null> }) =
 };
 
 export { AboutDialog };
-export type { AboutDialogRef };

@@ -13,7 +13,15 @@ import type { Player } from "./selection-reducer";
 
 const RANDOM_STEP_MS = 150;
 
-const PlayScreenContent = ({ isSinglePlayer, onAboutClick }: { isSinglePlayer: boolean; onAboutClick: () => void }) => {
+const PlayScreenContent = ({
+	isSinglePlayer,
+	keyboardEnabled,
+	onAboutClick,
+}: {
+	isSinglePlayer: boolean;
+	keyboardEnabled: boolean;
+	onAboutClick: () => void;
+}) => {
 	const [selection, dispatch] = useReducer(selectionReducer, isSinglePlayer, initialSelection);
 	const [previewCharacter, setPreviewCharacter] = useState<CharacterName>();
 	const { playDisabledAudio } = useOptionSfx();
@@ -53,6 +61,9 @@ const PlayScreenContent = ({ isSinglePlayer, onAboutClick }: { isSinglePlayer: b
 	}, [phase]);
 
 	useEffect(() => {
+		if (!keyboardEnabled) {
+			return;
+		}
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === "Backspace") {
 				event.preventDefault();
@@ -61,7 +72,7 @@ const PlayScreenContent = ({ isSinglePlayer, onAboutClick }: { isSinglePlayer: b
 		};
 		globalThis.addEventListener("keydown", handleKeyDown);
 		return () => globalThis.removeEventListener("keydown", handleKeyDown);
-	}, []);
+	}, [keyboardEnabled]);
 
 	const { 1: playerOne, 2: playerTwo } = selection.slots;
 	const disabled = isLocked(selection);
@@ -81,6 +92,7 @@ const PlayScreenContent = ({ isSinglePlayer, onAboutClick }: { isSinglePlayer: b
 					currentPlayer={currentPlayer}
 					disabled={disabled}
 					highlighted={highlighted}
+					keyboardEnabled={keyboardEnabled}
 					onPick={handlePick}
 					onPreview={setPreviewCharacter}
 					onRandom={handleRandom}
@@ -106,11 +118,12 @@ const PlayScreenContent = ({ isSinglePlayer, onAboutClick }: { isSinglePlayer: b
 };
 
 // Switching between one and two players starts a fresh selection.
-const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
+const PlayScreen = ({ keyboardEnabled, onAboutClick }: { keyboardEnabled: boolean; onAboutClick: () => void }) => {
 	const isSinglePlayer = useIsSmallScreen();
 	return (
 		<PlayScreenContent
 			isSinglePlayer={isSinglePlayer}
+			keyboardEnabled={keyboardEnabled}
 			key={isSinglePlayer ? "single" : "multi"}
 			onAboutClick={onAboutClick}
 		/>
