@@ -1,4 +1,4 @@
-const classNames = (...classes: unknown[]) => 
+const classNames = (...classes: unknown[]) =>
 	classes
 		.filter((value) => {
 			if (typeof value === "string") {
@@ -6,7 +6,6 @@ const classNames = (...classes: unknown[]) =>
 			}
 			return false;
 		})
-		.join(" ")
-;
+		.join(" ");
 
 export default classNames;

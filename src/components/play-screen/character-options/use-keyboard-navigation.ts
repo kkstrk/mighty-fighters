@@ -34,7 +34,7 @@ const useKeyboardNavigation = ({
 	useSmallScreen(setDisabled);
 
 	useEffect(() => {
-		buttonsRef.current = [...ref.current?.querySelectorAll<HTMLButtonElement>('button') ?? []];
+		buttonsRef.current = [...(ref.current?.querySelectorAll<HTMLButtonElement>("button") ?? [])];
 	}, [ref]);
 
 	useEffect(() => {
