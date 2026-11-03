@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import type { CharacterName } from "@/characters";
-import Button from "@/components/button/button";
-import SoundButton from "@/components/sound-button/sound-button";
-import useOptionSfx from "@/utils/use-option-sfx/use-option-sfx";
-import useSmallScreen from "@/utils/use-small-screen";
-import Character from "./character/character";
-import CharacterOptions from "./character-options/character-options";
+import { Button } from "@/components/button/button";
+import { SoundButton } from "@/components/sound-button/sound-button";
+import { useOptionSfx } from "@/utils/use-option-sfx/use-option-sfx";
+import { useSmallScreen } from "@/utils/use-small-screen";
+import { Character } from "./character/character";
+import { CharacterOptions } from "./character-options/character-options";
 import classes from "./play-screen.module.css";
 
 type Player = 1 | 2;
@@ -108,4 +108,4 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 	);
 };
 
-export default PlayScreen;
+export { PlayScreen };

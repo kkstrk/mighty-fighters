@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import classNames from "./class-names";
+import { classNames } from "./class-names";
 
 describe("classNames", () => {
 	it("returns empty string when no arguments provided", () => {

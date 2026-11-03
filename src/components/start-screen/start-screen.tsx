@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useSound } from "@/contexts/sound-context";
-import useOptionSfx from "@/utils/use-option-sfx/use-option-sfx";
+import { useOptionSfx } from "@/utils/use-option-sfx/use-option-sfx";
 import classes from "./start-screen.module.css";
 
 const START_OPTION = "start";
@@ -107,4 +107,4 @@ const StartScreen = ({ onStartClick, onAboutClick }: { onStartClick: () => void;
 	);
 };
 
-export default StartScreen;
+export { StartScreen };

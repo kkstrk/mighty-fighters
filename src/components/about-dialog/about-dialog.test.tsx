@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { createRef } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
-import AboutDialog from "./about-dialog";
+import { AboutDialog } from "./about-dialog";
 import type { AboutDialogRef } from "./about-dialog";
 
 describe("AboutDialog", () => {
