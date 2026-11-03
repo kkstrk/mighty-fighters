@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { playQuietly } from "@/utils/play-quietly";
 import { SoundContext } from "./use-sound";
@@ -15,9 +15,10 @@ const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 	}, []);
 	const [isMuted, setIsMuted] = useState(() => getSoundFromStorage());
 
-	useEffect(() => {
-		localStorage.setItem(SOUND_STORAGE_KEY, String(isMuted));
-	}, [isMuted]);
+	const setMuted = useCallback((muted: boolean) => {
+		localStorage.setItem(SOUND_STORAGE_KEY, String(muted));
+		setIsMuted(muted);
+	}, []);
 
 	const startMusic = useCallback(() => {
 		if (!isMuted) {
@@ -27,6 +28,8 @@ const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 
 	const toggleMusic = useCallback(() => {
 		setIsMuted((prev) => {
+			const muted = !prev;
+			localStorage.setItem(SOUND_STORAGE_KEY, String(muted));
 			if (prev) {
 				void playQuietly(audio);
 				return false;
@@ -37,8 +40,8 @@ const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 	}, [audio]);
 
 	const toggleMute = useCallback(() => {
-		setIsMuted((prev) => !prev);
-	}, []);
+		setMuted(!isMuted);
+	}, [isMuted, setMuted]);
 
 	const contextValue = useMemo(
 		() => ({
