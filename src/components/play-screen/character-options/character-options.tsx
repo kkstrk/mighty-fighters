@@ -140,7 +140,7 @@ function CharacterOptions({
 	);
 
 	const handleRandomOptionClick = useCallback(() => {
-		const availableCharacters = [...characters].sort(() => Math.random() - 0.5);
+		const availableCharacters = characters.toSorted(() => Math.random() - 0.5);
 		setRandomAnimatingQueue(availableCharacters);
 		playRandomizeAudio();
 	}, [playRandomizeAudio]);
