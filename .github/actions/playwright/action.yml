@@ -1,0 +1,28 @@
+name: Playwright browsers
+description: Installs Playwright browsers and their system libraries, cached per Playwright version.
+inputs:
+    browsers:
+        description: Space-separated Playwright browsers to install.
+        default: chromium
+runs:
+    using: composite
+    steps:
+        - id: version
+          shell: bash
+          run: echo "version=$(pnpm exec playwright --version)" >> "$GITHUB_OUTPUT"
+        - id: cache
+          uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+          with:
+              path: ~/.cache/ms-playwright
+              key: playwright-${{ runner.os }}-${{ steps.version.outputs.version }}-${{ inputs.browsers }}
+        - if: steps.cache.outputs.cache-hit != 'true'
+          shell: bash
+          env:
+              BROWSERS: ${{ inputs.browsers }}
+          run: pnpm exec playwright install --with-deps $BROWSERS
+        # The cache holds the browser only; its system libraries still need installing.
+        - if: steps.cache.outputs.cache-hit == 'true'
+          shell: bash
+          env:
+              BROWSERS: ${{ inputs.browsers }}
+          run: pnpm exec playwright install-deps $BROWSERS
