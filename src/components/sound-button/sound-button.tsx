@@ -7,14 +7,8 @@ const SoundButton = () => {
 	const { isMuted, toggleMusic } = useSound();
 
 	return (
-		<Button
-			onClick={toggleMusic}
-			title={isMuted ? "Unmute" : "Mute"}
-		>
-			<img
-				alt={isMuted ? "Sound off icon" : "Sound on icon"}
-				src={isMuted ? SoundOffIcon : SoundOnIcon}
-			/>
+		<Button onClick={toggleMusic} title={isMuted ? "Unmute" : "Mute"}>
+			<img alt={isMuted ? "Sound off icon" : "Sound on icon"} src={isMuted ? SoundOffIcon : SoundOnIcon} />
 		</Button>
 	);
 };

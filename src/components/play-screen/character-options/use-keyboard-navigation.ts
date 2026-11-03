@@ -34,9 +34,7 @@ const useKeyboardNavigation = ({
 	useSmallScreen(setDisabled);
 
 	useEffect(() => {
-		buttonsRef.current = Array.from(
-			ref.current?.querySelectorAll<HTMLButtonElement>("button") ?? [],
-		);
+		buttonsRef.current = [...ref.current?.querySelectorAll<HTMLButtonElement>('button') ?? []];
 	}, [ref]);
 
 	useEffect(() => {
@@ -45,9 +43,7 @@ const useKeyboardNavigation = ({
 			return;
 		}
 		const handleFocusIn = (event: FocusEvent) => {
-			const index = event.target
-				? buttonsRef.current.indexOf(event.target as HTMLButtonElement)
-				: -1;
+			const index = event.target ? buttonsRef.current.indexOf(event.target as HTMLButtonElement) : -1;
 			if (index >= 0) {
 				focusedIndexRef.current = index;
 			}
@@ -62,7 +58,7 @@ const useKeyboardNavigation = ({
 		}
 		const handleKeyDown = (event: KeyboardEvent) => {
 			const buttons = buttonsRef.current;
-			if (!buttons.length) {
+			if (buttons.length === 0) {
 				return;
 			}
 
@@ -78,8 +74,7 @@ const useKeyboardNavigation = ({
 			event.preventDefault();
 
 			if (!ref.current?.contains(document.activeElement)) {
-				const button =
-					buttons.at(initialIndex) || buttons.find((button) => !button.disabled);
+				const button = buttons.at(initialIndex) || buttons.find((button) => !button.disabled);
 				if (button) {
 					button.focus();
 					focusedIndexRef.current = buttons.indexOf(button);
@@ -118,11 +113,7 @@ const useKeyboardNavigation = ({
 					const row = BUTTON_ROWS[nextRowIndex];
 					const startColIndex = Math.min(stickyColRef.current, row.length - 1);
 
-					for (
-						let nextColIndex = startColIndex;
-						nextColIndex < row.length;
-						nextColIndex += 1
-					) {
+					for (let nextColIndex = startColIndex; nextColIndex < row.length; nextColIndex += 1) {
 						const index = row[nextColIndex];
 						if (!buttons[index]?.disabled) {
 							nextButtonIndex = index;

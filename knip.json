@@ -1,9 +1,5 @@
 {
 	"$schema": "https://unpkg.com/knip@6/schema.json",
-	"ignoreDependencies": [
-		"@commitlint/cli"
-	],
-	"ignoreBinaries": [
-		"gitleaks"
-	]
+	"ignoreDependencies": ["@commitlint/cli"],
+	"ignoreBinaries": ["gitleaks"]
 }
