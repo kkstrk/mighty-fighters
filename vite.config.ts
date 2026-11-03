@@ -12,6 +12,7 @@ export default defineConfig({
 	// Pre-commit: format and fix only what is being committed.
 	staged: {
 		"*": "vp check --fix --no-error-on-unmatched-pattern",
+		"*.css": "stylelint",
 	},
 	test: {
 		include: ["src/**/*.test.{ts,tsx}"],
