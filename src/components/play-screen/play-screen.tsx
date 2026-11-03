@@ -3,8 +3,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { CharacterName } from "@/characters";
 import { Button } from "@/components/button/button";
 import { SoundButton } from "@/components/sound-button/sound-button";
+import { useIsSmallScreen } from "@/utils/use-is-small-screen";
 import { useOptionSfx } from "@/utils/use-option-sfx/use-option-sfx";
-import { useSmallScreen } from "@/utils/use-small-screen";
 import { Character } from "./character/character";
 import { CharacterOptions } from "./character-options/character-options";
 import classes from "./play-screen.module.css";
@@ -13,21 +13,12 @@ type Player = 1 | 2;
 
 const initialPlayerCharacters = { 1: undefined, 2: undefined };
 
-const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
-	const [isSinglePlayer, setIsSinglePlayer] = useState(false);
+const PlayScreenContent = ({ isSinglePlayer, onAboutClick }: { isSinglePlayer: boolean; onAboutClick: () => void }) => {
 	const [playerCharacters, setPlayerCharacters] =
 		useState<Record<Player, CharacterName | undefined>>(initialPlayerCharacters);
 	const [previewCharacter, setPreviewCharacter] = useState<CharacterName>();
 	const selectionHistoryRef = useRef<Player[]>([]);
 	const { playDisabledAudio } = useOptionSfx();
-
-	const handleSizeChange = useCallback((isSmallScreen: boolean) => {
-		setIsSinglePlayer(isSmallScreen);
-		setPlayerCharacters(initialPlayerCharacters);
-		setPreviewCharacter(undefined);
-		selectionHistoryRef.current = [];
-	}, []);
-	useSmallScreen(handleSizeChange);
 
 	const handleCharacterChange = useCallback(
 		(character: CharacterName) => {
@@ -114,6 +105,18 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 				</Button>
 			</footer>
 		</>
+	);
+};
+
+// Switching between one and two players starts a fresh selection.
+const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
+	const isSinglePlayer = useIsSmallScreen();
+	return (
+		<PlayScreenContent
+			isSinglePlayer={isSinglePlayer}
+			key={isSinglePlayer ? "single" : "multi"}
+			onAboutClick={onAboutClick}
+		/>
 	);
 };
 
