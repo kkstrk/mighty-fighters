@@ -3,8 +3,12 @@ import { createRoot } from "react-dom/client";
 
 import { App } from "./app";
 
-// biome-ignore lint/style/noNonNullAssertion: root is guaranteed to exist
-createRoot(document.querySelector("#root")!).render(
+const root = document.querySelector("#root");
+if (root === null) {
+	throw new Error("Root element not found");
+}
+
+createRoot(root).render(
 	<StrictMode>
 		<App />
 	</StrictMode>,
