@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { playQuietly } from "@/utils/play-quietly";
 import { SoundContext } from "./use-sound";
@@ -8,12 +8,12 @@ const SOUND_STORAGE_KEY = "mightyfighters-muted";
 const getSoundFromStorage = () => localStorage.getItem(SOUND_STORAGE_KEY) === "true";
 
 const SoundProvider = ({ children }: { children: React.ReactNode }) => {
-	const audioRef = useRef(new Audio("https://pub-e1a4a16315c645b89296d37efc689f8f.r2.dev/music.wav"));
-	const [isMuted, setIsMuted] = useState(() => getSoundFromStorage());
-
-	useEffect(() => {
-		audioRef.current.loop = true;
+	const audio = useMemo(() => {
+		const music = new Audio("https://pub-e1a4a16315c645b89296d37efc689f8f.r2.dev/music.wav");
+		music.loop = true;
+		return music;
 	}, []);
+	const [isMuted, setIsMuted] = useState(() => getSoundFromStorage());
 
 	useEffect(() => {
 		localStorage.setItem(SOUND_STORAGE_KEY, String(isMuted));
@@ -21,20 +21,20 @@ const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 
 	const startMusic = useCallback(() => {
 		if (!isMuted) {
-			void playQuietly(audioRef.current);
+			void playQuietly(audio);
 		}
-	}, [isMuted]);
+	}, [audio, isMuted]);
 
 	const toggleMusic = useCallback(() => {
 		setIsMuted((prev) => {
 			if (prev) {
-				void playQuietly(audioRef.current);
+				void playQuietly(audio);
 				return false;
 			}
-			audioRef.current.pause();
+			audio.pause();
 			return true;
 		});
-	}, []);
+	}, [audio]);
 
 	const toggleMute = useCallback(() => {
 		setIsMuted((prev) => !prev);
