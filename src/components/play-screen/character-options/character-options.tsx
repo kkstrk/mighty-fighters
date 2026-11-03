@@ -52,6 +52,60 @@ function RandomCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 	return <button {...props} aria-label="Pick a random character" className={classes.randomOption} type="button" />;
 }
 
+function CharacterOption({
+	character,
+	disabled,
+	highlighted,
+	onBlur,
+	onConfirm,
+	onFocusCharacter,
+	onHover,
+	selectedByP1,
+	selectedByP2,
+}: {
+	character: CharacterName;
+	disabled: boolean;
+	highlighted: boolean;
+	onBlur: () => void;
+	onConfirm: (character: CharacterName) => void;
+	onFocusCharacter: (character: CharacterName) => void;
+	onHover: (character?: CharacterName) => void;
+	selectedByP1: boolean;
+	selectedByP2: boolean;
+}) {
+	const handleClick = useCallback(() => {
+		onConfirm(character);
+	}, [onConfirm, character]);
+	const handleFocus = useCallback(() => {
+		onFocusCharacter(character);
+	}, [onFocusCharacter, character]);
+	const handleMouseEnter = useCallback(() => {
+		onHover(character);
+	}, [onHover, character]);
+	const handleMouseLeave = useCallback(() => {
+		onHover();
+	}, [onHover]);
+
+	return (
+		<button
+			aria-label={`Select ${character}`}
+			className={classNames(classes.characterOption, selectedByP1 && classes.p1, selectedByP2 && classes.p2)}
+			data-highlighted={highlighted}
+			data-selected={selectedByP1 || selectedByP2}
+			disabled={disabled}
+			onBlur={onBlur}
+			onClick={handleClick}
+			onFocus={handleFocus}
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={handleMouseLeave}
+			type="button"
+		>
+			<img alt={character} src={`avatars/${character}.png`} />
+			<img alt={character} src={`avatars/${character}-outline.png`} />
+		</button>
+	);
+}
+
 function CharacterOptions({
 	currentPlayer,
 	disabled: disabledProp,
@@ -172,31 +226,21 @@ function CharacterOptions({
 			ref={parentRef}
 		>
 			{characters.map((character) => {
-				const highlighted = randomAnimatingQueue[0] === character;
 				const selectedByP1 = character === playerOne;
 				const selectedByP2 = character === playerTwo;
 				return (
-					<button
-						aria-label={`Select ${character}`}
-						className={classNames(
-							classes.characterOption,
-							selectedByP1 && classes.p1,
-							selectedByP2 && classes.p2,
-						)}
-						data-highlighted={highlighted}
-						data-selected={selectedByP1 || selectedByP2}
+					<CharacterOption
+						character={character}
 						disabled={disabled}
+						highlighted={randomAnimatingQueue[0] === character}
 						key={character}
 						onBlur={handleBlur}
-						onClick={() => confirmCharacter(character)}
-						onFocus={() => handleFocus(character)}
-						onMouseEnter={() => handleMouseMove(character)}
-						onMouseLeave={() => handleMouseMove()}
-						type="button"
-					>
-						<img alt={character} src={`avatars/${character}.png`} />
-						<img alt={character} src={`avatars/${character}-outline.png`} />
-					</button>
+						onConfirm={confirmCharacter}
+						onFocusCharacter={handleFocus}
+						onHover={handleMouseMove}
+						selectedByP1={selectedByP1}
+						selectedByP2={selectedByP2}
+					/>
 				);
 			})}
 			<LockedCharacterOption

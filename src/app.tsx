@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import { AboutDialog } from "@/components/about-dialog/about-dialog";
 import type { AboutDialogRef } from "@/components/about-dialog/about-dialog";
@@ -10,12 +10,12 @@ import "./app.css";
 function App() {
 	const [hasStarted, setHasStarted] = useState(false);
 	const aboutDialogRef = useRef<AboutDialogRef>(null);
-	const handleStartClick = () => {
+	const handleStartClick = useCallback(() => {
 		setHasStarted(true);
-	};
-	const handleAboutClick = () => {
+	}, []);
+	const handleAboutClick = useCallback(() => {
 		aboutDialogRef.current?.open();
-	};
+	}, []);
 	return (
 		<SoundProvider>
 			{hasStarted ? (
