@@ -1,31 +1,31 @@
 .options {
-	--d20-width: clamp(72px, 9vw, 160px);
+	--d20-width: clamp(72px, 9vi, 160px);
 	--d20-height: calc(var(--d20-width) / 0.9);
 
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
 	grid-auto-rows: calc(var(--d20-width) * 0.8333);
-	gap: clamp(4px, 0.8vw, 12px);
-	margin: 0 auto;
-	height: fit-content;
+	gap: clamp(4px, 0.8vi, 12px);
 	align-self: center;
+	block-size: fit-content;
+	margin: 0 auto;
 }
 
 .options > button {
 	--step-x: 6%;
 	--step-y: 3%;
 
-	color: inherit;
-	border: none;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
+	position: relative;
+	inline-size: var(--d20-width);
+	block-size: var(--d20-height);
 	padding: 0;
 	margin: 0;
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+	outline: inherit;
 	background-color: #41555b;
-	width: var(--d20-width);
-	height: var(--d20-height);
-	position: relative;
+	border: none;
 	clip-path: polygon(
 		0 22%,
 		var(--step-x) 22%,
@@ -146,16 +146,16 @@
 .options > button:focus-visible::before,
 .characterOption[data-selected="true"]::before,
 .characterOption[data-highlighted="true"]::before {
-	content: "";
 	position: absolute;
-	top: -2px;
-	left: -2px;
-	width: calc(100% + 4px);
-	height: calc(100% + 4px);
-	background-size: 100% 100%;
+	inset-block-start: -2px;
+	inset-inline-start: -2px;
+	z-index: 1;
+	inline-size: calc(100% + 4px);
+	block-size: calc(100% + 4px);
+	content: "";
 	background-repeat: no-repeat;
 	background-position: center;
-	z-index: 1;
+	background-size: 100% 100%;
 }
 
 .options > .characterOption.p1::before,
@@ -192,12 +192,12 @@
 }
 
 .characterOption > img {
-	height: 100%;
-	width: 100%;
-	object-position: bottom;
 	position: absolute;
-	top: 0;
-	left: 0;
+	inset-block-start: 0;
+	inset-inline-start: 0;
+	inline-size: 100%;
+	block-size: 100%;
+	object-position: bottom;
 }
 
 .characterOption > img:last-child {
@@ -215,10 +215,10 @@
 
 .lockedOption,
 .randomOption {
-	background-size: 100% 100%;
+	image-rendering: pixelated;
 	background-repeat: no-repeat;
 	background-position: center;
-	image-rendering: pixelated;
+	background-size: 100% 100%;
 }
 
 .lockedOption {
@@ -238,14 +238,15 @@
 	100% {
 		opacity: 0.25;
 	}
+
 	50% {
 		opacity: 1;
 	}
 }
 
-@media (max-width: 750px) and (orientation: portrait) {
+@media (width <= 750px) and (orientation: portrait) {
 	.options {
-		margin-bottom: calc(2 * calc(var(--d20-width) * 0.16677));
+		margin-block-end: calc(2 * calc(var(--d20-width) * 0.16677));
 	}
 
 	.options > button:first-child {
