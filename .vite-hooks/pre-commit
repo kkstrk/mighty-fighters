@@ -1,0 +1,3 @@
+command -v gitleaks >/dev/null || { echo "gitleaks missing: brew install gitleaks" >&2; exit 1; }
+gitleaks git --pre-commit --staged --redact --no-banner || exit 1
+pnpm exec vp staged
