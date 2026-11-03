@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { playQuietly } from "@/utils/play-quietly";
 import { SoundContext } from "./use-sound";
 
 const SOUND_STORAGE_KEY = "mightyfighters-muted";
@@ -20,14 +21,14 @@ const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 
 	const startMusic = useCallback(() => {
 		if (!isMuted) {
-			void audioRef.current.play();
+			void playQuietly(audioRef.current);
 		}
 	}, [isMuted]);
 
 	const toggleMusic = useCallback(() => {
 		setIsMuted((prev) => {
 			if (prev) {
-				void audioRef.current.play();
+				void playQuietly(audioRef.current);
 				return false;
 			}
 			audioRef.current.pause();
