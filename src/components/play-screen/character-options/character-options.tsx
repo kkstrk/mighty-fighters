@@ -147,6 +147,7 @@ function CharacterOptions({
 
 	const confirmCharacter = useCallback(
 		(character: CharacterName) => {
+			clearTimeout(previewTimeoutRef.current);
 			onPick(character);
 			playConfirmAudio();
 		},
@@ -163,18 +164,23 @@ function CharacterOptions({
 
 	const handleCharacterPreview = useCallback(
 		(character?: CharacterName) => {
+			clearTimeout(previewTimeoutRef.current);
 			if (character) {
 				previewTimeoutRef.current = setTimeout(() => {
 					onPreview(character);
 				}, 250);
 			} else {
-				if (previewTimeoutRef.current) {
-					clearTimeout(previewTimeoutRef.current);
-				}
 				onPreview();
 			}
 		},
 		[onPreview],
+	);
+
+	useEffect(
+		() => () => {
+			clearTimeout(previewTimeoutRef.current);
+		},
+		[],
 	);
 
 	const handleBlur = useCallback(() => {
