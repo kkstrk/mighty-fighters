@@ -43,7 +43,8 @@ const useKeyboardNavigation = ({
 			return;
 		}
 		const handleFocusIn = (event: FocusEvent) => {
-			const index = event.target ? buttonsRef.current.indexOf(event.target as HTMLButtonElement) : -1;
+			const { target } = event;
+			const index = target instanceof HTMLButtonElement ? buttonsRef.current.indexOf(target) : -1;
 			if (index >= 0) {
 				focusedIndexRef.current = index;
 			}
