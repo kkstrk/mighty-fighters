@@ -56,6 +56,13 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 		[playDisabledAudio],
 	);
 
+	const handleUndoPlayerOne = useCallback(() => {
+		handleCharacterUndo(1);
+	}, [handleCharacterUndo]);
+	const handleUndoPlayerTwo = useCallback(() => {
+		handleCharacterUndo(2);
+	}, [handleCharacterUndo]);
+
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === "Backspace") {
@@ -82,7 +89,7 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 				<Character
 					align="left"
 					name={playerOne ?? previewCharacter}
-					onUndo={playerOne && !isSinglePlayer ? () => handleCharacterUndo(1) : undefined}
+					onUndo={playerOne && !isSinglePlayer ? handleUndoPlayerOne : undefined}
 				/>
 				<CharacterOptions
 					currentPlayer={currentPlayer}
@@ -96,7 +103,7 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 					<Character
 						align="right"
 						name={playerTwo ?? (playerOne ? previewCharacter : undefined)}
-						onUndo={playerTwo && !isSinglePlayer ? () => handleCharacterUndo(2) : undefined}
+						onUndo={playerTwo && !isSinglePlayer ? handleUndoPlayerTwo : undefined}
 					/>
 				)}
 			</main>
