@@ -168,7 +168,7 @@ function CharacterOptions({
 	return (
 		<div
 			className={classes.options}
-			data-turn={currentPlayer === 1 ? "p1" : currentPlayer === 2 ? "p2" : undefined}
+			data-turn={currentPlayer === undefined ? undefined : `p${currentPlayer}`}
 			ref={parentRef}
 		>
 			{characters.map((character) => {
