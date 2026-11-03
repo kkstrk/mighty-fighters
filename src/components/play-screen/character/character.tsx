@@ -1,6 +1,6 @@
 import { Button } from "@/components/button/button";
+import { PixelIcon } from "@/components/pixel-icon/pixel-icon";
 import { classNames } from "@/utils/class-names";
-import UndoIcon from "./assets/undo.png";
 import classes from "./character.module.css";
 
 function Character({
@@ -20,8 +20,8 @@ function Character({
 					<div className={classes.selection}>
 						<img alt={`${name} animation`} className={classes.animation} src={`animations/${name}.gif`} />
 						<div className={classNames(classes.undoButton, !onUndo && classes.hiddenUndoButton)}>
-							<Button onClick={onUndo}>
-								<img alt="Undo" src={UndoIcon} />
+							<Button aria-label="Undo" onClick={onUndo} size="sm" title="Undo" variant="danger">
+								<PixelIcon name="undo" />
 							</Button>
 						</div>
 					</div>

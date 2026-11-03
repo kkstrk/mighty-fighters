@@ -6,19 +6,36 @@
 :root {
 	--color-light-1: hsl(0deg 0% 90%);
 	--color-light-2: hsl(0deg 0% 100%);
-	--text-shadow-light: 0 0 6px var(--color-light-1);
+
+	--pixel: 4px;
+	--color-ink: #0d1e23;
+	--color-panel: #16282e;
+	--color-muted: #9fc6d6;
+	--color-rule: #2f4a52;
+	--color-backdrop: rgb(13 30 35 / 75%);
+	--color-key: #3a6470;
+	--color-key-hover: #4a7884;
+	--color-key-hi: #6fa3b0;
+	--color-key-lo: #22414a;
+	--color-gold: #ffd23f;
+	--color-gold-hi: #fff1a8;
+	--color-gold-lo: #c79a00;
+	--color-gold-ink: #3a2a00;
+	--color-red: #e9434b;
+	--color-red-hi: #ff9aa0;
+	--color-red-lo: #a01f27;
+	--font-display: "Press Start 2P", system-ui, sans-serif;
+	--font-body: "Pixelify Sans", system-ui, sans-serif;
+	--text-shadow-ink: 3px 3px 0 var(--color-ink);
 
 	--color-yellow-1: hsl(50deg 100% 44%);
 	--color-yellow-2: hsl(50deg 100% 54%);
 	--color-yellow-3: hsl(50deg 100% 64%);
-	--text-shadow-yellow: 0 0 4px var(--color-yellow-1);
 
 	--color-white: #fff;
 	--color-surface: #41555b;
 	--color-banner: #d8ebe9;
 	--color-banner-text: #586b71;
-	--shadow-dialog: #263336 0 8px 24px 0;
-	--shadow-glow: 0 0 8px 2px rgb(255 255 255 / 80%);
 
 	--space-1: 0.25rem;
 	--space-2: 0.5rem;
@@ -28,16 +45,23 @@
 	--space-6: 1.5rem;
 	--space-8: 2rem;
 	--space-1em: 1em;
+	--space-px-6: 6px;
 	--space-px-8: 8px;
+	--space-px-10: 10px;
+	--space-px-12: 12px;
 	--space-px-16: 16px;
+	--space-px-18: 18px;
+	--space-px-20: 20px;
 	--space-px-32: 32px;
 	--space-px-64: 64px;
 	--space-px-neg-24: -24px;
 	--font-size-banner: 22px;
-
-	--background-color: hsl(191deg 17% 18%);
-	--border-color: hsl(189deg 14% 36%);
-	--border: 4px solid var(--border-color);
+	--font-size-10: 10px;
+	--font-size-12: 12px;
+	--font-size-13: 13px;
+	--font-size-14: 14px;
+	--font-size-20: 20px;
+	--shadow-dialog: 0 0 0 var(--pixel) var(--color-ink), 8px 8px 0 var(--pixel) var(--color-ink);
 }
 
 html,
@@ -49,7 +73,7 @@ body {
 body {
 	margin: 0;
 	overflow: hidden;
-	font-family: "Press Start 2P", system-ui, Avenir, Helvetica, Arial, sans-serif;
+	font-family: var(--font-display);
 	font-size: 16px;
 	color: var(--color-light-1);
 	background-color: #355058;
@@ -64,6 +88,15 @@ body {
 	flex-direction: column;
 	inline-size: 100%;
 	block-size: 100%;
+}
+
+/* stylelint-disable-next-line selector-max-id -- the mount point id comes from index.html */
+#root::after {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	content: "";
+	background: repeating-linear-gradient(0deg, rgb(0 0 0 / 12%) 0 1px, transparent 1px 3px);
 }
 
 img {
@@ -91,6 +124,7 @@ a:focus-visible {
 }
 
 p {
-	font-size: clamp(0.75rem, 0.75vi + 0.25rem, 1.125rem);
-	line-height: 1.5;
+	font-family: var(--font-body);
+	font-size: clamp(1rem, 0.6vi + 0.75rem, 1.375rem);
+	line-height: 1.3;
 }

@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 
+import { Button } from "@/components/button/button";
+import { PixelIcon } from "@/components/pixel-icon/pixel-icon";
+import { SoundButton } from "@/components/sound-button/sound-button";
 import { useSound } from "@/contexts/use-sound";
+import { useIsSmallScreen } from "@/utils/use-is-small-screen";
 import { useOptionSfx } from "@/utils/use-option-sfx/use-option-sfx";
 import classes from "./start-screen.module.css";
 
@@ -22,6 +26,7 @@ const StartScreen = ({
 	const [selectedOption, setSelectedOption] = useState<(typeof options)[number]>(START_OPTION);
 	const { isMuted, startMusic, toggleMute } = useSound();
 	const { playHoverAudio } = useOptionSfx();
+	const buttonSize = useIsSmallScreen() ? "sm" : "md";
 
 	const handleStartClick = useCallback(() => {
 		setSelectedOption(START_OPTION);
@@ -80,43 +85,55 @@ const StartScreen = ({
 	return (
 		<>
 			<main className={classes.main}>
+				<div className={classes.hud}>
+					<SoundButton size={buttonSize} />
+					<Button aria-label="Open about" onClick={handleAboutClick} size={buttonSize} title="Open about">
+						<PixelIcon name="info" />
+					</Button>
+				</div>
 				<div className={classes.title} />
-				<ul className={classes.list}>
-					<li className={classes.item} data-selected={selectedOption === START_OPTION}>
-						<button
-							className={classes.option}
-							onClick={handleStartClick}
-							onMouseEnter={playHoverAudio}
-							type="button"
-						>
-							{START_OPTION}
-						</button>
-					</li>
-					<li className={classes.item} data-selected={selectedOption === SOUND_OPTION}>
-						<button
-							className={classes.option}
-							onClick={handleSoundClick}
-							onMouseEnter={playHoverAudio}
-							type="button"
-						>
-							{selectedOption === SOUND_OPTION
-								? `${SOUND_OPTION}: ${isMuted ? "off" : "on"}`
-								: SOUND_OPTION}
-						</button>
-					</li>
-					<li className={classes.item} data-selected={selectedOption === ABOUT_OPTION}>
-						<button
-							className={classes.option}
-							onClick={handleAboutClick}
-							onMouseEnter={playHoverAudio}
-							type="button"
-						>
-							{ABOUT_OPTION}
-						</button>
-					</li>
-				</ul>
+				<div className={classes.menu}>
+					<ul className={classes.list}>
+						<li className={classes.item} data-selected={selectedOption === START_OPTION}>
+							<button
+								className={classes.option}
+								onClick={handleStartClick}
+								onMouseEnter={playHoverAudio}
+								type="button"
+							>
+								{START_OPTION}
+							</button>
+						</li>
+						<li className={classes.item} data-selected={selectedOption === SOUND_OPTION}>
+							<button
+								className={classes.option}
+								onClick={handleSoundClick}
+								onMouseEnter={playHoverAudio}
+								type="button"
+							>
+								{selectedOption === SOUND_OPTION
+									? `${SOUND_OPTION}: ${isMuted ? "off" : "on"}`
+									: SOUND_OPTION}
+							</button>
+						</li>
+						<li className={classes.item} data-selected={selectedOption === ABOUT_OPTION}>
+							<button
+								className={classes.option}
+								onClick={handleAboutClick}
+								onMouseEnter={playHoverAudio}
+								type="button"
+							>
+								{ABOUT_OPTION}
+							</button>
+						</li>
+					</ul>
+					<p aria-hidden="true" className={classes.prompt}>
+						<span className={classes.pressEnter}>PRESS ENTER</span>
+						<span className={classes.tapToStart}>TAP TO START</span>
+					</p>
+				</div>
 			</main>
-			<footer>
+			<footer className={classes.footer}>
 				<p className={classes.footerNote}>
 					This project is unofficial fan content and is not approved or endorsed in any way by
 					Critical&nbsp;Role.

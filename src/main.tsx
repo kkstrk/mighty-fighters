@@ -1,6 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
+import "@fontsource/pixelify-sans/400.css";
+
 import { App } from "./app";
 
 const root = document.querySelector("#root");

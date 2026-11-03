@@ -1,50 +1,74 @@
 .button {
-	position: relative;
-	box-sizing: border-box;
-	min-inline-size: 2rem;
-	block-size: 2rem;
+	--size: 64px;
+	--face: var(--color-key);
+	--hi: var(--color-key-hi);
+	--lo: var(--color-key-lo);
+	--ink: var(--color-light-1);
+	--shadow-raised:
+		inset var(--pixel) var(--pixel) 0 var(--hi), inset calc(var(--pixel) * -1) calc(var(--pixel) * -1) 0 var(--lo),
+		0 var(--pixel) 0 var(--color-ink);
+	--shadow-pressed:
+		inset var(--pixel) var(--pixel) 0 var(--lo), inset calc(var(--pixel) * -1) calc(var(--pixel) * -1) 0 var(--hi);
+
+	display: grid;
+	place-items: center;
+	inline-size: var(--size);
+	block-size: var(--size);
+	padding: 0;
 	font: inherit;
-	color: var(--color-light-1);
+	color: var(--ink);
 	pointer-events: all;
 	cursor: pointer;
-	outline: none;
-	background: transparent;
-	border: 0;
+	background: var(--face);
+	border: var(--pixel) solid var(--color-ink);
+	box-shadow: var(--shadow-raised);
 }
 
-.button:focus-visible {
-	color: var(--color-light-2);
-	background-color: var(--color-surface);
-	box-shadow: var(--shadow-glow);
+.button[data-size="sm"] {
+	--size: 48px;
+}
+
+.button[data-size="lg"] {
+	--size: 80px;
+}
+
+.button[data-variant="primary"] {
+	--face: var(--color-gold);
+	--hi: var(--color-gold-hi);
+	--lo: var(--color-gold-lo);
+	--ink: var(--color-gold-ink);
+}
+
+.button[data-variant="danger"] {
+	--face: var(--color-red);
+	--hi: var(--color-red-hi);
+	--lo: var(--color-red-lo);
+	--ink: var(--color-white);
+}
+
+.button[data-shape="text"] {
+	inline-size: auto;
+	min-block-size: 48px;
+	padding-inline: var(--space-px-20);
+	font-size: var(--font-size-12);
 }
 
 @media (hover: hover) {
-	.button:hover {
-		color: var(--color-light-2);
-		background-color: var(--color-surface);
-		box-shadow: var(--shadow-glow);
+	.button[data-variant="default"]:hover {
+		--face: var(--color-key-hover);
+	}
+
+	.button:not([data-variant="default"]):hover {
+		filter: brightness(1.1);
 	}
 }
 
-.button::after,
-.button::before {
-	position: absolute;
-	inline-size: 100%;
-	block-size: 100%;
-	content: "";
-	background: transparent;
+.button:active {
+	box-shadow: var(--shadow-pressed);
+	transform: translateY(var(--pixel));
 }
 
-.button::after {
-	inset-block-start: -3px;
-	inset-inline-start: 0;
-	border-block-start: 3px solid currentcolor;
-	border-block-end: 3px solid currentcolor;
-}
-
-.button::before {
-	inset-block-start: 0;
-	inset-inline-start: -3px;
-	border-inline-start: 3px solid currentcolor;
-	border-inline-end: 3px solid currentcolor;
+.button:focus-visible {
+	outline: var(--pixel) solid var(--color-gold);
+	outline-offset: var(--pixel);
 }

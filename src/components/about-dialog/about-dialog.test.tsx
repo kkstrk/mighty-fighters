@@ -64,7 +64,7 @@ describe("AboutDialog", () => {
 		const onClose = vi.fn<() => void>();
 		render(<AboutDialog onClose={onClose} open />);
 
-		await user.click(within(getDialog()).getByRole("button", { name: "X", hidden: true }));
+		await user.click(within(getDialog()).getByRole("button", { name: "Close", hidden: true }));
 
 		expect(onClose).toHaveBeenCalledTimes(1);
 	});
@@ -84,7 +84,7 @@ describe("AboutDialog", () => {
 		const onClose = vi.fn<() => void>();
 		render(<AboutDialog onClose={onClose} open />);
 
-		await user.click(within(getDialog()).getByText("Programming:"));
+		await user.click(within(getDialog()).getByText("PROGRAMMING"));
 
 		expect(onClose).not.toHaveBeenCalled();
 	});
@@ -101,7 +101,7 @@ describe("AboutDialog", () => {
 	it("has a close button with type and title", () => {
 		render(<AboutDialog onClose={vi.fn<() => void>()} open={false} />);
 
-		const closeButton = within(getDialog()).getByRole("button", { name: "X", hidden: true });
+		const closeButton = within(getDialog()).getByRole("button", { name: "Close", hidden: true });
 
 		expect(closeButton).toHaveAttribute("type", "button");
 		expect(closeButton).toHaveAttribute("title", "Close");

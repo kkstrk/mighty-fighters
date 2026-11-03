@@ -3,24 +3,34 @@
 	flex: 1;
 	flex-direction: column;
 	align-items: center;
+	padding: var(--space-4);
 	overflow: hidden;
 }
 
+.hud {
+	display: flex;
+	gap: var(--space-px-12);
+	align-self: stretch;
+	justify-content: flex-end;
+}
+
+.menu {
+	--menu-font-size: clamp(1.125rem, 1.5vi + 0.5rem, 1.75rem);
+}
+
+/* Sized for the longest label ("sound: off") plus the marker, so toggling never shifts the menu. */
 .list {
 	all: unset;
-	font-size: clamp(1.5rem, 2vi + 0.25rem, 3rem);
+	display: grid;
+	gap: var(--space-4);
+	inline-size: 12ch;
+	font-size: var(--menu-font-size);
 	text-transform: uppercase;
+	text-shadow: var(--text-shadow-ink);
 }
 
 .item {
 	display: flex;
-	margin: var(--space-4) 0;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-	.item {
-		transition: transform 0.15s ease-out;
-	}
 }
 
 .item::before {
@@ -30,8 +40,20 @@
 }
 
 .item[data-selected="true"]::before {
-	color: var(--color-yellow-1);
-	content: "> ";
+	color: var(--color-gold);
+	content: "\25B6";
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.item[data-selected="true"]::before {
+		animation: nudge 0.6s steps(2) infinite;
+	}
+}
+
+@keyframes nudge {
+	50% {
+		transform: translateX(5px);
+	}
 }
 
 .option {
@@ -41,44 +63,30 @@
 	cursor: pointer;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-	.option {
-		/* stylelint-disable plugin/no-low-performance-animation-properties -- keeps the glow fade on the menu labels */
-		transition:
-			color 0.15s ease-out,
-			text-shadow 0.15s ease-out,
-			transform 0.15s ease-out;
-		/* stylelint-enable plugin/no-low-performance-animation-properties */
-	}
-}
-
 @media (hover: hover) {
 	.option:hover {
-		color: var(--color-light-2);
-		text-shadow: var(--text-shadow-light);
+		color: var(--color-gold-hi);
 	}
 }
 
 .item[data-selected="true"] .option {
-	color: var(--color-yellow-1);
-	transform: scale(1.05);
+	color: var(--color-gold);
 }
 
 @media (hover: hover) {
 	.item[data-selected="true"] .option:hover {
-		color: var(--color-yellow-2);
-		text-shadow: var(--text-shadow-yellow);
+		color: var(--color-gold-hi);
 	}
 }
 
 .item[data-selected="true"] .option:focus-visible {
-	color: var(--color-yellow-3);
-	text-shadow: var(--text-shadow-yellow);
+	color: var(--color-gold-hi);
 }
 
 .title {
-	flex: 1 1 auto;
+	flex: 1 1 0;
 	inline-size: 100%;
+	min-block-size: 0;
 	max-block-size: 66%;
 	margin: var(--space-8) 0;
 	image-rendering: pixelated;
@@ -88,11 +96,60 @@
 	background-size: contain;
 }
 
+.prompt {
+	/* Lines up with the menu labels, past the marker column. */
+	margin-block: var(--space-6) 0;
+	margin-inline-start: calc(var(--menu-font-size) * 2);
+	font-family: var(--font-display);
+	font-size: var(--font-size-12);
+	color: var(--color-gold);
+	text-shadow: 2px 2px 0 var(--color-ink);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.prompt {
+		animation: blink 1s steps(1) infinite;
+	}
+}
+
+@keyframes blink {
+	50% {
+		opacity: 0;
+	}
+}
+
+.pressEnter,
+.tapToStart {
+	display: none;
+}
+
+@media (hover: hover) {
+	.pressEnter {
+		display: inline;
+	}
+}
+
+@media (hover: none) {
+	.tapToStart {
+		display: inline;
+	}
+}
+
+.footer {
+	padding: var(--space-2) var(--space-4) var(--space-4);
+}
+
 .footerNote {
-	padding: var(--space-3);
-	margin: var(--space-4);
-	color: inherit;
+	max-inline-size: 56ch;
+	margin-inline: auto;
+	font-size: var(--font-size-14);
+	color: var(--color-muted);
 	text-align: center;
-	background-color: var(--background-color);
-	border: var(--border);
+	text-shadow: 1px 1px 0 var(--color-ink);
+}
+
+@media (width <= 640px) {
+	.footerNote {
+		font-size: var(--font-size-13);
+	}
 }
