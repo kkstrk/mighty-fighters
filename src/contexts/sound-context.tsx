@@ -1,14 +1,6 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-const SoundContext = createContext<
-	| {
-			isMuted: boolean;
-			startMusic: () => void;
-			toggleMusic: () => void;
-			toggleMute: () => void;
-	  }
-	| undefined
->(undefined);
+import { SoundContext } from "./use-sound";
 
 const SOUND_STORAGE_KEY = "mightyfighters-muted";
 
@@ -60,12 +52,4 @@ const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 	return <SoundContext.Provider value={contextValue}>{children}</SoundContext.Provider>;
 };
 
-const useSound = () => {
-	const context = useContext(SoundContext);
-	if (context === undefined) {
-		throw new Error("useSound must be used within a SoundProvider");
-	}
-	return context;
-};
-
-export { SoundProvider, useSound };
+export { SoundProvider };
