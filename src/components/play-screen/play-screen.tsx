@@ -66,8 +66,8 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 				}
 			}
 		};
-		window.addEventListener("keydown", handleKeyDown);
-		return () => window.removeEventListener("keydown", handleKeyDown);
+		globalThis.addEventListener("keydown", handleKeyDown);
+		return () => globalThis.removeEventListener("keydown", handleKeyDown);
 	}, [handleCharacterUndo]);
 
 	const { 1: playerOne, 2: playerTwo } = playerCharacters;
