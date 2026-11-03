@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import "@fontsource/pixelify-sans/400.css";
 
 import { App } from "./app";
+import { preloadCharacterAssets } from "./utils/preload-character-assets";
 
 const root = document.querySelector("#root");
 if (root === null) {
@@ -15,3 +16,5 @@ createRoot(root).render(
 		<App />
 	</StrictMode>,
 );
+
+preloadCharacterAssets();
