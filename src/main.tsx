@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import App from "./app.tsx";
 
 // biome-ignore lint/style/noNonNullAssertion: root is guaranteed to exist
-createRoot(document.getElementById("root")!).render(
+createRoot(document.querySelector("#root")!).render(
 	<StrictMode>
 		<App />
 	</StrictMode>,

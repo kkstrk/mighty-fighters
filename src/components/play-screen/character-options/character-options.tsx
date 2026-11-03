@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import characters, { type CharacterName } from "@/characters";
+import characters from '@/characters';
+import type { CharacterName } from '@/characters';
 import classNames from "@/utils/class-names";
 import useOptionSfx from "@/utils/use-option-sfx/use-option-sfx";
 import useSfx from "@/utils/use-sfx";
@@ -26,13 +27,13 @@ function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 		[props.onClick],
 	);
 
-	useEffect(() => {
-		return () => {
+	useEffect(() => 
+		() => {
 			if (animationTimeoutRef.current) {
 				clearTimeout(animationTimeoutRef.current);
 			}
-		};
-	}, []);
+		}
+	, []);
 
 	return (
 		<button
@@ -46,14 +47,7 @@ function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 }
 
 function RandomCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-	return (
-		<button
-			{...props}
-			aria-label="Pick a random character"
-			className={classes.randomOption}
-			type="button"
-		/>
-	);
+	return <button {...props} aria-label="Pick a random character" className={classes.randomOption} type="button" />;
 }
 
 function CharacterOptions({
@@ -196,14 +190,8 @@ function CharacterOptions({
 						onMouseLeave={() => handleMouseMove()}
 						type="button"
 					>
-						<img
-							alt={character}
-							src={`avatars/${character}.png`}
-						/>
-						<img
-							alt={character}
-							src={`avatars/${character}-outline.png`}
-						/>
+						<img alt={character} src={`avatars/${character}.png`} />
+						<img alt={character} src={`avatars/${character}-outline.png`} />
 					</button>
 				);
 			})}

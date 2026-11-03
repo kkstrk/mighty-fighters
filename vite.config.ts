@@ -6,7 +6,7 @@ export default defineConfig({
 	plugins: [react()],
 	resolve: {
 		alias: {
-			"@": fileURLToPath(new URL("./src", import.meta.url)),
+			"@": fileURLToPath(new URL("src", import.meta.url)),
 		},
 	},
 	// Pre-commit: format and fix only what is being committed.
@@ -27,7 +27,19 @@ export default defineConfig({
 		ignorePatterns: ["pnpm-lock.yaml"],
 	},
 	lint: {
-		plugins: ["eslint", "typescript", "unicorn", "oxc", "import", "promise", "jsdoc", "vitest", "react", "react-perf", "jsx-a11y"],
+		plugins: [
+			"eslint",
+			"typescript",
+			"unicorn",
+			"oxc",
+			"import",
+			"promise",
+			"jsdoc",
+			"vitest",
+			"react",
+			"react-perf",
+			"jsx-a11y",
+		],
 		categories: {
 			correctness: "error",
 			suspicious: "error",

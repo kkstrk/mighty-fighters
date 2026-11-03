@@ -72,7 +72,7 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 
 	const { 1: playerOne, 2: playerTwo } = playerCharacters;
 
-	const disabled = isSinglePlayer ? false : !!(playerOne && playerTwo);
+	const disabled = isSinglePlayer ? false : Boolean(playerOne && playerTwo);
 
 	return (
 		<>
@@ -94,18 +94,13 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 					<Character
 						align="right"
 						name={playerTwo || (playerOne ? previewCharacter : undefined)}
-						onUndo={
-							playerTwo && !isSinglePlayer ? () => handleCharacterUndo(2) : undefined
-						}
+						onUndo={playerTwo && !isSinglePlayer ? () => handleCharacterUndo(2) : undefined}
 					/>
 				)}
 			</main>
 			<footer className={classes.footer}>
 				<SoundButton />
-				<Button
-					onClick={onAboutClick}
-					title="About"
-				>
+				<Button onClick={onAboutClick} title="About">
 					i
 				</Button>
 			</footer>

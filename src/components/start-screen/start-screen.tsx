@@ -10,13 +10,7 @@ const ABOUT_OPTION = "about";
 
 const options = [START_OPTION, SOUND_OPTION, ABOUT_OPTION] as const;
 
-const StartScreen = ({
-	onStartClick,
-	onAboutClick,
-}: {
-	onStartClick: () => void;
-	onAboutClick: () => void;
-}) => {
+const StartScreen = ({ onStartClick, onAboutClick }: { onStartClick: () => void; onAboutClick: () => void }) => {
 	const [selectedOption, setSelectedOption] = useState<(typeof options)[number]>(START_OPTION);
 	const selectedIndexRef = useRef(0);
 	const { isMuted, startMusic, toggleMute } = useSound();
@@ -82,34 +76,22 @@ const StartScreen = ({
 	return (
 		<>
 			<main className={classes.main}>
-				<div className={classes.title}></div>
+				<div className={classes.title} />
 				<ul>
 					<li data-selected={selectedOption === START_OPTION}>
-						<button
-							onClick={handleStartClick}
-							onMouseEnter={playHoverAudio}
-							type="button"
-						>
+						<button onClick={handleStartClick} onMouseEnter={playHoverAudio} type="button">
 							{START_OPTION}
 						</button>
 					</li>
 					<li data-selected={selectedOption === SOUND_OPTION}>
-						<button
-							onClick={handleSoundClick}
-							onMouseEnter={playHoverAudio}
-							type="button"
-						>
+						<button onClick={handleSoundClick} onMouseEnter={playHoverAudio} type="button">
 							{selectedOption === SOUND_OPTION
 								? `${SOUND_OPTION}: ${isMuted ? "off" : "on"}`
 								: SOUND_OPTION}
 						</button>
 					</li>
 					<li data-selected={selectedOption === ABOUT_OPTION}>
-						<button
-							onClick={handleAboutClick}
-							onMouseEnter={playHoverAudio}
-							type="button"
-						>
+						<button onClick={handleAboutClick} onMouseEnter={playHoverAudio} type="button">
 							{ABOUT_OPTION}
 						</button>
 					</li>
@@ -117,8 +99,8 @@ const StartScreen = ({
 			</main>
 			<footer>
 				<p className={classes.footerNote}>
-					This project is unofficial fan content and is not approved or endorsed in any
-					way by Critical&nbsp;Role.
+					This project is unofficial fan content and is not approved or endorsed in any way by
+					Critical&nbsp;Role.
 				</p>
 			</footer>
 		</>
