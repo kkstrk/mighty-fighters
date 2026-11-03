@@ -24,7 +24,8 @@ export default defineConfig({
 		tabWidth: 4,
 		printWidth: 120,
 		trailingComma: "all",
-		ignorePatterns: ["pnpm-lock.yaml"],
+		// Stylelint config files are excluded from formatting.
+		ignorePatterns: ["pnpm-lock.yaml", ".stylelintrc.mjs", "stylelint-rules.js"],
 	},
 	lint: {
 		plugins: [
@@ -232,6 +233,15 @@ export default defineConfig({
 			"react/react-in-jsx-scope": "off",
 		},
 		overrides: [
+			{
+				// Stylelint config files use default exports and loose JSDoc.
+				files: [".stylelintrc.mjs", "stylelint-rules.js"],
+				rules: {
+					"import/no-default-export": "off",
+					"jsdoc/require-param-description": "off",
+					"typescript/strict-boolean-expressions": "off",
+				},
+			},
 			{
 				files: ["**/*.config.ts"],
 				env: { node: true },
