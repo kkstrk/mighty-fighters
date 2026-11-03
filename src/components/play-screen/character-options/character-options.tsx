@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import characters from "@/characters";
+import { characters } from "@/characters";
 import type { CharacterName } from "@/characters";
-import classNames from "@/utils/class-names";
-import useOptionSfx from "@/utils/use-option-sfx/use-option-sfx";
-import useSfx from "@/utils/use-sfx";
+import { classNames } from "@/utils/class-names";
+import { useOptionSfx } from "@/utils/use-option-sfx/use-option-sfx";
+import { useSfx } from "@/utils/use-sfx";
 import RandomizeAudio from "./assets/randomize.wav";
 import classes from "./character-options.module.css";
-import useKeyboardNavigation from "./use-keyboard-navigation";
+import { useKeyboardNavigation } from "./use-keyboard-navigation";
 
 function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	const [animating, setAnimating] = useState(false);
@@ -215,4 +215,4 @@ function CharacterOptions({
 	);
 }
 
-export default CharacterOptions;
+export { CharacterOptions };

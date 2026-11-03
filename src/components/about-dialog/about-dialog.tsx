@@ -84,5 +84,5 @@ const AboutDialog = ({ ref }: { ref: React.RefObject<AboutDialogRef | null> }) =
 	);
 };
 
-export default AboutDialog;
+export { AboutDialog };
 export type { AboutDialogRef };

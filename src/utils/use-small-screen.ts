@@ -18,4 +18,4 @@ const useSmallScreen = (onSizeChange: (isSmallScreen: boolean) => void) => {
 	}, [onSizeChange]);
 };
 
-export default useSmallScreen;
+export { useSmallScreen };

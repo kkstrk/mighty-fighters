@@ -1,5 +1,5 @@
-import Button from "@/components/button/button";
-import classNames from "@/utils/class-names";
+import { Button } from "@/components/button/button";
+import { classNames } from "@/utils/class-names";
 import UndoIcon from "./assets/undo.png";
 import classes from "./character.module.css";
 
@@ -41,4 +41,4 @@ function Character({
 	);
 }
 
-export default Character;
+export { Character };

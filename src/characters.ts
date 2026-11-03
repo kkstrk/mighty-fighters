@@ -12,6 +12,6 @@ const characters = [
 	"jourrael",
 ] as const;
 
-export default characters;
+export { characters };
 
 export type CharacterName = (typeof characters)[number];

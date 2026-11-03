@@ -8,4 +8,4 @@ const classNames = (...classes: unknown[]) =>
 		})
 		.join(" ");
 
-export default classNames;
+export { classNames };

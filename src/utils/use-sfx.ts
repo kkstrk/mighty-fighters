@@ -21,4 +21,4 @@ const useSfx = (src: string) => {
 	return { play, pause };
 };
 
-export default useSfx;
+export { useSfx };
