@@ -12,7 +12,8 @@
 		"lint": "vp fmt --check && vp lint --deny-warnings && knip",
 		"format": "vp check --fix",
 		"test": "vp test run",
-		"prepare": "vp config"
+		"prepare": "vp config",
+		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
 		"react": "^19.3.1",

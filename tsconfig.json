@@ -1,4 +1,26 @@
 {
-	"files": [],
-	"references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
+	"compilerOptions": {
+		"target": "ES2024",
+		"lib": ["ES2024", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"jsx": "react-jsx",
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": true,
+		"noImplicitOverride": true,
+		"noFallthroughCasesInSwitch": true,
+		"verbatimModuleSyntax": true,
+		"erasableSyntaxOnly": true,
+		"noUncheckedSideEffectImports": true,
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"noEmit": true,
+		"types": ["vite/client", "node"],
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	},
+	"include": ["src", "tests", "*.ts"]
 }
