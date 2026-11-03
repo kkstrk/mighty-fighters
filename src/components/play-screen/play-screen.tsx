@@ -32,7 +32,7 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 	const handleCharacterChange = useCallback(
 		(character: CharacterName) => {
 			setPlayerCharacters((prev) => {
-				const player = isSinglePlayer ? 1 : prev[1] ? 2 : 1;
+				const player = !isSinglePlayer && prev[1] !== undefined ? 2 : 1;
 				selectionHistoryRef.current.push(player);
 				return {
 					...prev,
@@ -73,6 +73,8 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 	const { 1: playerOne, 2: playerTwo } = playerCharacters;
 
 	const disabled = isSinglePlayer ? false : Boolean(playerOne && playerTwo);
+	const nextPlayer: Player = !isSinglePlayer && playerOne !== undefined ? 2 : 1;
+	const currentPlayer = disabled ? undefined : nextPlayer;
 
 	return (
 		<>
@@ -83,7 +85,7 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 					onUndo={playerOne && !isSinglePlayer ? () => handleCharacterUndo(1) : undefined}
 				/>
 				<CharacterOptions
-					currentPlayer={disabled ? undefined : isSinglePlayer ? 1 : playerOne ? 2 : 1}
+					currentPlayer={currentPlayer}
 					disabled={disabled}
 					onChange={handleCharacterChange}
 					onPreview={setPreviewCharacter}
