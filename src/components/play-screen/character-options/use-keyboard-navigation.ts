@@ -18,7 +18,7 @@ const getButtonPosition = (index: number) => {
 
 const useKeyboardNavigation = ({
 	ref,
-	initialIndex = 0,
+	initialIndex,
 	onFocus,
 }: {
 	ref: React.RefObject<HTMLDivElement | null>;
@@ -73,8 +73,8 @@ const useKeyboardNavigation = ({
 
 			event.preventDefault();
 
-			if (!ref.current?.contains(document.activeElement)) {
-				const button = buttons.at(initialIndex) || buttons.find((button) => !button.disabled);
+			if (ref.current?.contains(document.activeElement) !== true) {
+				const button = buttons.at(initialIndex) ?? buttons.find((button) => !button.disabled);
 				if (button) {
 					button.focus();
 					focusedIndexRef.current = buttons.indexOf(button);
@@ -96,7 +96,7 @@ const useKeyboardNavigation = ({
 						delta === 1
 							? row[(colIndex + step) % row.length]
 							: row[(colIndex - step + row.length) % row.length];
-					if (index !== undefined && !buttons[index]?.disabled) {
+					if (index !== undefined && buttons[index]?.disabled !== true) {
 						nextButtonIndex = index;
 						stickyColRef.current = row.indexOf(index);
 						break;
@@ -115,7 +115,7 @@ const useKeyboardNavigation = ({
 
 					for (let nextColIndex = startColIndex; nextColIndex < row.length; nextColIndex += 1) {
 						const index = row[nextColIndex];
-						if (index !== undefined && !buttons[index]?.disabled) {
+						if (index !== undefined && buttons[index]?.disabled !== true) {
 							nextButtonIndex = index;
 							return;
 						}

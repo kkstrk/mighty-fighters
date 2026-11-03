@@ -79,7 +79,7 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 			<main className={classes.main}>
 				<Character
 					align="left"
-					name={playerOne || previewCharacter}
+					name={playerOne ?? previewCharacter}
 					onUndo={playerOne && !isSinglePlayer ? () => handleCharacterUndo(1) : undefined}
 				/>
 				<CharacterOptions
@@ -93,7 +93,7 @@ const PlayScreen = ({ onAboutClick }: { onAboutClick: () => void }) => {
 				{!isSinglePlayer && (
 					<Character
 						align="right"
-						name={playerTwo || (playerOne ? previewCharacter : undefined)}
+						name={playerTwo ?? (playerOne ? previewCharacter : undefined)}
 						onUndo={playerTwo && !isSinglePlayer ? () => handleCharacterUndo(2) : undefined}
 					/>
 				)}

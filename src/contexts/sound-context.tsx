@@ -19,9 +19,7 @@ const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 	const [isMuted, setIsMuted] = useState(() => getSoundFromStorage());
 
 	useEffect(() => {
-		if (audioRef.current) {
-			audioRef.current.loop = true;
-		}
+		audioRef.current.loop = true;
 	}, []);
 
 	useEffect(() => {

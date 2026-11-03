@@ -111,7 +111,7 @@ function CharacterOptions({
 
 	const handleBlur = useCallback(() => {
 		// preview the hovered element when focus is moved outside options
-		if (hoveredCharacterRef.current && !parentRef.current?.contains(document.activeElement)) {
+		if (hoveredCharacterRef.current !== undefined && parentRef.current?.contains(document.activeElement) !== true) {
 			handleCharacterPreview(hoveredCharacterRef.current);
 		} else {
 			handleCharacterPreview();
