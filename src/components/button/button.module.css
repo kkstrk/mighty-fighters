@@ -13,7 +13,7 @@
 }
 
 .button:hover,
-.button:focus {
+.button:focus-visible {
 	color: var(--color-light-2);
 	background-color: var(--color-surface);
 	box-shadow: var(--shadow-glow);
