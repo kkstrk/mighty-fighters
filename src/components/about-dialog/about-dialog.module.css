@@ -29,7 +29,7 @@
 }
 
 .dialogContent {
-	padding: 2rem clamp(0.5rem, 2vi - 0.25rem, 2rem);
+	padding: var(--space-8) clamp(0.5rem, 2vi - 0.25rem, 2rem);
 }
 
 .closeButton {
@@ -54,7 +54,7 @@
 
 .separator {
 	block-size: 2px;
-	margin: 1.5rem 0;
+	margin: var(--space-6) 0;
 	font-size: 0;
 	color: var(--border-color);
 	background: var(--border-color);

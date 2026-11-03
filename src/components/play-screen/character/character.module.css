@@ -61,9 +61,9 @@
 	position: relative;
 	inline-size: 22px;
 	block-size: min-content;
-	padding: 8px;
-	margin: 32px 16px;
-	font-size: 22px;
+	padding: var(--space-px-8);
+	margin: var(--space-px-32) var(--space-px-16);
+	font-size: var(--font-size-banner);
 	line-height: 1;
 	color: var(--color-white);
 	text-align: center;
@@ -115,7 +115,7 @@
 
 .selection .undoButton {
 	flex: 0 0 auto;
-	margin-block-end: 64px;
+	margin-block-end: var(--space-px-64);
 }
 
 .selection .hiddenUndoButton {
@@ -125,7 +125,7 @@
 .platform {
 	flex: 0 0 40px;
 	block-size: 40px;
-	margin-block-start: -24px;
+	margin-block-start: var(--space-px-neg-24);
 	object-fit: cover;
 }
 
