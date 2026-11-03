@@ -30,14 +30,14 @@ const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 
 	const startMusic = useCallback(() => {
 		if (!isMuted) {
-			audioRef.current.play();
+			void audioRef.current.play();
 		}
 	}, [isMuted]);
 
 	const toggleMusic = useCallback(() => {
 		setIsMuted((prev) => {
 			if (prev) {
-				audioRef.current.play();
+				void audioRef.current.play();
 				return false;
 			}
 			audioRef.current.pause();
