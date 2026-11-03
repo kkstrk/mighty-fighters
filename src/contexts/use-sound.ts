@@ -4,7 +4,6 @@ const SoundContext = createContext<
 	| {
 			isMuted: boolean;
 			startMusic: () => void;
-			toggleMusic: () => void;
 			toggleMute: () => void;
 	  }
 	| undefined

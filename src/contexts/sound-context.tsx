@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { playQuietly } from "@/utils/play-quietly";
 import { SoundContext } from "./use-sound";
@@ -14,6 +14,7 @@ const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 		return music;
 	}, []);
 	const [isMuted, setIsMuted] = useState(() => getSoundFromStorage());
+	const [hasStartedMusic, setHasStartedMusic] = useState(false);
 
 	const setMuted = useCallback((muted: boolean) => {
 		localStorage.setItem(SOUND_STORAGE_KEY, String(muted));
@@ -21,32 +22,29 @@ const SoundProvider = ({ children }: { children: React.ReactNode }) => {
 	}, []);
 
 	const startMusic = useCallback(() => {
-		if (!isMuted) {
-			void playQuietly(audio);
-		}
-	}, [audio, isMuted]);
-
-	const toggleMusic = useCallback(() => {
-		if (isMuted) {
-			void playQuietly(audio);
-		} else {
-			audio.pause();
-		}
-		setMuted(!isMuted);
-	}, [audio, isMuted, setMuted]);
+		setHasStartedMusic(true);
+	}, []);
 
 	const toggleMute = useCallback(() => {
 		setMuted(!isMuted);
 	}, [isMuted, setMuted]);
 
+	// The audio element follows the two flags, so the UI and the sound cannot disagree.
+	useEffect(() => {
+		if (hasStartedMusic && !isMuted) {
+			void playQuietly(audio);
+		} else {
+			audio.pause();
+		}
+	}, [audio, hasStartedMusic, isMuted]);
+
 	const contextValue = useMemo(
 		() => ({
 			isMuted,
 			startMusic,
-			toggleMusic,
 			toggleMute,
 		}),
-		[isMuted, startMusic, toggleMusic, toggleMute],
+		[isMuted, startMusic, toggleMute],
 	);
 
 	return <SoundContext.Provider value={contextValue}>{children}</SoundContext.Provider>;
