@@ -12,7 +12,7 @@ const BUTTON_ROWS = [
 
 const getButtonPosition = (index: number) => {
 	const rowIndex = Math.floor((2 * index) / 5);
-	const colIndex = [0, 1, 2, 0, 1][index % 5];
+	const colIndex = [0, 1, 2, 0, 1][index % 5] ?? 0;
 	return { rowIndex, colIndex };
 };
 
@@ -90,13 +90,13 @@ const useKeyboardNavigation = ({
 			let nextButtonIndex: number | undefined;
 
 			const moveHorizontal = (delta: number) => {
-				const row = BUTTON_ROWS[rowIndex];
+				const row = BUTTON_ROWS[rowIndex] ?? [];
 				for (let step = 1; step < row.length; step += 1) {
 					const index =
 						delta === 1
 							? row[(colIndex + step) % row.length]
 							: row[(colIndex - step + row.length) % row.length];
-					if (!buttons[index]?.disabled) {
+					if (index !== undefined && !buttons[index]?.disabled) {
 						nextButtonIndex = index;
 						stickyColRef.current = row.indexOf(index);
 						break;
@@ -110,12 +110,12 @@ const useKeyboardNavigation = ({
 				let nextRowIndex = (rowIndex + delta + totalRows) % totalRows;
 
 				while (rowsVisited < totalRows) {
-					const row = BUTTON_ROWS[nextRowIndex];
+					const row = BUTTON_ROWS[nextRowIndex] ?? [];
 					const startColIndex = Math.min(stickyColRef.current, row.length - 1);
 
 					for (let nextColIndex = startColIndex; nextColIndex < row.length; nextColIndex += 1) {
 						const index = row[nextColIndex];
-						if (!buttons[index]?.disabled) {
+						if (index !== undefined && !buttons[index]?.disabled) {
 							nextButtonIndex = index;
 							return;
 						}
@@ -137,7 +137,7 @@ const useKeyboardNavigation = ({
 			}
 
 			if (nextButtonIndex !== undefined) {
-				buttons[nextButtonIndex].focus();
+				buttons[nextButtonIndex]?.focus();
 				focusedIndexRef.current = nextButtonIndex;
 				onFocus(nextButtonIndex);
 			}

@@ -58,12 +58,12 @@ function CharacterOptions({
 	playerOne,
 	playerTwo,
 }: {
-	currentPlayer?: 1 | 2;
+	currentPlayer?: 1 | 2 | undefined;
 	disabled: boolean;
 	onChange: (character: CharacterName) => void;
 	onPreview: (character?: CharacterName) => void;
-	playerOne?: CharacterName;
-	playerTwo?: CharacterName;
+	playerOne?: CharacterName | undefined;
+	playerTwo?: CharacterName | undefined;
 }) {
 	const parentRef = useRef<HTMLDivElement>(null);
 	const previewTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -150,7 +150,10 @@ function CharacterOptions({
 		}
 
 		if (randomAnimatingQueue.length === 1) {
-			onChange(randomAnimatingQueue[0]);
+			const [lastCharacter] = randomAnimatingQueue;
+			if (lastCharacter) {
+				onChange(lastCharacter);
+			}
 			setRandomAnimatingQueue([]);
 			return;
 		}

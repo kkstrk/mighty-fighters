@@ -3,7 +3,7 @@ import classNames from "@/utils/class-names";
 import UndoIcon from "./assets/undo.png";
 import classes from "./character.module.css";
 
-function Character({ align, name, onUndo }: { align: "left" | "right"; name?: string; onUndo?: () => void }) {
+function Character({ align, name, onUndo }: { align: "left" | "right"; name?: string | undefined; onUndo?: (() => void) | undefined }) {
 	return (
 		<div className={classNames(classes.character, classes[align])}>
 			<div className={classes.banner}>{Boolean(name) && <div className={classes.bannerText}>{name}</div>}</div>

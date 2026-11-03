@@ -51,7 +51,7 @@ const StartScreen = ({ onStartClick, onAboutClick }: { onStartClick: () => void;
 					nextIndex = (currentIndex + 1) % options.length;
 				}
 
-				setSelectedOption(options[nextIndex]);
+				setSelectedOption(options[nextIndex] ?? START_OPTION);
 				playHoverAudio();
 			}
 

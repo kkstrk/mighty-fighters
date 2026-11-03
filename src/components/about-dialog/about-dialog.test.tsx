@@ -23,26 +23,26 @@ describe("AboutDialog", () => {
 		vi.restoreAllMocks();
 	});
 
-	it("renders dialog element", () => {
+	test("renders dialog element", () => {
 		render(<AboutDialog ref={dialogRef} />);
 		const dialog = screen.getByRole("dialog", { hidden: true });
 		expect(dialog).toBeInTheDocument();
 	});
 
-	it("dialog is initially closed", () => {
+	test("dialog is initially closed", () => {
 		render(<AboutDialog ref={dialogRef} />);
 		const dialog = screen.getByRole("dialog", { hidden: true });
 		expect(dialog).not.toHaveAttribute("open");
 	});
 
-	it("exposes open method through ref", () => {
+	test("exposes open method through ref", () => {
 		render(<AboutDialog ref={dialogRef} />);
 		expect(dialogRef.current).toBeDefined();
 		expect(dialogRef.current?.open).toBeDefined();
 		expect(typeof dialogRef.current?.open).toBe("function");
 	});
 
-	it("opens dialog when open method is called", () => {
+	test("opens dialog when open method is called", () => {
 		render(<AboutDialog ref={dialogRef} />);
 		const dialog = screen.getByRole("dialog", { hidden: true }) as HTMLDialogElement;
 
@@ -51,7 +51,7 @@ describe("AboutDialog", () => {
 		expect(dialog.showModal).toHaveBeenCalled();
 	});
 
-	it("closes dialog when close button is clicked", async () => {
+	test("closes dialog when close button is clicked", async () => {
 		const user = userEvent.setup();
 		render(<AboutDialog ref={dialogRef} />);
 		const dialog = screen.getByRole("dialog", { hidden: true }) as HTMLDialogElement;
@@ -63,7 +63,7 @@ describe("AboutDialog", () => {
 		expect(dialog.close).toHaveBeenCalled();
 	});
 
-	it("closes dialog when backdrop is clicked", async () => {
+	test("closes dialog when backdrop is clicked", async () => {
 		const user = userEvent.setup();
 		render(<AboutDialog ref={dialogRef} />);
 		const dialog = screen.getByRole("dialog", { hidden: true }) as HTMLDialogElement;
@@ -74,7 +74,7 @@ describe("AboutDialog", () => {
 		expect(dialog.close).toHaveBeenCalled();
 	});
 
-	it("does not close dialog when content area is clicked", async () => {
+	test("does not close dialog when content area is clicked", async () => {
 		const user = userEvent.setup();
 		render(<AboutDialog ref={dialogRef} />);
 		const dialog = screen.getByRole("dialog", { hidden: true }) as HTMLDialogElement;
@@ -86,21 +86,21 @@ describe("AboutDialog", () => {
 		expect(dialog.close).not.toHaveBeenCalled();
 	});
 
-	it("close button has correct type attribute", () => {
+	test("close button has correct type attribute", () => {
 		render(<AboutDialog ref={dialogRef} />);
 		const dialog = screen.getByRole("dialog", { hidden: true });
 		const closeButton = within(dialog).getByRole("button", { name: "X", hidden: true });
 		expect(closeButton).toHaveAttribute("type", "button");
 	});
 
-	it("close button has correct title attribute", () => {
+	test("close button has correct title attribute", () => {
 		render(<AboutDialog ref={dialogRef} />);
 		const dialog = screen.getByRole("dialog", { hidden: true });
 		const closeButton = within(dialog).getByRole("button", { name: "X", hidden: true });
 		expect(closeButton).toHaveAttribute("title", "Close");
 	});
 
-	it("handles multiple open and close cycles", () => {
+	test("handles multiple open and close cycles", () => {
 		render(<AboutDialog ref={dialogRef} />);
 		const dialog = screen.getByRole("dialog", { hidden: true }) as HTMLDialogElement;
 
