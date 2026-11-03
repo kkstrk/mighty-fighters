@@ -135,6 +135,7 @@ function CharacterOptions({
 }) {
 	const parentRef = useRef<HTMLDivElement>(null);
 	const previewTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+	const randomTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 	const hoveredCharacterRef = useRef<CharacterName | undefined>(undefined);
 
 	const { play: playRandomizeAudio } = useSfx(RandomizeAudio);
@@ -207,29 +208,33 @@ function CharacterOptions({
 	);
 
 	const handleRandomOptionClick = useCallback(() => {
-		const availableCharacters = characters.toSorted(() => Math.random() - 0.5);
-		setRandomAnimatingQueue(availableCharacters);
+		const queue = characters.toSorted(() => Math.random() - 0.5);
+		const advance = (remaining: CharacterName[]) => {
+			randomTimeoutRef.current = setTimeout(() => {
+				if (remaining.length > 2) {
+					const next = remaining.slice(1);
+					setRandomAnimatingQueue(next);
+					advance(next);
+					return;
+				}
+				const lastCharacter = remaining.at(-1);
+				if (lastCharacter !== undefined) {
+					onChange(lastCharacter);
+				}
+				setRandomAnimatingQueue([]);
+			}, 150);
+		};
+		setRandomAnimatingQueue(queue);
+		advance(queue);
 		playRandomizeAudio();
-	}, [playRandomizeAudio]);
+	}, [onChange, playRandomizeAudio]);
 
-	useEffect(() => {
-		if (randomAnimatingQueue.length === 0) {
-			return;
-		}
-
-		const timeout = setTimeout(() => {
-			if (randomAnimatingQueue.length > 2) {
-				setRandomAnimatingQueue((queue) => queue.slice(1));
-				return;
-			}
-			const lastCharacter = randomAnimatingQueue.at(-1);
-			if (lastCharacter !== undefined) {
-				onChange(lastCharacter);
-			}
-			setRandomAnimatingQueue([]);
-		}, 150);
-		return () => clearTimeout(timeout);
-	}, [onChange, randomAnimatingQueue]);
+	useEffect(
+		() => () => {
+			clearTimeout(randomTimeoutRef.current);
+		},
+		[],
+	);
 
 	return (
 		<div
