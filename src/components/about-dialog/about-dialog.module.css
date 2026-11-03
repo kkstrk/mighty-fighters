@@ -10,10 +10,6 @@
 	box-shadow: var(--shadow-dialog);
 }
 
-.dialog::backdrop {
-	background: rgb(0 0 0 0.5);
-}
-
 @media (width <= 640px) {
 	.dialog {
 		inline-size: auto;
