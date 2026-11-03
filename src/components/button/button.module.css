@@ -12,11 +12,18 @@
 	border: 0;
 }
 
-.button:hover,
 .button:focus-visible {
 	color: var(--color-light-2);
 	background-color: var(--color-surface);
 	box-shadow: var(--shadow-glow);
+}
+
+@media (hover: hover) {
+	.button:hover {
+		color: var(--color-light-2);
+		background-color: var(--color-surface);
+		box-shadow: var(--shadow-glow);
+	}
 }
 
 .button::after,

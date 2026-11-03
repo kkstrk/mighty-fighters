@@ -37,9 +37,11 @@
 	transition: all 0.15s ease-out;
 }
 
-.option:hover {
-	color: var(--color-light-2);
-	text-shadow: var(--text-shadow-light);
+@media (hover: hover) {
+	.option:hover {
+		color: var(--color-light-2);
+		text-shadow: var(--text-shadow-light);
+	}
 }
 
 .item[data-selected="true"] .option {
@@ -47,9 +49,11 @@
 	transform: scale(1.05);
 }
 
-.item[data-selected="true"] .option:hover {
-	color: var(--color-yellow-2);
-	text-shadow: var(--text-shadow-yellow);
+@media (hover: hover) {
+	.item[data-selected="true"] .option:hover {
+		color: var(--color-yellow-2);
+		text-shadow: var(--text-shadow-yellow);
+	}
 }
 
 .item[data-selected="true"] .option:focus-visible {
