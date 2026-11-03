@@ -14,7 +14,8 @@
 		"format": "vp check --fix && stylelint \"**/*.css\" --fix",
 		"test": "vp test run",
 		"prepare": "vp config",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"verify": "pnpm lint && gitleaks git --redact --no-banner && pnpm audit --prod --audit-level high && pnpm typecheck && pnpm test"
 	},
 	"dependencies": {
 		"react": "^19.3.1",
