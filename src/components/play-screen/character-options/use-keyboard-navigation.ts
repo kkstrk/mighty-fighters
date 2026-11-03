@@ -25,39 +25,17 @@ const useKeyboardNavigation = ({
 	initialIndex: number;
 	onFocus: (index: number) => void;
 }) => {
-	const buttonsRef = useRef<HTMLButtonElement[]>([]);
-	const focusedIndexRef = useRef<number>(0);
 	const stickyColRef = useRef<number>(0);
 
 	// Temporary hack to disable keyboard navigation on small screens
 	const disabled = useIsSmallScreen();
 
 	useEffect(() => {
-		buttonsRef.current = [...(ref.current?.querySelectorAll<HTMLButtonElement>("button") ?? [])];
-	}, [ref]);
-
-	useEffect(() => {
-		const node = ref.current;
-		if (!node) {
-			return;
-		}
-		const handleFocusIn = (event: FocusEvent) => {
-			const { target } = event;
-			const index = target instanceof HTMLButtonElement ? buttonsRef.current.indexOf(target) : -1;
-			if (index >= 0) {
-				focusedIndexRef.current = index;
-			}
-		};
-		node.addEventListener("focusin", handleFocusIn);
-		return () => node.removeEventListener("focusin", handleFocusIn);
-	}, [ref]);
-
-	useEffect(() => {
 		if (disabled) {
 			return;
 		}
 		const handleKeyDown = (event: KeyboardEvent) => {
-			const buttons = buttonsRef.current;
+			const buttons = [...(ref.current?.querySelectorAll<HTMLButtonElement>("button") ?? [])];
 			if (buttons.length === 0) {
 				return;
 			}
@@ -77,14 +55,16 @@ const useKeyboardNavigation = ({
 				const button = buttons.at(initialIndex) ?? buttons.find((candidate) => !candidate.disabled);
 				if (button) {
 					button.focus();
-					focusedIndexRef.current = buttons.indexOf(button);
-					onFocus(focusedIndexRef.current);
-					stickyColRef.current = getButtonPosition(focusedIndexRef.current).colIndex;
+					const focusedIndex = buttons.indexOf(button);
+					onFocus(focusedIndex);
+					stickyColRef.current = getButtonPosition(focusedIndex).colIndex;
 				}
 				return;
 			}
 
-			const buttonIndex = focusedIndexRef.current;
+			const { activeElement } = document;
+			const buttonIndex =
+				activeElement instanceof HTMLButtonElement ? Math.max(0, buttons.indexOf(activeElement)) : 0;
 			const { rowIndex, colIndex } = getButtonPosition(buttonIndex);
 
 			let nextButtonIndex: number | undefined;
@@ -138,7 +118,6 @@ const useKeyboardNavigation = ({
 
 			if (nextButtonIndex !== undefined) {
 				buttons[nextButtonIndex]?.focus();
-				focusedIndexRef.current = nextButtonIndex;
 				onFocus(nextButtonIndex);
 			}
 		};
