@@ -269,7 +269,7 @@
 
 @media (width <= 750px) and (orientation: portrait) {
 	.options {
-		margin-block-end: calc(2 * calc(var(--d20-width) * 0.16677));
+		margin-block-end: calc(2 * calc(var(--d20-width) * 0.1668));
 	}
 
 	.options > .option:first-child {
