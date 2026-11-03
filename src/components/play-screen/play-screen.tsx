@@ -2,6 +2,7 @@ import { useCallback, useEffect, useReducer, useState } from "react";
 
 import type { CharacterName } from "@/characters";
 import { Button } from "@/components/button/button";
+import { PixelIcon } from "@/components/pixel-icon/pixel-icon";
 import { SoundButton } from "@/components/sound-button/sound-button";
 import { useIsSmallScreen } from "@/utils/use-is-small-screen";
 import { useOptionSfx } from "@/utils/use-option-sfx/use-option-sfx";
@@ -48,6 +49,8 @@ const PlayScreenContent = ({
 	const handleUndoPlayerTwo = useCallback(() => {
 		handleUndo(2);
 	}, [handleUndo]);
+
+	const buttonSize = useIsSmallScreen() ? "sm" : "md";
 
 	const { phase } = selection;
 	useEffect(() => {
@@ -108,9 +111,9 @@ const PlayScreenContent = ({
 				)}
 			</main>
 			<footer className={classes.footer}>
-				<SoundButton />
-				<Button onClick={onAboutClick} title="About">
-					i
+				<SoundButton size={buttonSize} />
+				<Button aria-label="About" onClick={onAboutClick} size={buttonSize} title="About">
+					<PixelIcon name="info" />
 				</Button>
 			</footer>
 		</>

@@ -1,61 +1,84 @@
-.dialog {
-	position: relative;
+.dialog[open] {
+	display: flex;
+	flex-direction: column;
+	inline-size: min(100% - 32px, 560px);
+	max-block-size: min(100% - 32px, 720px);
 	padding: 0;
-	overflow: auto;
-	overscroll-behavior: contain;
+	margin: auto;
 	font: inherit;
 	color: inherit;
-	background-color: var(--background-color);
-	border: var(--border);
+	background: var(--color-panel);
+	border: var(--pixel) solid var(--color-light-2);
 	box-shadow: var(--shadow-dialog);
 }
 
-@media (width <= 640px) {
-	.dialog {
-		inline-size: auto;
-		max-block-size: 66%;
-		margin: auto;
-	}
+.dialog::backdrop {
+	background: var(--color-backdrop);
 }
 
-@media (width >= 640px) {
-	.dialog {
-		min-inline-size: 620px;
-		max-inline-size: 50%;
-	}
-}
-
-.dialogContent {
-	padding: var(--space-8) clamp(0.5rem, 2vi - 0.25rem, 2rem);
-}
-
-.closeButton {
-	all: unset;
-	position: absolute;
-	inset-block-start: 0.25rem;
-	inset-inline-end: 0;
+.header {
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	inline-size: 1.5rem;
-	block-size: 1.5rem;
-	font: inherit;
-	cursor: pointer;
-	background-color: inherit;
+	justify-content: space-between;
+	padding: var(--space-px-10) var(--space-px-10) var(--space-px-10) var(--space-px-16);
+	font-family: var(--font-display);
+	font-size: var(--font-size-13);
+	color: var(--color-gold-ink);
+	background: var(--color-gold);
+	border-block-end: var(--pixel) solid var(--color-ink);
 }
 
-@media (hover: hover) {
-	.closeButton:hover {
-		color: var(--color-light-2);
-		text-shadow: var(--text-shadow-light);
-	}
+.title {
+	margin: 0;
+	font: inherit;
+}
+
+.body {
+	padding: var(--space-px-20);
+	overflow: auto;
+	overscroll-behavior: contain;
+	font-family: var(--font-body);
+	font-size: var(--font-size-20);
+	line-height: 1.25;
+}
+
+.link {
+	color: var(--color-gold);
+}
+
+.credits {
+	margin: 0;
+}
+
+.term {
+	margin-block-start: var(--space-px-18);
+	font-family: var(--font-display);
+	font-size: var(--font-size-10);
+	color: var(--color-muted);
+}
+
+.term:first-child {
+	margin-block-start: 0;
+}
+
+.definition {
+	margin: var(--space-px-6) 0 0;
 }
 
 .separator {
-	block-size: 2px;
-	margin: var(--space-6) 0;
-	font-size: 0;
-	color: var(--border-color);
-	background: var(--border-color);
+	margin: var(--space-px-20) 0;
 	border: 0;
+	border-block-start: var(--pixel) dashed var(--color-rule);
+}
+
+@media (width <= 640px) {
+	.dialog[open] {
+		inline-size: 100%;
+		max-inline-size: 100%;
+		block-size: 100%;
+		max-block-size: 100%;
+		margin: 0;
+		border: 0;
+		box-shadow: none;
+	}
 }

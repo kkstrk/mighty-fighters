@@ -1,14 +1,14 @@
 import { Button } from "@/components/button/button";
+import { PixelIcon } from "@/components/pixel-icon/pixel-icon";
 import { useSound } from "@/contexts/use-sound";
-import SoundOffIcon from "./assets/sound-off.png";
-import SoundOnIcon from "./assets/sound-on.png";
 
-const SoundButton = () => {
+const SoundButton = ({ size }: { size?: "sm" | "md" | "lg" | undefined }) => {
 	const { isMuted, toggleMute } = useSound();
+	const label = isMuted ? "Unmute" : "Mute";
 
 	return (
-		<Button onClick={toggleMute} title={isMuted ? "Unmute" : "Mute"}>
-			<img alt={isMuted ? "Sound off icon" : "Sound on icon"} src={isMuted ? SoundOffIcon : SoundOnIcon} />
+		<Button aria-label={label} onClick={toggleMute} size={size} title={label}>
+			<PixelIcon name={isMuted ? "sound-off" : "sound-on"} />
 		</Button>
 	);
 };
