@@ -13,9 +13,10 @@ function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 	const [animating, setAnimating] = useState(false);
 	const animationTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
+	const { onClick } = props;
 	const handleClick = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>) => {
-			props.onClick?.(event);
+			onClick?.(event);
 			if (animationTimeoutRef.current) {
 				clearTimeout(animationTimeoutRef.current);
 			}
@@ -24,7 +25,7 @@ function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 				setAnimating(false);
 			}, 350);
 		},
-		[props.onClick],
+		[onClick],
 	);
 
 	useEffect(
