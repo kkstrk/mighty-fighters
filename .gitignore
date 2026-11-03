@@ -17,6 +17,10 @@ coverage/
 .vite-hooks/_
 vite.config.ts.timestamp-*
 
+# Playwright
+test-results/
+playwright-report/
+
 # Logs
 *.log
 

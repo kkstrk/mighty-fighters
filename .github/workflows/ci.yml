@@ -70,7 +70,7 @@ jobs:
     # The one check branch protection requires, so adding or renaming a job never changes the rules.
     ci-ok:
         if: always()
-        needs: [verify, secrets, workflows]
+        needs: [verify, e2e, secrets, workflows]
         runs-on: ubuntu-latest
         timeout-minutes: 5
         steps:

@@ -243,7 +243,7 @@ export default defineConfig({
 				},
 			},
 			{
-				files: ["**/*.config.ts"],
+				files: ["**/*.config.ts", "e2e/**"],
 				env: { node: true },
 				rules: { "no-console": "off", "import/no-default-export": "off" },
 			},
