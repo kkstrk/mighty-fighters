@@ -15,8 +15,8 @@
 .button:hover,
 .button:focus {
 	color: var(--color-light-2);
-	background-color: #41555b;
-	box-shadow: 0 0 8px 2px rgb(255 255 255 / 80%);
+	background-color: var(--color-surface);
+	box-shadow: var(--shadow-glow);
 }
 
 .button::after,

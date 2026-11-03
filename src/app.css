@@ -13,6 +13,13 @@
 	--color-yellow-3: hsl(50deg 100% 64%);
 	--text-shadow-yellow: 0 0 4px var(--color-yellow-1);
 
+	--color-white: #fff;
+	--color-surface: #41555b;
+	--color-banner: #d8ebe9;
+	--color-banner-text: #586b71;
+	--shadow-dialog: #263336 0 8px 24px 0;
+	--shadow-glow: 0 0 8px 2px rgb(255 255 255 / 80%);
+
 	--background-color: hsl(191deg 17% 18%);
 	--border-color: hsl(189deg 14% 36%);
 	--border: 4px solid var(--border-color);

@@ -6,7 +6,7 @@
 	color: inherit;
 	background-color: var(--background-color);
 	border: var(--border);
-	box-shadow: #263336 0 8px 24px 0;
+	box-shadow: var(--shadow-dialog);
 }
 
 .dialog::backdrop {

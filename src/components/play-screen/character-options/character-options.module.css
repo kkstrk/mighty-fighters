@@ -24,7 +24,7 @@
 	color: inherit;
 	cursor: pointer;
 	outline: inherit;
-	background-color: #41555b;
+	background-color: var(--color-surface);
 	border: none;
 	clip-path: polygon(
 		0 22%,
