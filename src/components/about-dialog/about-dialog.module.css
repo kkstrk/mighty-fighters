@@ -1,50 +1,50 @@
 .dialog {
+	position: relative;
+	padding: 0;
+	overflow: auto;
 	font: inherit;
 	color: inherit;
 	background-color: var(--background-color);
 	border: var(--border);
 	box-shadow: #263336 0 8px 24px 0;
-	overflow: auto;
-	position: relative;
-	padding: 0;
 }
 
 .dialog::backdrop {
-	background: rgba(0 0 0 0.5);
+	background: rgb(0 0 0 0.5);
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
 	.dialog {
+		inline-size: auto;
+		max-block-size: 66%;
 		margin: auto;
-		max-height: 66%;
-		width: auto;
 	}
 }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
 	.dialog {
-		min-width: 620px;
-		max-width: 50%;
+		min-inline-size: 620px;
+		max-inline-size: 50%;
 	}
 }
 
 .dialogContent {
-	padding: 2rem clamp(0.5rem, 2vw - 0.25rem, 2rem);
+	padding: 2rem clamp(0.5rem, 2vi - 0.25rem, 2rem);
 }
 
 .closeButton {
 	all: unset;
-	font: inherit;
-	height: 1.5rem;
-	width: 1.5rem;
-	background-color: inherit;
+	position: absolute;
+	inset-block-start: 0.25rem;
+	inset-inline-end: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: absolute;
-	right: 0;
-	top: 0.25rem;
+	inline-size: 1.5rem;
+	block-size: 1.5rem;
+	font: inherit;
 	cursor: pointer;
+	background-color: inherit;
 }
 
 .closeButton:hover {
@@ -53,10 +53,10 @@
 }
 
 .separator {
+	block-size: 2px;
 	margin: 1.5rem 0;
-	height: 2px;
+	font-size: 0;
 	color: var(--border-color);
 	background: var(--border-color);
-	font-size: 0;
 	border: 0;
 }

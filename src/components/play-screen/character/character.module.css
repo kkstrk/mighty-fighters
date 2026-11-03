@@ -1,29 +1,29 @@
 .character {
 	position: relative;
 	display: flex;
-	flex-direction: column;
 	flex: 1 1 0%;
-	min-height: 0;
+	flex-direction: column;
+	min-block-size: 0;
 }
 
 .banner {
 	position: relative;
+	z-index: 1;
+	display: flex;
+	flex: 0 0 auto;
+	justify-content: center;
+	inline-size: 80px;
+	min-block-size: 232px;
 	word-break: break-all;
 	background: #d8ebe9;
-	min-height: 232px;
-	width: 80px;
-	display: flex;
-	justify-content: center;
-	z-index: 1;
-	flex: 0 0 auto;
 }
 
 .banner::after {
-	content: "";
 	position: absolute;
-	height: 12px;
-	width: 100%;
-	bottom: -12px;
+	inset-block-end: -12px;
+	inline-size: 100%;
+	block-size: 12px;
+	content: "";
 	background: linear-gradient(
 		to right,
 		#d8ebe9 0%,
@@ -58,48 +58,48 @@
 .bannerText {
 	--banner-color: #586b71;
 
-	color: white;
-	background: var(--banner-color);
-	width: 22px;
-	height: min-content;
-	text-transform: uppercase;
-	font-size: 22px;
-	text-align: center;
-	line-height: 1;
-	margin: 32px 16px;
-	padding: 8px;
 	position: relative;
+	inline-size: 22px;
+	block-size: min-content;
+	padding: 8px;
+	margin: 32px 16px;
+	font-size: 22px;
+	line-height: 1;
+	color: white;
+	text-align: center;
+	text-transform: uppercase;
+	background: var(--banner-color);
 }
 
 .bannerText::after,
 .bannerText::before {
+	position: absolute;
+	inline-size: 100%;
+	block-size: 100%;
 	content: "";
 	background: transparent;
-	position: absolute;
-	width: 100%;
-	height: 100%;
 }
 
 .bannerText::after {
-	top: -4px;
-	left: 0;
-	border-top: 4px solid var(--banner-color);
-	border-bottom: 4px solid var(--banner-color);
+	inset-block-start: -4px;
+	inset-inline-start: 0;
+	border-block-start: 4px solid var(--banner-color);
+	border-block-end: 4px solid var(--banner-color);
 }
 
 .bannerText::before {
-	top: 0;
-	left: -4px;
-	border-left: 4px solid var(--banner-color);
-	border-right: 4px solid var(--banner-color);
+	inset-block-start: 0;
+	inset-inline-start: -4px;
+	border-inline-start: 4px solid var(--banner-color);
+	border-inline-end: 4px solid var(--banner-color);
 }
 
 .selection {
 	z-index: 1;
-	flex: 1 1 auto;
 	display: flex;
+	flex: 1 1 auto;
 	align-items: flex-end;
-	min-height: 0;
+	min-block-size: 0;
 }
 
 .right .selection {
@@ -108,14 +108,14 @@
 
 .animation {
 	flex: 1 1 auto;
+	max-block-size: 344px;
 	object-fit: contain;
 	object-position: bottom;
-	max-height: 344px;
 }
 
 .selection .undoButton {
 	flex: 0 0 auto;
-	margin-bottom: 64px;
+	margin-block-end: 64px;
 }
 
 .selection .hiddenUndoButton {
@@ -124,8 +124,8 @@
 
 .platform {
 	flex: 0 0 40px;
-	margin-top: -24px;
-	height: 40px;
+	block-size: 40px;
+	margin-block-start: -24px;
 	object-fit: cover;
 }
 
@@ -133,8 +133,8 @@
 	--animation-duration: 0.5s;
 
 	position: absolute;
-	height: calc(100% - 24px);
-	top: 24px;
+	inset-block-start: 24px;
+	block-size: calc(100% - 24px);
 }
 
 .left .portrait {
@@ -158,6 +158,7 @@
 		opacity: 0.3;
 		transform: translateX(-20px);
 	}
+
 	100% {
 		opacity: 0.8;
 		transform: translateX(0);
@@ -169,6 +170,7 @@
 		opacity: 0.3;
 		transform: translateX(20px) scaleX(-1);
 	}
+
 	100% {
 		opacity: 0.8;
 		transform: translateX(0) scaleX(-1);
