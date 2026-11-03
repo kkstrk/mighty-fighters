@@ -1,0 +1,10 @@
+# Only packages listed here may run install scripts.
+allowBuilds: {}
+strictDepBuilds: true
+# Transitive deps may not come from git or tarball URLs.
+blockExoticSubdeps: true
+engineStrict: true
+saveExact: true
+# Three days for a compromised release to be caught before it installs.
+minimumReleaseAge: 4320
+trustPolicy: no-downgrade
