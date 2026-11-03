@@ -41,7 +41,7 @@ function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 		<button
 			{...props}
 			aria-label="Locked character"
-			className={classNames(classes.lockedOption, animating && classes.lockedOptionAnimating)}
+			className={classNames(classes.option, classes.lockedOption, animating && classes.lockedOptionAnimating)}
 			onClick={handleClick}
 			type="button"
 		/>
@@ -49,7 +49,14 @@ function LockedCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonEleme
 }
 
 function RandomCharacterOption(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-	return <button {...props} aria-label="Pick a random character" className={classes.randomOption} type="button" />;
+	return (
+		<button
+			{...props}
+			aria-label="Pick a random character"
+			className={classNames(classes.option, classes.randomOption)}
+			type="button"
+		/>
+	);
 }
 
 function CharacterOption({
@@ -89,7 +96,12 @@ function CharacterOption({
 	return (
 		<button
 			aria-label={`Select ${character}`}
-			className={classNames(classes.characterOption, selectedByP1 && classes.p1, selectedByP2 && classes.p2)}
+			className={classNames(
+				classes.option,
+				classes.characterOption,
+				selectedByP1 && classes.p1,
+				selectedByP2 && classes.p2,
+			)}
 			data-highlighted={highlighted}
 			data-selected={selectedByP1 || selectedByP2}
 			disabled={disabled}
@@ -100,8 +112,8 @@ function CharacterOption({
 			onMouseLeave={handleMouseLeave}
 			type="button"
 		>
-			<img alt={character} src={`avatars/${character}.png`} />
-			<img alt={character} src={`avatars/${character}-outline.png`} />
+			<img alt={character} className={classes.avatar} src={`avatars/${character}.png`} />
+			<img alt={character} className={classes.avatar} src={`avatars/${character}-outline.png`} />
 		</button>
 	);
 }

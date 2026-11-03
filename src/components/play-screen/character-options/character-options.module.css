@@ -11,7 +11,7 @@
 	margin: 0 auto;
 }
 
-.options > button {
+.options > .option {
 	--step-x: 6%;
 	--step-y: 3%;
 
@@ -90,60 +90,60 @@
 	);
 }
 
-.options > button:nth-child(5n + 1) {
+.options > .option:nth-child(5n-4) {
 	grid-column: 1 / span 2;
 }
 
-.options > button:nth-child(5n + 2) {
+.options > .option:nth-child(5n-3) {
 	grid-column: 3 / span 2;
 }
 
-.options > button:nth-child(5n + 3) {
+.options > .option:nth-child(5n-2) {
 	grid-column: 5 / span 2;
 }
 
-.options > button:nth-child(5n + 4) {
+.options > .option:nth-child(5n-1) {
 	grid-column: 2 / span 2;
 }
 
-.options > button:nth-child(5n + 5) {
+.options > .option:nth-child(5n) {
 	grid-column: 4 / span 2;
 }
 
-.options > button:first-child,
-.options > button:nth-child(2),
-.options > button:nth-child(3) {
+.options > .option:first-child,
+.options > .option:nth-child(2),
+.options > .option:nth-child(3) {
 	grid-row-start: 1;
 }
 
-.options > button:nth-child(4),
-.options > button:nth-child(5) {
+.options > .option:nth-child(4),
+.options > .option:nth-child(5) {
 	grid-row-start: 2;
 }
 
-.options > button:nth-child(6),
-.options > button:nth-child(7),
-.options > button:nth-child(8) {
+.options > .option:nth-child(6),
+.options > .option:nth-child(7),
+.options > .option:nth-child(8) {
 	grid-row-start: 3;
 }
 
-.options > button:nth-child(9),
-.options > button:nth-child(10) {
+.options > .option:nth-child(9),
+.options > .option:nth-child(10) {
 	grid-row-start: 4;
 }
 
-.options > button:nth-child(11),
-.options > button:nth-child(12),
-.options > button:nth-child(13) {
+.options > .option:nth-child(11),
+.options > .option:nth-child(12),
+.options > .option:nth-child(13) {
 	grid-row-start: 5;
 }
 
-.options > button:disabled {
+.options > .option:disabled {
 	pointer-events: none;
 }
 
-.options > button:hover::before,
-.options > button:focus-visible::before,
+.options > .option:hover::before,
+.options > .option:focus-visible::before,
 .characterOption[data-selected="true"]::before,
 .characterOption[data-highlighted="true"]::before {
 	position: absolute;
@@ -160,15 +160,15 @@
 
 .options > .characterOption.p1::before,
 .options[data-turn="p1"] > .characterOption[data-highlighted="true"]::before,
-.options[data-turn="p1"] > button:hover::before,
-.options[data-turn="p1"] > button:focus-visible::before {
+.options[data-turn="p1"] > .option:hover::before,
+.options[data-turn="p1"] > .option:focus-visible::before {
 	background-image: url("./assets/hex-p1.png");
 }
 
 .options > .characterOption.p2::before,
 .options[data-turn="p2"] > .characterOption[data-highlighted="true"]::before,
-.options[data-turn="p2"] > button:hover::before,
-.options[data-turn="p2"] > button:focus-visible::before {
+.options[data-turn="p2"] > .option:hover::before,
+.options[data-turn="p2"] > .option:focus-visible::before {
 	background-image: url("./assets/hex-p2.png");
 }
 
@@ -182,16 +182,16 @@
 	background-image: url("./assets/hex-p1-p2.png");
 }
 
-.options > button:focus-visible::before {
+.options > .option:focus-visible::before {
 	opacity: 0.69;
 }
 
-.options > button:hover::before,
-.characterOption:hover > img:last-child:not(:only-child) {
+.options > .option:hover::before,
+.characterOption:hover > .avatar:last-child:not(:only-child) {
 	animation: blink 0.75s linear infinite;
 }
 
-.characterOption > img {
+.characterOption > .avatar {
 	position: absolute;
 	inset-block-start: 0;
 	inset-inline-start: 0;
@@ -200,15 +200,15 @@
 	object-position: bottom;
 }
 
-.characterOption > img:last-child {
+.characterOption > .avatar:last-child {
 	opacity: 0;
 }
 
-.characterOption > img:only-child {
+.characterOption > .avatar:only-child {
 	opacity: 1;
 }
 
-.characterOption[data-selected="true"] > img:last-child {
+.characterOption[data-selected="true"] > .avatar:last-child {
 	opacity: 1;
 	animation: none;
 }
@@ -249,77 +249,77 @@
 		margin-block-end: calc(2 * calc(var(--d20-width) * 0.16677));
 	}
 
-	.options > button:first-child {
+	.options > .option:first-child {
 		grid-column: 2 / span 2;
 	}
 
-	.options > button:nth-child(2) {
+	.options > .option:nth-child(2) {
 		grid-column: 4 / span 2;
 	}
 
-	.options > button:nth-child(3) {
+	.options > .option:nth-child(3) {
 		grid-column: 6 / span 2;
 	}
 
-	.options > button:nth-child(4) {
+	.options > .option:nth-child(4) {
 		grid-column: 8 / span 2;
 	}
 
-	.options > button:nth-child(5) {
+	.options > .option:nth-child(5) {
 		grid-column: 1 / span 2;
 	}
 
-	.options > button:nth-child(6) {
+	.options > .option:nth-child(6) {
 		grid-column: 3 / span 2;
 	}
 
-	.options > button:nth-child(7) {
+	.options > .option:nth-child(7) {
 		grid-column: 5 / span 2;
 	}
 
-	.options > button:nth-child(8) {
+	.options > .option:nth-child(8) {
 		grid-column: 7 / span 2;
 	}
 
-	.options > button:nth-child(9) {
+	.options > .option:nth-child(9) {
 		grid-column: 9 / span 2;
 	}
 
-	.options > button:nth-child(10) {
+	.options > .option:nth-child(10) {
 		grid-column: 2 / span 2;
 	}
 
-	.options > button:nth-child(11) {
+	.options > .option:nth-child(11) {
 		grid-column: 4 / span 2;
 	}
 
-	.options > button:nth-child(12) {
+	.options > .option:nth-child(12) {
 		grid-column: 6 / span 2;
 	}
 
-	.options > button:nth-child(13) {
+	.options > .option:nth-child(13) {
 		grid-column: 8 / span 2;
 	}
 
-	.options > button:first-child,
-	.options > button:nth-child(2),
-	.options > button:nth-child(3),
-	.options > button:nth-child(4) {
+	.options > .option:first-child,
+	.options > .option:nth-child(2),
+	.options > .option:nth-child(3),
+	.options > .option:nth-child(4) {
 		grid-row-start: 1;
 	}
 
-	.options > button:nth-child(5),
-	.options > button:nth-child(6),
-	.options > button:nth-child(7),
-	.options > button:nth-child(8),
-	.options > button:nth-child(9) {
+	.options > .option:nth-child(5),
+	.options > .option:nth-child(6),
+	.options > .option:nth-child(7),
+	.options > .option:nth-child(8),
+	.options > .option:nth-child(9) {
 		grid-row-start: 2;
 	}
 
-	.options > button:nth-child(10),
-	.options > button:nth-child(11),
-	.options > button:nth-child(12),
-	.options > button:nth-child(13) {
+	.options > .option:nth-child(10),
+	.options > .option:nth-child(11),
+	.options > .option:nth-child(12),
+	.options > .option:nth-child(13) {
 		grid-row-start: 3;
 	}
 }

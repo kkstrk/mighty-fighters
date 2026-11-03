@@ -4,57 +4,57 @@
 	flex-direction: column;
 	align-items: center;
 	overflow: hidden;
+}
 
-	ul {
-		all: unset;
-		font-size: clamp(1.5rem, 2vi + 0.25rem, 3rem);
-		text-transform: uppercase;
-	}
+.list {
+	all: unset;
+	font-size: clamp(1.5rem, 2vi + 0.25rem, 3rem);
+	text-transform: uppercase;
+}
 
-	li {
-		display: flex;
-		margin: var(--space-4) 0;
-		transition: transform 0.15s ease-out;
-	}
+.item {
+	display: flex;
+	margin: var(--space-4) 0;
+	transition: transform 0.15s ease-out;
+}
 
-	li::before {
-		inline-size: 1em;
-		margin-inline-end: var(--space-1em);
-		content: "";
-	}
+.item::before {
+	inline-size: 1em;
+	margin-inline-end: var(--space-1em);
+	content: "";
+}
 
-	li[data-selected="true"]::before {
-		color: var(--color-yellow-1);
-		content: "> ";
-	}
+.item[data-selected="true"]::before {
+	color: var(--color-yellow-1);
+	content: "> ";
+}
 
-	button {
-		all: unset;
-		position: relative;
-		display: inline-block;
-		cursor: pointer;
-		transition: all 0.15s ease-out;
-	}
+.option {
+	all: unset;
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	transition: all 0.15s ease-out;
+}
 
-	button:hover {
-		color: var(--color-light-2);
-		text-shadow: var(--text-shadow-light);
-	}
+.option:hover {
+	color: var(--color-light-2);
+	text-shadow: var(--text-shadow-light);
+}
 
-	li[data-selected="true"] button {
-		color: var(--color-yellow-1);
-		transform: scale(1.05);
-	}
+.item[data-selected="true"] .option {
+	color: var(--color-yellow-1);
+	transform: scale(1.05);
+}
 
-	li[data-selected="true"] button:hover {
-		color: var(--color-yellow-2);
-		text-shadow: var(--text-shadow-yellow);
-	}
+.item[data-selected="true"] .option:hover {
+	color: var(--color-yellow-2);
+	text-shadow: var(--text-shadow-yellow);
+}
 
-	li[data-selected="true"] button:focus {
-		color: var(--color-yellow-3);
-		text-shadow: var(--text-shadow-yellow);
-	}
+.item[data-selected="true"] .option:focus {
+	color: var(--color-yellow-3);
+	text-shadow: var(--text-shadow-yellow);
 }
 
 .title {
